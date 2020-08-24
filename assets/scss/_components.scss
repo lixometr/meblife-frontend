@@ -1,0 +1,286 @@
+.container {
+    @media (min-width: 1025px) {
+        padding-left: 0;
+        padding-right: 0;
+        max-width: 90%;
+    }
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    &.md-no-gutter {
+        @include md {
+            padding-left: 0;
+            padding-right: 0;
+            width: 100%;
+        }
+    }
+}
+
+.btn-md {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.btn {
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    flex-shrink: 0;
+    cursor: pointer;
+    max-width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.3125rem;
+    text-align: center;
+    text-decoration: none !important;
+    transition: 0.3s;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+
+    &.btn-grey {
+        background-color: $grey;
+    }
+    &.btn-grey:hover,
+    &.btn-grey.active,
+    &.btn-white:hover,
+    &.btn-white.active {
+        background-color: $black;
+        color: $white;
+        border-color: $black;
+    }
+    &.btn-black {
+        background-color: $black;
+        color: $white;
+        border-color: $black;
+    }
+    &.btn-black:hover {
+        background-color: #fff;
+        border-color: $grey;
+        color: $black;
+    }
+    &.btn-red {
+        background-color: $orange;
+        color: $white;
+    }
+    &.btn-red:hover,
+    &.btn-red.active {
+        background-color: $white;
+        color: $orange;
+        border-color: $orange;
+    }
+    &.btn-green {
+        background-color: $green;
+        color: $white;
+    }
+    &.btn-green:hover,
+    &.btn-green.active {
+        background-color: $white;
+        border-color: $grey;
+        color: $green;
+    }
+    &.btn-white {
+        color: $dark;
+        border-color: $grey;
+        background-color: $white;
+    }
+    &.btn-no-gutter {
+        padding: 0;
+    }
+    &.btn-blur {
+        color: $white;
+        background-color: rgba($white, 0.25);
+        backdrop-filter: blur(10px);
+        border-color: rgba($white, 0.25);
+    }
+    &.btn-blur:hover,
+    &.btn-blur.active {
+        background-color: $white;
+        color: $dark;
+    }
+}
+
+.page-header {
+    padding-top: 80px;
+    height: 425px;
+
+    box-sizing: border-box;
+    position: relative;
+    @include md {
+        height: 300px;
+    }
+    &__image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+    &__content {
+        height: 100%;
+        position: relative;
+        z-index: 2;
+    }
+}
+
+.image-placeholder {
+    background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.top-logo {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 8;
+    @include md {
+        top: $top_bar_offset;
+    }
+}
+
+.btn-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $white;
+    border: 1px solid $grey;
+    transition: 0.3s;
+    outline: none;
+    cursor: pointer;
+    svg {
+        fill: $dark;
+    }
+    &:hover {
+        color: $white;
+        svg {
+            fill: $white;
+        }
+        background-color: $black;
+        border-color: rgba(0, 0, 0, 0.2);
+    }
+    &.btn-circle-lg {
+        width: 62px;
+        height: 62px;
+    }
+}
+
+.slider-arrow {
+    @extend .btn-circle;
+    @extend .btn.btn-white;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    &.swiper-button-disabled {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+.slider-arrow-prev {
+    left: 0;
+}
+.slider-arrow-next {
+    right: 0;
+}
+.arrow-left {
+    transform: rotate(180deg);
+}
+
+.swiper-container.custom-slider {
+    margin-bottom: 40px;
+    overflow: visible;
+}
+.custom-pagination {
+    bottom: -40px !important;
+    .swiper-pagination-bullet {
+        width: 18px;
+        height: 18px;
+        border: 2px solid $black;
+        background-color: transparent;
+        opacity: 1;
+    }
+    .swiper-pagination-bullet-active {
+        background-color: $black;
+    }
+}
+
+.swiper-button-lock,
+.swiper-pagination-lock {
+    display: none;
+}
+
+.panel-modal {
+    .panel-modal__modal {
+        box-shadow: none;
+        background-color: $white;
+    }
+    .vm--overlay {
+        background-color: rgba($black, 0.5);
+    }
+}
+
+.btn-tabs {
+    $offset_bottom: 1rem;
+    padding-bottom: $offset_bottom;
+    display: flex;
+    justify-content: center;
+    .btn-tab {
+        position: relative;
+        z-index: 10;
+
+        display: block;
+        box-sizing: border-box;
+        text-decoration: none;
+        .btn {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            
+        }
+        span {
+            position: relative;
+        }
+        &::before {
+            content: "";
+            height: 2.5rem;
+            width: 100%;
+            display: block;
+            position: absolute;
+            margin-bottom: -$offset_bottom;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            z-index: 0;
+            opacity: 0;
+            transition: $transition;
+        }
+        &.active {
+            &::before {
+                opacity: 1;
+            }
+            .btn {
+                background-color: #fff;
+                color: $dark;
+            }
+        }
+    }
+}

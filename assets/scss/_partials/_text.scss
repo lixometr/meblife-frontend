@@ -1,0 +1,137 @@
+.text-28 {
+    font-size: $font_28;
+    line-height: 2.4rem;
+}
+.text-24 {
+    font-size: $font_24;
+    line-height: 2.25rem;
+}
+.text-20 {
+    font-size: $font_20;
+    line-height: 1.3125rem;
+}
+.text-18 {
+    font-size: $font_18;
+    line-height: 1.3125rem;
+}
+.text-16 {
+    font-size: $font_16;
+    line-height: 1.5rem;
+}
+.text-14 {
+    font-size: $font_14;
+    line-height: 1.3125rem;
+}
+.text-12 {
+    font-size: $font_12;
+    line-height: 1.125rem;
+}
+
+
+
+.uppercase {
+    text-transform: uppercase !important;
+}
+.capitalize {
+    text-transform: capitalize !important;
+}
+
+.text-center {
+    text-align: center;
+}
+.text-left {
+    text-align: left;
+}
+.text-md-left {
+    @include md {
+        text-align: left;
+    }
+}
+
+// Fonts
+h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $second_font;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0;
+}
+
+.h1,
+.h2,
+h1,
+h2 {
+    font-size: 2rem;
+    line-height: 2.8rem;
+    @include md {
+        font-size: 1.5rem;
+        line-height: 2.25rem;
+    }
+}
+
+.h3,
+h3 {
+    font-size: 1.5rem;
+    line-height: 2.25rem;
+    @include md {
+        font-size: 1.25rem;
+        line-height: 1.875rem;
+    }
+}
+
+.h4,
+h4 {
+    font-size: 1.25rem;
+    line-height: 1.875rem;
+    @include md {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+    }
+}
+
+.h5,
+h5 {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    @include md {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+}
+
+.h6,
+h6 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    @include md {
+        font-size: 0.875rem;
+        line-height: 1.3125rem;
+    }
+}
+
+.font-primary {
+    font-family: $main_font;
+}
+.font-second {
+    font-family: $second_font;
+}
+
+.break-word {
+    word-break: break-all;
+}
+.font-bold {
+    font-weight: 700 !important;
+}
+.font-normal {
+    font-weight: 400 !important;
+}

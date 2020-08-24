@@ -1,0 +1,52 @@
+@import "./_partials/_offsets.scss";
+@import "./_partials/_text.scss";
+@import "./_partials/_displays";
+@import "./_partials/_colors";
+@import "./_partials/_utils";
+@import "./_partials/_borders";
+body,
+html {
+    font-family: $main_font;
+    line-height: 1.4;
+}
+body {
+    min-width: 320px;
+}
+svg {
+    fill: currentColor;
+}
+
+.pointer-events-auto {
+    pointer-events: auto !important;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+.no-select {
+    user-select: none;
+}
+.nuxt-link-exact-active {
+    text-decoration: underline;
+    cursor: default;
+}
+
+a {
+    color: $dark;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+b,
+strong {
+    font-weight: 700;
+}
+.slide-width {
+    width: 260px !important;
+    box-sizing: border-box;
+}
+
+.bar-top {
+    padding-top: $top_bar_offset;
+}
+
