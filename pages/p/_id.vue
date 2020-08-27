@@ -28,7 +28,7 @@
             </div>
           </div>
           <div class="product-text-category text-14 pb-2">
-            <nuxt-link :to="categories[0].slug">{{categories[0].name}}</nuxt-link>
+            <nuxt-link :to="$url.category(categories[0].slug)">{{categories[0].name}}</nuxt-link>
             <nuxt-link
               :to="categories[categories.length - 2].slug"
             >{{categories[categories.length - 2].name}}</nuxt-link>

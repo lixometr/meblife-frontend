@@ -52,7 +52,7 @@
               active-class="active"
             >
               <div class="btn btn-blur pl-3 pr-3 font-bold">
-                <span class="truncate">Вдохновения  </span>
+                <span class="truncate">Вдохновения</span>
               </div>
             </nuxt-link>
           </div>
@@ -62,11 +62,11 @@
     <div class="category-page__row pt-3">
       <div class="container">
         <div class="flex">
-          <div class="category-page__categories-block shrink-0">
-            <SearchBtn variant="light" text="Категории поиска"/>
-            <CategoriesBar class="md-hidden mt-5" :categories="categoriesPrimary"/>
+          <div class="category-page__categories-block shrink-0 md-hidden">
+            <SearchBtn variant="light" text="Категории поиска" />
+            <CategoriesBar class="md-hidden mt-5" :categories="categoriesPrimary" />
           </div>
-          <div class="category-page__content pl-3">
+          <div class="category-page__content flex-1">
             <nuxt-child :isLoading="isLoading" :items="items" />
           </div>
         </div>
@@ -78,14 +78,14 @@
 <script>
 import Header from "@/components/Header";
 import CategoriesBar from "@/components/CategoriesBar";
-import SearchBtn from '@/components/SearchBtn';
+import SearchBtn from "@/components/SearchBtn";
 
 export default {
   name: "CategorySlug",
   components: {
     Header,
     CategoriesBar,
-    SearchBtn
+    SearchBtn,
   },
   async fetch() {
     this.isLoading = true;
@@ -105,14 +105,14 @@ export default {
       categoryBreadcrumbs = await $api.$get("categoryParents", {
         slug: params.slug,
       });
-      categoriesPrimary = await $api.$get('categoriesPrimary')
+      categoriesPrimary = await $api.$get("categoriesPrimary");
     } catch (err) {
       error({ statusCode: 404 });
     }
     return {
       category,
       categoryBreadcrumbs,
-      categoriesPrimary
+      categoriesPrimary,
     };
   },
 
@@ -195,6 +195,12 @@ export default {
 .category-page {
   &__categories-block {
     width: 14rem;
+  }
+  &__content {
+    padding-left: 2.5rem;
+    @include md {
+      padding-left: 0;
+    }
   }
 }
 </style>
