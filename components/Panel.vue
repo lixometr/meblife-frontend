@@ -10,17 +10,21 @@
       height="100%"
       width="420px"
       :adaptive="true"
+      v-on="$listeners"
     >
       <div class="panel-title p-3 flex justify-between align-center" :class="headerClass">
         <h4 class="mr-2">
           <slot name="title"></slot>
         </h4>
-        <div
-          class="panel-close flex align-center justify-center btn btn-circle"
-          :class="{'btn-white': headerTheme === 'dark', 'btn-black': headerTheme === 'light'}"
-          @click="close"
-        >
-          <svgClose width="30" />
+        <div class="panel-buttons flex align-center">
+          <slot name="headerButtons"></slot>
+          <div
+            class="panel-close flex align-center justify-center btn btn-circle"
+            :class="{'btn-white': headerTheme === 'dark', 'btn-black': headerTheme === 'light'}"
+            @click="close"
+          >
+            <svgClose width="30" />
+          </div>
         </div>
       </div>
 
@@ -43,7 +47,7 @@ export default {
       default: "dark",
     },
   },
- 
+
   components: {
     svgClose,
   },

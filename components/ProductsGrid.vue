@@ -1,5 +1,9 @@
 <template>
   <div class="products-grid">
+    <PanelProductPreview />
+    <PanelCategories />
+
+    <PanelFilters @filterItems="onApplyFilters"/>
     <div class="products-grid__wrapper flex flex-wrap">
       <ProductsGridItem
         class="products-grid__item"
@@ -13,15 +17,23 @@
 
 <script>
 import ProductsGridItem from "@/components/ProductsGridItem";
+import PanelFilters from "@/components/Panels/PanelFilters";
+import PanelCategories from "@/components/Panels/PanelCategories";
+import PanelProductPreview from "@/components/Panels/PanelProductPreview";
+
 export default {
   components: {
     ProductsGridItem,
+    PanelProductPreview,
+    PanelFilters,
+    PanelCategories
   },
   props: {
     items: Array,
   },
   computed: {
     products() {
+      return this.items;
       return [
         {
           _id: "1",
@@ -90,14 +102,20 @@ export default {
           },
         },
       ];
-      //   return this.items;
     },
+  },
+  methods: {
+  
+    onApplyFilters(event) {
+      console.log('apply filters', event)
+    }
   },
 };
 </script>
 
 <style lang="scss">
 .products-grid {
+  min-width: 400px;
   &__wrapper {
     width: 100%;
     margin-left: -0.5rem;

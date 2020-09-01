@@ -1,19 +1,16 @@
 <template>
-    <div>
-        <client-only>
-            <modal name="menu">
-
-            </modal>
-        </client-only>
-    </div>
+  <div>
+    <client-only>
+      <modal name="modal-menu" class="modal-search" height="100%" width="100%" transition="fade">
+          <h1>test</h1>
+      </modal>
+    </client-only>
+  </div>
 </template>
 
 <script>
-    export default {
-        
-    }
+export default {};
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
 </style>

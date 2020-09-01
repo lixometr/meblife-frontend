@@ -1,7 +1,7 @@
 <template>
   <nav class="nav" :class="{'light': variant === 'light',  'dark': variant === 'dark'}">
     <div class="flex align-center nav-left">
-      <div class="nav__menu-btn btn btn-md btn-red">
+      <div class="nav-menu__btn btn btn-md btn-red">
         <svgBurger width="24" class="mr-2" />
         <span class="font-bold md-hidden">Меню</span>
       </div>
@@ -16,10 +16,12 @@
           <nuxt-link to="#">Аксесуары</nuxt-link>
         </div>
       </div>
+      <div class="md-show color-white cursor-pointer ml-5">
+        <svgSearch class @click="searchModalOpen" width="17" />
+      </div>
     </div>
     <div class="nav-right flex align-center justify-end">
-      <SearchBtn class="mr-3 nav-search" :text="$t('search')" :variant="variant"/>
-
+      <SearchBtn class="mr-3 nav-search md-hidden" :text="$t('search')" :variant="variant" />
       <div class="nav-right__items text-center">
         <div class="nav-right__item nav__favourite shrink-0">
           <nuxt-link class="p-3" to="#">
@@ -50,6 +52,8 @@ import svgCart from "@/assets/icons/cart.svg";
 import svgHeart from "@/assets/icons/heart.svg";
 import svgUser from "@/assets/icons/user.svg";
 import svgBurger from "@/assets/icons/burger.svg";
+import svgSearch from "@/assets/icons/search.svg";
+
 export default {
   props: {
     variant: String,
@@ -59,7 +63,13 @@ export default {
     SearchBtn,
     svgUser,
     svgHeart,
+    svgSearch,
     svgBurger,
+  },
+  methods: {
+    searchModalOpen() {
+      this.$modal.show("modal-search");
+    },
   },
 };
 </script>
@@ -80,6 +90,9 @@ export default {
   &-left,
   &-right {
     flex: 1;
+    @include md {
+      flex: auto;
+    }
   }
   &-left {
     margin-right: 3rem;
@@ -96,9 +109,16 @@ export default {
     flex: 1;
   }
   &-menu__btn {
+    @include md {
+      width: 50px;
+      height: 50px;
+      padding: 0!important;
+    }
     svg {
-      width: 18px;
       flex-shrink: 0;
+      @include md {
+        margin-right: 0!important;
+      }
     }
   }
   &.light {

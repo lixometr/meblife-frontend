@@ -8,6 +8,9 @@
 .is-lazyloaded {
     animation: fadeIn 1s ease forwards;
 }
+.lazyload {
+    opacity: 0;
+}
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -52,3 +55,4 @@
         transform: scale(0);
     }
 }
+

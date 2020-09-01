@@ -3,6 +3,7 @@ const routes = {
     category: '/category/{{slug}}',
     products: '/product/',
     product: '/product/{{slug}}',
+    productById: '/product/id/{{slug}}',
     categoryProducts: '/category/{{slug}}/products',
     categoryChildren: '/category/{{slug}}/children',
     categoryChildrenAll: '/category/{{slug}}/children-all',

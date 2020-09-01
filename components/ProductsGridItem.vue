@@ -8,8 +8,8 @@
         <h3 class="truncate text-14 font-bold capitalize hover-underline">{{name}}</h3>
       </div>
       <div class="products-grid-item__price">
-        <s>{{oldPrice}} {{currency}}</s>
-        <span class="color-orange ml-1">{{price}} {{currency}}</span>
+        <s class="mr-1" v-if="oldPrice">{{oldPrice}} {{currency}}</s>
+        <span class="color-orange ">{{price}} {{currency}}</span>
       </div>
       <div class="products-grid-item__delivery">{{delivery}} {{deliveryText}}</div>
     </nuxt-link>
@@ -33,10 +33,10 @@ export default {
   },
   computed: {
     image() {
-      return this.item.defaultImage.url;
+      return this.item.default_image && this.item.default_image.url;
     },
     name() {
-      return this.item.name;
+      return this.item.full_name;
     },
     currency() {
       return this.$store.getters.currency;
@@ -45,17 +45,27 @@ export default {
       return this.item.price;
     },
     oldPrice() {
-      return this.item.oldPrice;
+      return this.item.old_price;
     },
     delivery() {
-      return this.item.delivery;
+      return this.item.delivery_days;
     },
     deliveryText() {
-      return wordForm(this.item.delivery, this.$t("daySclon"));
+      return wordForm(this.delivery, this.$t("daySclon"));
     },
+    id() {
+      return this.item._id
+    },
+    slug() {
+      return this.item.slug
+    }
   },
   methods: {
-    openPreview() {},
+    openPreview() {
+      this.$modal.show('panel-product-preview', {
+        slug: this.slug
+      })
+    },
   },
 };
 </script>
@@ -64,13 +74,17 @@ export default {
 .products-grid-item {
   position: relative;
   &__img {
-    height: 300px;
+    
+    height: 420px;
     padding: 1.5rem;
     background: $pale;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 0.25rem;
+    @media screen and (max-width: 1420px){
+      height: 300px;
+    }
   }
   &__preview {
     position: absolute;

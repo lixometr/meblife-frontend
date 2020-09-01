@@ -2,26 +2,23 @@
   <div>
     <Loader v-if="isLoading" />
     <div v-else>
-      <ProductsFilters class="mb-3" />
-      <div class="mb-3 text-14">100 тоаров | 1 из 10</div>
-      <ProductsGrid />
+      <ProductsArea :items="items" :info="info"/>
     </div>
   </div>
 </template>
 
 <script>
 import Loader from "@/components/Loader";
-import ProductsGrid from "@/components/ProductsGrid";
-import ProductsFilters from "@/components/ProductsFilters";
+import ProductsArea from "@/components/ProductsArea";
 export default {
   name: "CategoryProducts",
   components: {
     Loader,
-    ProductsFilters,
-    ProductsGrid,
+    ProductsArea,
   },
   props: {
     isLoading: Boolean,
+    info: Object,
     items: Array,
   },
 

@@ -1,5 +1,6 @@
 <template>
   <div class="category-page">
+
     <Header class="default-header" variant="dark" />
 
     <div class="page-header">
@@ -67,11 +68,13 @@
             <CategoriesBar class="md-hidden mt-5" :categories="categoriesPrimary" />
           </div>
           <div class="category-page__content flex-1">
-            <nuxt-child :isLoading="isLoading" :items="items" />
+            <nuxt-child :isLoading="isLoading" :items="items" :info="itemsInfo"/>
           </div>
         </div>
       </div>
     </div>
+    <SliderModal />
+
   </div>
 </template>
 
@@ -79,13 +82,16 @@
 import Header from "@/components/Header";
 import CategoriesBar from "@/components/CategoriesBar";
 import SearchBtn from "@/components/SearchBtn";
+import SliderModal from "@/components/Modals/SliderModal";
 
 export default {
   name: "CategorySlug",
+  scrollToTop: true,
   components: {
     Header,
     CategoriesBar,
     SearchBtn,
+    SliderModal
   },
   async fetch() {
     this.isLoading = true;
@@ -121,6 +127,7 @@ export default {
       isLoading: false,
       items: [],
       currentPageName: "products",
+      itemsInfo: {}
     };
   },
   created() {
@@ -158,13 +165,16 @@ export default {
       }
     },
     async fetchProducts() {
-      return;
+      // return;
       try {
         const result = await this.$api.$get("categoryProducts", {
           slug: this.$route.params.slug,
+        }, {
+          params: this.$route.query
         });
 
         this.items = result.products;
+        this.itemsInfo = result.info;
       } catch (err) {}
     },
     async fetchLooks() {

@@ -6,7 +6,7 @@
         <div class="product-attr__item flex" v-for="(attr, idx) in common" :key="idx">
           <span class="flex-1">{{attr.name}}:</span>
           <span class="flex-1">
-            <nuxt-link :to="attr.slug " v-if="attr.slug">{{attr.value}}</nuxt-link>
+            <nuxt-link :to="attr.full_slug " v-if="attr.slug">{{attr.value}}</nuxt-link>
             <span v-else>{{attr.value}}</span>
           </span>
         </div>
@@ -20,9 +20,16 @@
           v-for="(sub_attr, index) in attr.attributes"
           :key="index"
         >
-          <span class="flex-1">{{sub_attr.name}}:</span>
+          <span class="flex-1">{{sub_attr.name.name}}:</span>
           <span class="flex-1">
-            <nuxt-link :to="sub_attr.slug " v-if="sub_attr.slug">{{sub_attr.value}}</nuxt-link>
+            <template v-if="sub_attr.name.type !== 'decimal'">
+              <nuxt-link
+                v-for="(value, idx) in sub_attr.value"
+                :to="$url.filter(value.slug) "
+
+                :key="idx"
+              >{{value.name}}</nuxt-link>
+            </template>
             <span v-else>{{sub_attr.slug}}</span>
           </span>
         </div>

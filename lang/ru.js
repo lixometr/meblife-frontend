@@ -6,4 +6,5 @@
 export default {
   search: "ПОИСК",
   daySclon: ['день', 'дня', 'дней'],
+  itemSclon: ['товар', 'товара', 'товаров']
 }

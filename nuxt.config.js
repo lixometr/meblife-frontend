@@ -44,6 +44,7 @@ export default {
     { src: '@/plugins/vue-awesome-swiper', mode: 'client' },
     { src: '@/plugins/vue-show-slide', mode: 'client' },
     { src: '@/plugins/vue-js-modal', mode: 'client' },
+    { src: '@/plugins/vue-masonry', mode: 'client' },
     {src: "@/plugins/url"}
   ],
   router: {

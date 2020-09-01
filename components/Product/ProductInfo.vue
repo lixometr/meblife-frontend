@@ -19,7 +19,10 @@
             >Доставка</button>
           </div>
           <div class="product__description" v-if="tabActive === 'description'">
-            <h5>ИНФОРМАЦИЯ О ПРОДУКТЕ: ТРЕНИРОВОЧНЫЙ РЕЗИНОВЫЙ БРАСЛЕТ POWER BAND GT BY TIGUAR LEVEL 3 ОЛИВКОВЫЙ</h5>
+            <h5>ИНФОРМАЦИЯ О ПРОДУКТЕ: {{name}}</h5>
+            <div class="bg-pale p-6 mt-3 text-center" v-if="sizeImage">
+              <img :src="sizeImage.url" alt="size_image" />
+            </div>
             <div v-html="description"></div>
             <ProductAttrs v-bind="attributes" />
           </div>
@@ -34,11 +37,9 @@
         <!-- /.container -->
       </div>
       <div class="product-buttons--mobile mb-8 md-show">
-        <AppCollapse v-model="descriptionCollapseOpen" class="border-bottom border-white ">
+        <AppCollapse v-model="descriptionCollapseOpen" class="border-bottom border-white">
           <template v-slot:trigger>
-            <div
-              class="pr-4 pl-4 pt-3 pb-3 bg-pale no-select cursor-pointer flex"
-            >
+            <div class="pr-4 pl-4 pt-3 pb-3 bg-pale no-select cursor-pointer flex">
               <span class="flex-1">Описание товара</span>
               <ArrowDown
                 class="transition"
@@ -49,6 +50,9 @@
           </template>
           <template v-slot:content>
             <div class="pl-4 pt-4 bg-pale">
+              <div class="bg-pale p-4 text-center" v-if="sizeImage">
+                <img :src="sizeImage.url" alt="size_image" />
+              </div>
               <div v-html="description"></div>
               <ProductAttrs v-bind="attributes" />
             </div>
@@ -56,9 +60,7 @@
         </AppCollapse>
         <AppCollapse v-model="brandCollapseOpen" class="border-bottom border-white">
           <template v-slot:trigger>
-            <div
-              class="pr-4 pl-4 pt-3 pb-3 bg-pale  no-select cursor-pointer flex"
-            >
+            <div class="pr-4 pl-4 pt-3 pb-3 bg-pale no-select cursor-pointer flex">
               <span class="flex-1">Бренд</span>
               <ArrowDown class="transition" :class="{'rotate-180': brandCollapseOpen}" width="30" />
             </div>
@@ -125,8 +127,10 @@ export default {
   },
   props: {
     attributes: Object,
+    name: String,
     description: String,
     delivery: String,
+    sizeImage: Object,
   },
   data() {
     return {
@@ -144,7 +148,7 @@ export default {
       this.tabActive = "delivery";
     },
     instalmentsOpen() {
-      this.$modal.show('panel-installments')
+      this.$modal.show("panel-installments");
     },
     openBrand() {},
     deliveryOpen() {},

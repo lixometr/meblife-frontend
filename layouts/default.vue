@@ -7,6 +7,7 @@
     <PanelContact />
     <PanelInstallments />
     <SearchModal />
+    <MenuModal />
   </main>
 </template>
 <script>
@@ -16,6 +17,7 @@ import Footer from "@/components/Footer";
 import PanelContact from "@/components/Panels/PanelContact";
 import PanelInstallments from "@/components/Panels/PanelInstallments";
 import SearchModal from "@/components/Modals/SearchModal";
+import MenuModal from "@/components/Modals/MenuModal";
 export default {
   components: {
     Header,
@@ -23,7 +25,8 @@ export default {
     TopBar,
     PanelContact,
     PanelInstallments,
-    SearchModal
+    SearchModal,
+    MenuModal
   },
   async mounted() {
     await this.$nextTick();

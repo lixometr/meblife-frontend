@@ -6,8 +6,8 @@ class UrlBuilder {
             page: '/i/',
             search: '/search/',
             manufacturer: '/m/',
-            inspirations: '/inspirations/',
-            looks: '/shop-the-looks/',
+            inspiration: '/inspiration/',
+            look: '/shop-the-look/',
             showroom: '/showroom/',
         }
         this.app = app;
@@ -25,8 +25,16 @@ class UrlBuilder {
     manufacturer(slug) {
         return this.app.localePath(this.path.manufacturer + slug)
     }
-    inspirations(slug) {
-        return this.app.localePath(this.path.inspirations + slug)
+    inspiration(slug) {
+        return this.app.localePath(this.path.inspiration + slug)
+    }
+    look(slug) {
+        return this.app.localePath(this.path.look + slug)
+
+    }
+    filter(slug) {
+        return this.app.localePath(slug)
+
     }
 }
 export default ({ app }, inject) => {

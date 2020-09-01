@@ -30,8 +30,9 @@
           <div class="product-text-category text-14 pb-2">
             <nuxt-link :to="$url.category(categories[0].slug)">{{categories[0].name}}</nuxt-link>
             <nuxt-link
-              :to="categories[categories.length - 2].slug"
-            >{{categories[categories.length - 2].name}}</nuxt-link>
+              v-if="categories.length > 1"
+              :to="$url.category(categories[categories.length - 1].slug)"
+            >{{categories[categories.length - 1].name}}</nuxt-link>
           </div>
         </div>
         <div class="product-info">
@@ -51,9 +52,10 @@
             </div>
           </div>
           <h1 class="product__name text-18 mt-4">{{name}}</h1>
-          <div class="product__price mt-5 text-18 font-bold">{{priceWithCurrency}}</div>
+          <div class="product__price mt-5 text-18 font-bold"><span>{{priceWithCurrency}} </span> <s class="text-14" v-if="oldPrice">{{oldPriceWithCurrency}}</s></div>
+         
           <div class="flex mt-5">
-            <div class="product__cnt btn btn-md btn-grey">1</div>
+           <ProductCnt class="product__cnt" v-model="productCnt"/>
             <button
               class="product__add_to_cart btn btn-green btn-md ml-3 font-bold flex-1"
               @click="addToCart"
@@ -70,7 +72,7 @@
                 <div class="mb-3">Товар в наличии!</div>
                 <p>
                   на нашем складе:
-                  <b>20 шт.</b>
+                  <b>{{availableStock}} шт.</b>
                 </p>
                 <p>
                   Отгрузка в течении
@@ -79,7 +81,7 @@
                 <div class="mt-3 mb-1">
                   <p>
                     На складе поставщика:
-                    <b>10 шт.</b>
+                    <b>{{availableStockManufacturer}} шт.</b>
                   </p>
                   <p>
                     Закажите товар до
@@ -118,9 +120,11 @@
     </div>
 
     <ProductInfo
-      :attributes="{common: [{name: 'Производитель', value: 'Сам', slug: '#'}, {name: 'Код товара', value: '132653'}, {name: 'Биржевой символ',value: 'ПБ-GT0003' }], items: [{name: 'Материал', attributes: [{name: 'Материал', value: 'Резина', slug: '/test'}]}, {name: 'Цвет', attributes: [{name: 'цвет', value: 'зеленый', slug: '/green'}]}]}"
+      :attributes="productInfoAttributes"
       :description="description"
       :delivery="deliveryText"
+      :name="product.full_name"
+      :sizeImage="sizeImage"
     />
 
     <ArrowExpand class="md-hidden">
@@ -193,7 +197,8 @@ import AppCollapse from "@/components/AppCollapse";
 import ProductCategories from "@/components/Product/ProductCategories";
 import ProductInfo from "@/components/Product/ProductInfo";
 import SliderModal from "@/components/Modals/SliderModal";
-import Header from "@/components/Header"
+import Header from "@/components/Header";
+import ProductCnt from "@/components/Product/ProductCnt";
 export default {
   components: {
     svgHeartStroke,
@@ -211,16 +216,49 @@ export default {
     AppCollapse,
     ProductInfo,
     SliderModal,
-    Header
+    Header,
+    ProductCnt
   },
-  async asyncData({ route, store, params, query }) {
-    return {};
+  async asyncData({ route, error, store, params, query, $api }) {
+    try {
+      const product = await $api.$get("product", { slug: route.params.slug });
+      const productCategories = await $api.$get("categoryParents", {
+        slug: product.primary_category.slug,
+      });
+      console.log(productCategories);
+      return {
+        product,
+        productCategories,
+      };
+    } catch (err) {
+      error(err);
+    }
   },
   data() {
-    return {};
+    return {
+      productCnt: 1
+    };
   },
   computed: {
+    productInfoAttributes() {
+      return {
+        common: [
+          {
+            name: "Производитель",
+            value: this.product.manufacturer.name,
+            slug: this.product.manufacturer.slug,
+            full_slug: this.$url.manufacturer( this.product.manufacturer.slug)
+          },
+          { name: "Код товара", value: this.product.sku },
+        ],
+        items: this.attributes,
+      };
+    },
+    attributes() {
+      return this.product.attributes
+    },
     productImages() {
+      return this.product.product_images;
       return [
         {
           url:
@@ -236,7 +274,11 @@ export default {
         },
       ];
     },
+    category() {
+      return this.product.primary_category
+    },
     categories() {
+      return this.productCategories;
       return [
         { name: "Аксусуары", slug: "#" },
         { name: "Аксусуары для упражнений", slug: "#" },
@@ -356,22 +398,43 @@ export default {
         },
       ];
     },
+    sizeImage() {
+      return this.product.size_image
+    },
     name() {
+      return this.product.full_name;
       return "Тренировочная резинка Power Band GT by Tiguar уровень 3 оливковый";
     },
     price() {
+      return this.product.price;
       return "400";
     },
     currency() {
-      return "рублей";
+      return "р.";
     },
     priceWithCurrency() {
       return this.price + " " + this.currency;
     },
+    oldPrice() {
+      return this.product.old_price
+    },
+    oldPriceWithCurrency() {
+      return this.oldPrice + " " + this.currency;
+
+    },
     brandImage() {
+      return this.product.manufacturer.image.url;
+
       return "https://cdn.wonder.pl/cdn-cgi/image/width=88,height=88,quality=85,format=auto/manufacturer/b59bf0599981f8f0f3466acc754347c9af69fbbf.jpg";
     },
+    availableStock() {
+      return this.product.available_stock;
+    },
+    availableStockManufacturer() {
+      return this.product.available_stock_manufacturer;
+    },
     description() {
+      return this.product.description;
       return `
         <div class="text-14">
           <p
@@ -397,11 +460,16 @@ export default {
   },
   methods: {
     test() {},
-    goBack() {},
+    goBack() {
+      this.$router.push(this.$url.category(this.category.slug))
+    },
     makeFavourite() {},
     addToCart() {},
     openSliderModal(startIdx) {
-      this.$modal.show("slider-modal", { items: this.productImages, initialSlide: startIdx  });
+      this.$modal.show("slider-modal", {
+        items: this.productImages,
+        initialSlide: startIdx,
+      });
     },
   },
 };
@@ -479,6 +547,9 @@ export default {
     margin-left: -1rem;
     margin-right: -1rem;
     margin-top: 2.5rem;
+    @include md {
+      margin-top: 0;
+    }
   }
   .product-btn-brand-switcher {
     position: relative;
