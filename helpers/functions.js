@@ -5,21 +5,27 @@ export const wordForm = (num, word) => {
 }
 
 export const filtersFromQuery = (query, stringify = false) => {
-      if(!query) return
-     
-      let filters =  _.cloneDeep(query)
+      if (!query) return
+
+      let filters = _.cloneDeep(query)
       const notAttr = ['manufacturer', 'labels', 'price', 'delivery', 'sort_by']
       const noFilter = ['sort_by']
       const attributes = Object.keys(filters).filter(prop => notAttr.includes(prop) === false).map(prop => ({ name: prop, value: filters[prop].split(',') }))
       filters.attributes = attributes
-      if (filters.price) {
-          filters.price = filters.price.split(',')
-      }
+      notAttr.forEach(filterName => {
+            if (filters[filterName]) {
+                  filters[filterName] = filters[filterName].split(',')
+            }
+      })
       noFilter.forEach(noFilt => {
             delete filters[noFilt]
       })
-      if(stringify) {
-            return JSON.stringify(filters)
+      const normFilters = {}
+      filters = Object.keys(filters).filter(prop => attributes.findIndex(attr => attr.name === prop) < 0).map(prop => {
+            normFilters[prop] = filters[prop]
+      })
+      if (stringify) {
+            return JSON.stringify(normFilters)
       }
-      return filters
+      return normFilters
 }

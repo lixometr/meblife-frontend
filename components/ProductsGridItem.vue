@@ -9,9 +9,15 @@
       </div>
       <div class="products-grid-item__price">
         <s class="mr-1" v-if="oldPrice">{{oldPrice}} {{currency}}</s>
-        <span class="color-orange ">{{price}} {{currency}}</span>
+        <span class="color-orange">{{price}} {{currency}}</span>
       </div>
-      <div class="products-grid-item__delivery">{{delivery}} {{deliveryText}}</div>
+      <div
+        class="products-grid-item__delivery24 color-green font-bold"
+        key="isDelivery24"
+        v-if="delivery24"
+      >{{$t('delivery24')}}</div>
+
+      <div class="products-grid-item__delivery" key="noDelivery24" v-else>{{delivery}} {{deliveryText}}</div>
     </nuxt-link>
     <div class="products-grid-item__preview">
       <div class="btn btn-circle btn-white flex align-center justify-center" @click="openPreview">
@@ -54,17 +60,20 @@ export default {
       return wordForm(this.delivery, this.$t("daySclon"));
     },
     id() {
-      return this.item._id
+      return this.item._id;
     },
     slug() {
-      return this.item.slug
-    }
+      return this.item.slug;
+    },
+    delivery24() {
+      return this.item.delivery_24;
+    },
   },
   methods: {
     openPreview() {
-      this.$modal.show('panel-product-preview', {
-        slug: this.slug
-      })
+      this.$modal.show("panel-product-preview", {
+        slug: this.slug,
+      });
     },
   },
 };
@@ -74,7 +83,6 @@ export default {
 .products-grid-item {
   position: relative;
   &__img {
-    
     height: 420px;
     padding: 1.5rem;
     background: $pale;
@@ -82,7 +90,7 @@ export default {
     align-items: center;
     justify-content: center;
     border-radius: 0.25rem;
-    @media screen and (max-width: 1420px){
+    @media screen and (max-width: 1420px) {
       height: 300px;
     }
   }

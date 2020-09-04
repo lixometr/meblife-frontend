@@ -1,7 +1,7 @@
 <template>
   <AppCollapse :value="isOpen" class="panel-filters__item">
     <template v-slot:trigger>
-      <div class="panel-filters__item-name">
+      <div class="panel-filters__item-name cursor-pointer">
         Сортировать
         <b>{{nowSortTitle}}</b>
       </div>

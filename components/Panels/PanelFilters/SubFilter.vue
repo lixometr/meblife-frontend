@@ -3,7 +3,6 @@
     name="panel-sub-filters"
     headerTheme="dark"
     class="panel-sub-filters"
-    :showClose="false"
     :isStatic="false"
   >
     <template v-slot:title>{{title}}</template>
@@ -18,9 +17,15 @@
 
     <template v-slot:content>
       <div class="panel-sub-filters__content">
-        <SubFilterItem v-for="(valueItem, idx) in valueItems" :key="idx" :item="valueItem" />
+        <SubFilterItem
+          v-for="(valueItem, idx) in valueItems"
+          :key="idx"
+          :item="valueItem"
+          :value="itemsValues.findIndex(item => item.slug === valueItem.slug) >= 0"
+          @change="onItemChange($event, valueItem)"
+        />
         <div class="panel-sub-filters__footer mt-auto border-top border-grey p-4 flex">
-          <div class="btn btn-white btn-md  mr-2" @click="cancel">Вернуться без изменений</div>
+          <div class="btn btn-white btn-md mr-2" @click="cancel">Вернуться без изменений</div>
           <div class="btn btn-green btn-md flex-1 font-bold" @click="apply">Применить</div>
         </div>
       </div>
@@ -36,15 +41,19 @@ export default {
     Panel,
     ArrowBack,
   },
+  name: "SubFilterPanel",
   props: {
     items: Array,
     title: String,
-    values: Object,
+    /*
+      [{name: "attr-value-name", slug: "attr-value-slug"}]
+    */
+    value: Array,
+    change: Function
   },
   data() {
     return {
-      params: {},
-      itemsValues: {},
+      itemsValues: this.value || [],
     };
   },
   computed: {
@@ -53,15 +62,30 @@ export default {
     },
   },
   methods: {
+    /**
+     * @param event (Boolean)
+     * @param valueItem (Object)
+     */
+    onItemChange(event, valueItem) {
+      const value = event;
+      if (value) {
+        this.itemsValues = [...this.itemsValues, valueItem];
+      } else {
+        this.itemsValues = this.itemsValues.filter(
+          (item) => item.slug !== valueItem.slug
+        );
+      }
+    },
     back() {
       this.$emit("close");
     },
     cancel() {
       this.$emit("close");
-      this.value = {};
+      this.itemsValues = {};
     },
     apply() {
-      this.$emit("data", this.values);
+      this.change(this.itemsValues)
+      this.$emit('close');
     },
   },
 };

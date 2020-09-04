@@ -45,6 +45,7 @@
             <div class="product__labels shrink-0">
               <div
                 class="label-delivery text-12 pl-2 pr-3 bg-green color-white flex align-center rounded"
+                v-if="delivery24"
               >
                 <svgDelivery width="24" class="mr-1" />
                 <span>24</span>
@@ -350,6 +351,9 @@ export default {
     },
     sizeImage() {
       return this.product.size_image;
+    },
+    delivery24() {
+      return this.product.delivery_24;
     },
     name() {
       return this.product.full_name;
