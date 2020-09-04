@@ -1,7 +1,7 @@
 <template>
   <div class="products-grid-item">
     <nuxt-link class="d-block h-100 no-underline" :to="$url.product(item.slug)">
-      <div class="products-grid-item__img">
+      <div class="products-grid-item__img" v-ripple.300>
         <img class="no-bg size-contain" :src="image" :alt="name" />
       </div>
       <div class="products-grid-item__name mt-4 mb-2">

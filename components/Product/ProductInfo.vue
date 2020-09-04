@@ -81,7 +81,7 @@
             </div>
           </template>
           <template v-slot:content>
-            <div class="pl-5 pt-4 bg-pale">
+            <div class="pl-5 pt-4 pr-5 pb-4 bg-pale">
               <div class="text-center" style="max-width: 350px">{{delivery}}</div>
             </div>
           </template>
@@ -126,11 +126,7 @@ export default {
     // await this.$nextTick()
   },
   props: {
-    attributes: Object,
-    name: String,
-    description: String,
-    delivery: String,
-    sizeImage: Object,
+    product: Object
   },
   data() {
     return {
@@ -140,6 +136,35 @@ export default {
       brandCollapseOpen: false,
     };
   },
+  computed: {
+    name() {
+      return this.product.full_name;
+    },
+    description() {
+      return this.product.description;
+    },
+    delivery() {
+      return `Ради высочайшего качества обслуживания клиентов и безопасности продукции мы доставляем посылки только в сотрудничестве с опытными и профессиональными курьерскими компаниями, работающими по всей Польше. Мы также ввели возможность доставки с залогом, которая совершенно бесплатна для заказов на сумму более 499 злотых. В результате выбранная мебель, светильники или аксессуары могут быть доставлены в указанное место независимо от этажа, на котором расположена квартира, и без дополнительных затрат.`
+    },
+
+    sizeImage() {
+      return this.product.size_image;
+    },
+    attributes() {
+       return {
+        common: [
+          {
+            name: "Производитель",
+            value: this.product.manufacturer.name,
+            slug: this.product.manufacturer.slug,
+            full_slug: this.$url.manufacturer(this.product.manufacturer.slug),
+          },
+          { name: "Код товара", value: this.product.sku },
+        ],
+        items: this.product.attributes,
+      };
+    }
+  },
   methods: {
     openDescription() {
       this.tabActive = "description";
@@ -148,12 +173,16 @@ export default {
       this.tabActive = "delivery";
     },
     instalmentsOpen() {
-      this.$modal.show("panel-installments");
+      this.$store.dispatch('modal/open', {name: "panel-installments"})
+
+      // this.$modal.show("panel-installments");
     },
-    openBrand() {},
+    openBrand() {
+      this.$router.push(this.$url.manufacturer(this.product.manufacturer.slug))
+    },
     deliveryOpen() {},
     contactOpen() {
-      this.$modal.show("panel-contact");
+      this.$store.dispatch('modal/open', {name: 'panel-contact'})
     },
   },
 };

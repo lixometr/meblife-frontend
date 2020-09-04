@@ -4,6 +4,10 @@
 .fade-enter-active, .fade-leave-active {
     transition: .3s;
 }
+.fade-leave-active {
+    transition: .3s;
+
+}
 .fadeDown-enter, .fadeDown-leave-to {
     transform: translateY(50%);
     opacity: 0;

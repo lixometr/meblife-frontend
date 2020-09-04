@@ -1,9 +1,6 @@
 <template>
   <div>
-    <Loader v-if="isLoading" />
-    <div v-else>
-      <ProductsArea :items="items" :info="info"/>
-    </div>
+    <ProductsArea :items="items" :info="info" :filters="filters" :isLoading="isLoading" />
   </div>
 </template>
 
@@ -20,6 +17,7 @@ export default {
     isLoading: Boolean,
     info: Object,
     items: Array,
+    filters: Object,
   },
 
   data() {

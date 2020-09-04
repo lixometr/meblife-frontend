@@ -5,10 +5,26 @@
         <div class="products-filters-delivery__item products-filters-delivery__item--icon">
           <svgTruck width="20" />
         </div>
-        <div class="products-filters-delivery__item" :class="{'active': deliveryActive === 1}">все</div>
-        <div class="products-filters-delivery__item">24 ч</div>
-        <div class="products-filters-delivery__item">до 14 дней</div>
-        <div class="products-filters-delivery__item">до 30 дней</div>
+        <div
+          class="products-filters-delivery__item"
+          :class="{'active': delivery === ''}"
+          @click="selectDelivery('')"
+        >все</div>
+        <div
+          class="products-filters-delivery__item"
+          :class="{'active': delivery === '24h'}"
+          @click="selectDelivery('24h')"
+        >24 ч</div>
+        <div
+          class="products-filters-delivery__item"
+          :class="{'active': delivery === '14'}"
+          @click="selectDelivery('14')"
+        >до 14 дней</div>
+        <div
+          class="products-filters-delivery__item"
+          :class="{'active': delivery === '30'}"
+          @click="selectDelivery('30')"
+        >до 30 дней</div>
       </div>
       <div class="md-hidden">
         <div class="btn btn-pale btn-md align-center mr-3" @click="openPanelFilter">
@@ -39,9 +55,12 @@ import svgSort from "@/assets/icons/sort.svg";
 import svgTruck from "@/assets/icons/truck.svg";
 import svgTriangle from "@/assets/icons/arrow-down-triangle.svg";
 export default {
+  props: {
+    items: Object,
+  },
   data() {
     return {
-      deliveryActive: 1,
+      delivery: this.$route.query.delivery || '',
     };
   },
   components: {
@@ -52,46 +71,31 @@ export default {
   },
   methods: {
     openPanelFilter() {
-      this.$modal.show("panel-filters", {
-        items: [
-          {
-            name: "Test filter",
-            type: "values",
-          },
-          {
-            name: "Цена",
-            type: "decimal",
-          },
-          {
-            name: "Цвет",
-            type: "values",
-          },
-        ],
+      this.$store.dispatch("modal/open", {
+        name: "panel-filters",
+        props: { items: this.items },
       });
     },
     openPanelSort() {
-      this.$modal.show("panel-filters", {
-        sortOpen: true,
-        items: [
-          {
-            name: "Test filter",
-            type: "values",
-          },
-          {
-            name: "Цена",
-            type: "decimal",
-          },
-          {
-            name: "Цвет",
-            type: "values",
-          },
-        ],
+      this.$store.dispatch("modal/open", {
+        name: "panel-filters",
+        props: { items: this.items, sortOpen: true },
       });
     },
     openPanelCategories() {
-      this.$modal.show("panel-categories");
+      this.$store.dispatch("modal/open", { name: "panel-categories" });
+    },
+    selectDelivery(val) {
+      this.delivery = val;
+      this.$router.push({query: {delivery: val}})
     },
   },
+  watch: {
+    '$route.query'() {
+      console.log('changed')
+      this.delivery = this.$route.query.delivery || '';
+    }
+  }
 };
 </script>
 

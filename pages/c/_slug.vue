@@ -1,14 +1,9 @@
 <template>
   <div class="category-page">
-
     <Header class="default-header" variant="dark" />
 
     <div class="page-header">
-      <img
-        src="https://cdn.wonder.pl/cdn-cgi/image/width=1920,height=1920,quality=85,format=auto/category-image/f58e28f1944986e847ffb0dd3518993ddcbd2a23.jpg"
-        class="page-header__image"
-        alt
-      />
+      <img :src="headerImage" class="page-header__image" alt />
       <div class="image-placeholder"></div>
 
       <div class="page-header__content">
@@ -32,6 +27,7 @@
             <nuxt-link
               class="btn-tab mr-2 shrink-0"
               exact-active-class="active"
+              :class="{'active': activeRouteInfo}"
               :to="$url.category($route.params.slug) "
             >
               <div class="btn pl-3 pr-3 btn-blur font-bold">
@@ -68,13 +64,12 @@
             <CategoriesBar class="md-hidden mt-5" :categories="categoriesPrimary" />
           </div>
           <div class="category-page__content flex-1">
-            <nuxt-child :isLoading="isLoading" :items="items" :info="itemsInfo"/>
+            <nuxt-child :isLoading="isLoading" :items="items" :info="itemsInfo" :filters="filters" />
           </div>
         </div>
       </div>
     </div>
     <SliderModal />
-
   </div>
 </template>
 
@@ -83,7 +78,7 @@ import Header from "@/components/Header";
 import CategoriesBar from "@/components/CategoriesBar";
 import SearchBtn from "@/components/SearchBtn";
 import SliderModal from "@/components/Modals/SliderModal";
-
+import { filtersFromQuery } from "@/helpers/functions";
 export default {
   name: "CategorySlug",
   scrollToTop: true,
@@ -91,7 +86,7 @@ export default {
     Header,
     CategoriesBar,
     SearchBtn,
-    SliderModal
+    SliderModal,
   },
   async fetch() {
     this.isLoading = true;
@@ -127,13 +122,23 @@ export default {
       isLoading: false,
       items: [],
       currentPageName: "products",
-      itemsInfo: {}
+      itemsInfo: {},
+      filters: {},
     };
   },
   created() {
     this.definePageName();
   },
   computed: {
+    activeRouteInfo() {
+      return this.$route.path === this.$url.category(this.$route.params.slug);
+    },
+    headerImage() {
+      return (
+        (this.category.bg_image && this.category.bg_image.url) ||
+        "https://cdn.wonder.pl/cdn-cgi/image/width=1920,height=1920,quality=85,format=auto/category-image/f58e28f1944986e847ffb0dd3518993ddcbd2a23.jpg"
+      );
+    },
     categoryNamePrefix() {
       const prefixes = {
         inspirations: "ВДОХНОВЕНИЯ И СТАТЬИ В КАТЕГОРИИ",
@@ -167,29 +172,44 @@ export default {
     async fetchProducts() {
       // return;
       try {
-        const result = await this.$api.$get("categoryProducts", {
-          slug: this.$route.params.slug,
-        }, {
-          params: this.$route.query
-        });
+        const result = await this.$api.$get(
+          "categoryProducts",
+          {
+            slug: this.$route.params.slug,
+          },
+          {
+            params: {
+              filters: filtersFromQuery(this.$route.query, true),
+              sort_by: this.$route.query.sort_by,
+              need_filters: true,
+            },
+          }
+        );
 
         this.items = result.products;
         this.itemsInfo = result.info;
-      } catch (err) {}
+        this.filters = result.filters;
+      } catch (err) {
+        this.$error(err);
+      }
     },
     async fetchLooks() {
       try {
         const result = await this.$api.$get("categoryLooks", {
           slug: this.$route.params.slug,
         });
-      } catch (err) {}
+      } catch (err) {
+        this.$error(err);
+      }
     },
     async fetchInspirations() {
       try {
         const result = await this.$api.$get("categoryInspirations", {
           slug: this.$route.params.slug,
         });
-      } catch (err) {}
+      } catch (err) {
+        this.$error(err);
+      }
     },
   },
   watch: {

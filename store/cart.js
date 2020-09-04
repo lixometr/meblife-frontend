@@ -2,7 +2,7 @@ export const state = () => ({
     items: []
 })
 
-export const getters =  {
+export const getters = {
     hasItems(state) {
         return state.items.length > 0
     },
@@ -11,12 +11,16 @@ export const getters =  {
     }
 }
 
-export const mutations =  {
+export const mutations = {
+    add(state, id) {
+        state.items.push(id)
 
+    }
 }
 
-export const actions =  {
-    async addItem(state) {
-
+export const actions = {
+    async add({ commit }, { id }) {
+      
+        commit('add', id)
     }
 }

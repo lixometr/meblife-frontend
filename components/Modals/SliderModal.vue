@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       slideItems: this.items,
-      initialSlide: 0
+      initialSlide: 0,
     };
   },
   methods: {
@@ -64,7 +64,6 @@ export default {
     beforeModalOpen({ params }) {
       this.slideItems = params.items;
       this.initialSlide = params.initialSlide;
-    
     },
   },
 };
@@ -96,6 +95,9 @@ export default {
     position: absolute;
     width: 100%;
     height: 100%;
+    .swiper-container {
+      height: 100%;
+    }
     &__item {
       display: flex;
       align-items: center;
@@ -105,6 +107,8 @@ export default {
   }
   .slider-modal-pagination {
     bottom: 30px !important;
+    left: 50%;
+    transform: translateX(-50%);
   }
   .slider-modal__arrow-next {
     right: 30px;

@@ -1,6 +1,7 @@
 <template>
   <client-only>
-    <modal
+    <component
+    :is="isStatic ? 'modal' : 'div'"
       :name="name"
       :shiftX="position === 'left' ? 0 : 1"
       :transition="position === 'left' ? 'slideRight' : 'slideLeft'"
@@ -22,6 +23,7 @@
             class="panel-close flex align-center justify-center btn btn-circle"
             :class="{'btn-white': headerTheme === 'dark', 'btn-black': headerTheme === 'light'}"
             @click="close"
+         
           >
             <svgClose width="30" />
           </div>
@@ -29,7 +31,7 @@
       </div>
 
       <slot name="content"></slot>
-    </modal>
+    </component>
   </client-only>
 </template>
 
@@ -46,6 +48,11 @@ export default {
       type: String,
       default: "dark",
     },
+    isStatic: {
+      type: Boolean,
+      default: true
+    },
+
   },
 
   components: {
@@ -68,6 +75,7 @@ export default {
   methods: {
     close() {
       this.$modal.hide(this.name);
+      this.$emit('close')
     },
   },
 };

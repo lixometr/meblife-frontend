@@ -38,7 +38,7 @@
         <div class="product-info">
           <div class="product-info__top flex align-center justify-between">
             <div class="product__brand">
-              <nuxt-link to="#">
+              <nuxt-link :to="$url.manufacturer(product.manufacturer.slug)">
                 <img :src="brandImage" alt="brand" />
               </nuxt-link>
             </div>
@@ -52,10 +52,13 @@
             </div>
           </div>
           <h1 class="product__name text-18 mt-4">{{name}}</h1>
-          <div class="product__price mt-5 text-18 font-bold"><span>{{priceWithCurrency}} </span> <s class="text-14" v-if="oldPrice">{{oldPriceWithCurrency}}</s></div>
-         
+          <div class="product__price mt-5 text-18 font-bold">
+            <span>{{priceWithCurrency}}</span>
+            <s class="text-14" v-if="oldPrice">{{oldPriceWithCurrency}}</s>
+          </div>
+
           <div class="flex mt-5">
-           <ProductCnt class="product__cnt" v-model="productCnt"/>
+            <ProductCnt class="product__cnt" v-model="productCnt" />
             <button
               class="product__add_to_cart btn btn-green btn-md ml-3 font-bold flex-1"
               @click="addToCart"
@@ -120,11 +123,7 @@
     </div>
 
     <ProductInfo
-      :attributes="productInfoAttributes"
-      :description="description"
-      :delivery="deliveryText"
-      :name="product.full_name"
-      :sizeImage="sizeImage"
+      :product="product"
     />
 
     <ArrowExpand class="md-hidden">
@@ -136,49 +135,9 @@
       <template v-slot:btnText>Показать детали бренда</template>
     </ArrowExpand>
 
-    <div class="similar-products-slider overflow-hidden">
-      <div class="container">
-        <h3 class="mb-4">Товары похожие на этот</h3>
-        <AppSlider
-          :items="similarItems"
-          :options="{slidesPerView: 'auto',spaceBetween: 20}"
-          :slideClass="['slide-width']"
-          :height="'400px'"
-        >
-          <template v-slot:slide="{item}">
-            <nuxt-link to="#" class="shadow flex flex-column rounded-10 p-4 h-100">
-              <div class="flex-1 flex align-center">
-                <img :src="item.img" alt />
-              </div>
-              <p class="font-bold truncate white-space-no-wrap">{{item.name}}</p>
-              <p class="text-14">{{item.price}}</p>
-              <p class="color-green">{{item.delivery}}</p>
-            </nuxt-link>
-          </template>
-        </AppSlider>
-      </div>
-    </div>
-    <div class="similar-categories-slider overflow-hidden mt-7" v-if="similarCategories.length">
-      <div class="container">
-        <h3 class="mb-4 uppercase">Соответствующие категории</h3>
-        <AppSlider
-          :items="similarCategories"
-          :options="{slidesPerView: 'auto', spaceBetween:  20, }"
-          :slideClass="['slide-width']"
-          :height="'400px'"
-        >
-          <template v-slot:slide="{item}">
-            <nuxt-link to="#" class="shadow flex flex-column rounded-10 p-4 h-100">
-              <div class="flex-1 flex align-center">
-                <img :src="item.img" alt />
-              </div>
-              <p class="font-bold truncate white-space-no-wrap">{{item.name}}</p>
-            </nuxt-link>
-          </template>
-        </AppSlider>
-      </div>
-    </div>
-    <ProductCategories :items="categories" />
+    <LazyProductSimilarItems />
+    <LazyProductSimilarCategories />
+    <ProductCategories :items="categories" :activeCategory="category"/>
   </div>
 </template>
 <script>
@@ -199,6 +158,8 @@ import ProductInfo from "@/components/Product/ProductInfo";
 import SliderModal from "@/components/Modals/SliderModal";
 import Header from "@/components/Header";
 import ProductCnt from "@/components/Product/ProductCnt";
+// import ProductSimilarItems from "@/components/Product/ProductSimilarItems";
+// import ProductSimilarCategories from "@/components/Product/ProductSimilarCategories";
 export default {
   components: {
     svgHeartStroke,
@@ -217,7 +178,9 @@ export default {
     ProductInfo,
     SliderModal,
     Header,
-    ProductCnt
+    ProductCnt,
+    // ProductSimilarItems: () => import("@/components/Product/ProductSimilarItems"),
+    // ProductSimilarCategories: () => import("@/components/Product/ProductSimilarCategories"),
   },
   async asyncData({ route, error, store, params, query, $api }) {
     try {
@@ -236,26 +199,13 @@ export default {
   },
   data() {
     return {
-      productCnt: 1
+      productCnt: 1,
     };
   },
   computed: {
-    productInfoAttributes() {
-      return {
-        common: [
-          {
-            name: "Производитель",
-            value: this.product.manufacturer.name,
-            slug: this.product.manufacturer.slug,
-            full_slug: this.$url.manufacturer( this.product.manufacturer.slug)
-          },
-          { name: "Код товара", value: this.product.sku },
-        ],
-        items: this.attributes,
-      };
-    },
+
     attributes() {
-      return this.product.attributes
+      return this.product.attributes;
     },
     productImages() {
       return this.product.product_images;
@@ -275,7 +225,7 @@ export default {
       ];
     },
     category() {
-      return this.product.primary_category
+      return this.product.primary_category;
     },
     categories() {
       return this.productCategories;
@@ -399,7 +349,7 @@ export default {
       ];
     },
     sizeImage() {
-      return this.product.size_image
+      return this.product.size_image;
     },
     name() {
       return this.product.full_name;
@@ -416,11 +366,10 @@ export default {
       return this.price + " " + this.currency;
     },
     oldPrice() {
-      return this.product.old_price
+      return this.product.old_price;
     },
     oldPriceWithCurrency() {
       return this.oldPrice + " " + this.currency;
-
     },
     brandImage() {
       return this.product.manufacturer.image.url;
@@ -454,17 +403,18 @@ export default {
           </div>
         </div>`;
     },
-    deliveryText() {
-      return "Ради высочайшего качества обслуживания клиентов и безопасности продукции мы доставляем посылки только в сотрудничестве с опытными и профессиональными курьерскими компаниями, работающими по всей Польше. Мы также ввели возможность доставки с залогом, которая совершенно бесплатна для заказов на сумму более 499 злотых. В результате выбранная мебель, светильники или аксессуары могут быть доставлены в указанное место независимо от этажа, на котором расположена квартира, и без дополнительных затрат.";
-    },
+   
   },
   methods: {
-    test() {},
     goBack() {
-      this.$router.push(this.$url.category(this.category.slug))
+      this.$router.push(this.$url.category(this.category.slug));
     },
-    makeFavourite() {},
-    addToCart() {},
+    makeFavourite() {
+      this.$store.dispatch('favourite/add', {id: this.product._id});
+    },
+    addToCart() {
+      this.$store.dispatch('cart/add', {id: this.product._id});
+    },
     openSliderModal(startIdx) {
       this.$modal.show("slider-modal", {
         items: this.productImages,

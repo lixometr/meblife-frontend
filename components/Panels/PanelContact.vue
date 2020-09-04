@@ -1,5 +1,5 @@
 <template>
-  <Panel name="panel-contact" headerTheme="light" class="panel-contact">
+  <Panel name="panel-contact" headerTheme="light" class="panel-contact" :isStatic="false" @close="$emit('close')">
     <template v-slot:title>КОНТАКТЫ</template>
     <template v-slot:content>
       <div class="panel-contact__header">

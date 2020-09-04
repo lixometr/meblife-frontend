@@ -4,16 +4,12 @@
       <div v-masonry transition-duration="0" item-selector=".item" class="masonry-container">
         <div
           class="looks-list__item item"
-          v-masonry-tile 
-
+          v-masonry-tile
           v-for="look in looks"
           :key="look._id"
+          @click="openLook(look._id)"
         >
-          <img
-            class="looks-list__item-image  w-100 h-auto"
-            :src="look.image.url"
-            :alt="look.name"
-          />
+          <img class="looks-list__item-image w-100 h-auto" :src="look.image.url" :alt="look.name" />
           <div class="looks-list__item-btn btn btn-circle btn-blur color-white">
             <svgFullScreen width="26" />
           </div>
@@ -69,6 +65,14 @@ export default {
         },
       ];
       return this.items;
+    },
+  },
+  methods: {
+    openLook(id) {
+      // this.$modal.show('panel-look', {
+      //   id
+      // })
+      this.$store.dispatch("modal/open", { name: "panel-look", props: { id } });
     },
   },
 };

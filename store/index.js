@@ -6,3 +6,8 @@ export const getters = {
     return state.currency
   }
 }
+export const actions = {
+  async nuxtServerInit() {
+    
+  }
+}

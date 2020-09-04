@@ -40,15 +40,18 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    { src: '@/plugins/error' },
     { src: '@/plugins/api' },
     { src: '@/plugins/vue-awesome-swiper', mode: 'client' },
     { src: '@/plugins/vue-show-slide', mode: 'client' },
     { src: '@/plugins/vue-js-modal', mode: 'client' },
     { src: '@/plugins/vue-masonry', mode: 'client' },
-    {src: "@/plugins/url"}
+    { src: "@/plugins/url" },
+    { src: "@/plugins/vue-ripple-directive", mode: "client" },
   ],
   router: {
-    middleware: 'i18n'
+    middleware: 'i18n',
+    prefetchLinks: false
   },
   /*
   ** Auto import components
@@ -103,7 +106,8 @@ export default {
             file: 'ru.js',
             iso: "ru-RU"
 
-          }
+          },
+        
         ],
         seo: true,
         lazy: true,
@@ -142,5 +146,6 @@ export default {
     }
   },
   build: {
+    analyze: false
   }
 }

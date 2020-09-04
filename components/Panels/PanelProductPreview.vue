@@ -91,8 +91,11 @@
               :to="$url.product(product.slug)"
               class="btn btn-md btn-red uppercase w-100"
             >Перейти на страницу товара</nuxt-link>
-            <div class="mb-3 color-orange uppercase font-bold text-14 mt-7 pl-1">Похожие продукты</div>
-            <div class="flex flex-wrap panel-product-preview__similar-items">
+            <div class="mb-3 color-orange uppercase font-bold text-14 mt-7 pl-1" v-if="similarItems.length > 0">Похожие продукты</div>
+            <div
+              class="flex flex-wrap panel-product-preview__similar-items"
+              v-if="similarItems.length > 0"
+            >
               <nuxt-link
                 :to="$url.product(item.slug)"
                 class="panel-product-preview__similar-item"
@@ -131,48 +134,49 @@ export default {
       isLoading: true,
       product: {},
       showAttrs: false,
+      similarItems: [],
     };
   },
   computed: {
-    similarItems() {
-      return [
-        {
-          slug: "test",
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
-          },
-        },
-        {
-          slug: "test",
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
-          },
-        },
-        {
-          slug: "test",
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
-          },
-        },
-        {
-          slug: "test",
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
-          },
-        },
-        // {
-        //   slug: "test",
-        //   default_image: {
-        //     url:
-        //       "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
-        //   },
-        // },
-      ];
-    },
+    // similarItems() {
+    //   return [
+    //     {
+    //       slug: "test",
+    //       default_image: {
+    //         url:
+    //           "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
+    //       },
+    //     },
+    //     {
+    //       slug: "test",
+    //       default_image: {
+    //         url:
+    //           "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
+    //       },
+    //     },
+    //     {
+    //       slug: "test",
+    //       default_image: {
+    //         url:
+    //           "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
+    //       },
+    //     },
+    //     {
+    //       slug: "test",
+    //       default_image: {
+    //         url:
+    //           "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
+    //       },
+    //     },
+    //     // {
+    //     //   slug: "test",
+    //     //   default_image: {
+    //     //     url:
+    //     //       "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
+    //     //   },
+    //     // },
+    //   ];
+    // },
     itemInfos() {
       return [
         {
@@ -199,7 +203,7 @@ export default {
       const attrs = this.product.attributes.reduce((arr, attr, idx) => {
         return arr.concat(attr.attributes);
       }, []);
-      console.log( this.product.attributes);
+      console.log(this.product.attributes);
       return attrs;
       return [
         {
@@ -258,12 +262,26 @@ export default {
       await this.fetchProduct();
       this.isLoading = false;
     },
+    async fetchSimilarProducts() {
+      try {
+        this.similarItems =
+          (await this.$api.$get("similarProductItems", {
+            slug: this.params.slug,
+          })) || [];
+          console.log(this.similarItems)
+      } catch (err) {
+        this.$error(err);
+      }
+    },
     async fetchProduct() {
       try {
         this.product = await this.$api.$get("product", {
           slug: this.params.slug,
         });
-      } catch (err) {}
+        await this.fetchSimilarProducts()
+      } catch (err) {
+        this.$error(err)
+      }
     },
   },
 };

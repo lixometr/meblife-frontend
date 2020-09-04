@@ -4,14 +4,15 @@
     headerTheme="dark"
     position="left"
     class="panel-categories"
-    @before-open="beforeOpen"
+    :isStatic="false"
+    @close="$emit('close')"
   >
     <template v-slot:title>МЕНЮ</template>
     <template v-slot:content>
       <div class="p-3">
         <SearchBtn variant="light" text="Категории поиска" />
-        <Loader v-if="isLoading"/>
-        <CategoriesBar class="mt-5" :categories="categories" v-else/>
+        <Loader v-if="isLoading" />
+        <CategoriesBar class="mt-5" :categories="categories" v-else />
       </div>
     </template>
   </Panel>
@@ -34,10 +35,10 @@ export default {
       isLoading: false,
     };
   },
+  beforeMount() {
+    this.loadCategories();
+  },
   methods: {
-    beforeOpen() {
-      this.loadCategories();
-    },
     async loadCategories() {
       try {
         this.isLoading = true;

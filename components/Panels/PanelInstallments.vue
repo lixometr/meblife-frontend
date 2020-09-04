@@ -1,5 +1,5 @@
 <template>
-  <Panel name="panel-installments" headerTheme="dark" class="panel-installments">
+  <Panel name="panel-installments" headerTheme="dark" class="panel-installments" :isStatic="false" @close="$emit('close')"> 
     <template v-slot:title>ПОКУПКИ В РАССРОЧКУ</template>
     <template v-slot:content>
       <div class="panel-installments__content p-4">

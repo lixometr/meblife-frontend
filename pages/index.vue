@@ -3,6 +3,8 @@
     <div>
       <Logo />
       <h1 class="title">
+        <CButton color="primary">Click me</CButton>
+
         frontend
       </h1>
       <div class="links">

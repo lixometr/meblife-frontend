@@ -4,8 +4,6 @@
     <Logo class="top-logo" />
     <Nuxt />
     <Footer class="mt-6" />
-    <PanelContact />
-    <PanelInstallments />
     <SearchModal />
     <MenuModal />
   </main>
@@ -14,8 +12,6 @@
 import Header from "@/components/Header";
 import TopBar from "@/components/Header/TopBar";
 import Footer from "@/components/Footer";
-import PanelContact from "@/components/Panels/PanelContact";
-import PanelInstallments from "@/components/Panels/PanelInstallments";
 import SearchModal from "@/components/Modals/SearchModal";
 import MenuModal from "@/components/Modals/MenuModal";
 export default {
@@ -23,8 +19,6 @@ export default {
     Header,
     Footer,
     TopBar,
-    PanelContact,
-    PanelInstallments,
     SearchModal,
     MenuModal
   },

@@ -6,11 +6,13 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "analyze": "nuxt build --analyze"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.0",
     "@nuxtjs/style-resources": "^1.0.0",
+    "core-js": "^3.6.5",
     "nuxt": "^2.14.0",
     "nuxt-i18n": "^6.13.10",
     "nuxt-lazy-load": "^1.2.4",
@@ -20,8 +22,10 @@
     "vue-awesome-swiper": "^4.1.1",
     "vue-js-modal": "^2.0.0-rc.6",
     "vue-masonry": "^0.11.8",
+    "vue-ripple-directive": "^2.0.1",
     "vue-scrollto": "^2.18.2",
-    "vue-slide-up-down": "^2.0.1"
+    "vue-slide-up-down": "^2.0.1",
+    "vue-slider-component": "^3.2.5"
   },
   "devDependencies": {
     "node-sass": "^4.14.1",

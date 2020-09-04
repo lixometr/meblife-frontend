@@ -1,10 +1,9 @@
 <template>
-  <div class="products-grid">
+  <div class="products-grid ">
     <PanelProductPreview />
-    <PanelCategories />
 
-    <PanelFilters @filterItems="onApplyFilters"/>
-    <div class="products-grid__wrapper flex flex-wrap">
+    <!-- <PanelFilters @filterItems="onApplyFilters"/> -->
+    <div class="products-grid__wrapper flex flex-wrap position-relative z-1">
       <ProductsGridItem
         class="products-grid__item"
         v-for="product in products"
@@ -17,16 +16,14 @@
 
 <script>
 import ProductsGridItem from "@/components/ProductsGridItem";
-import PanelFilters from "@/components/Panels/PanelFilters";
-import PanelCategories from "@/components/Panels/PanelCategories";
+// import PanelFilters from "@/components/Panels/PanelFilters";
 import PanelProductPreview from "@/components/Panels/PanelProductPreview";
 
 export default {
   components: {
     ProductsGridItem,
     PanelProductPreview,
-    PanelFilters,
-    PanelCategories
+    // PanelFilters,
   },
   props: {
     items: Array,
