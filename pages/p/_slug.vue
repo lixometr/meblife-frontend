@@ -73,12 +73,12 @@
                 <svgCheckmark width="12" />
               </div>
               <div>
-                <div class="mb-3">Товар в наличии!</div>
+                <div class="mb-3" v-if="availableStock || availableStockManufacturer">Товар в наличии!</div>
                 <p>
                   на нашем складе:
                   <b>{{availableStock}} шт.</b>
                 </p>
-                <p>
+                <p v-if="delivery24">
                   Отгрузка в течении
                   <b class="color-green">24 часа.</b>
                 </p>
@@ -87,10 +87,10 @@
                     На складе поставщика:
                     <b>{{availableStockManufacturer}} шт.</b>
                   </p>
-                  <p>
+                  <p v-if="availableStockManufacturer">
                     Закажите товар до
-                    <b>16.08.2020</b>, отправим
-                    <b>24.08.2020.</b>
+                    <b>{{ $moment(new Date(orderUntil)).format('DD.MM.YYYY')}}</b>, отправим
+                    <b>{{ $moment(new Date(deliveryAt)).format('DD.MM.YYYY')}}</b>
                   </p>
                 </div>
               </div>
@@ -102,9 +102,10 @@
                 <svgTruck width="12" />
               </div>
               <div>
-                <p>
+                <p >
                   Доставка с оплатой
-                  <b>14,90 зл.</b>
+                  <b v-if="!freeDelivery"> 14,90 {{currency}}</b>
+                  <b v-else>0 {{currency}}</b>
                 </p>
               </div>
             </div>
@@ -355,6 +356,15 @@ export default {
     delivery24() {
       return this.product.delivery_24;
     },
+    freeDelivery() {
+      return this.product.free_delivery;
+    },
+    deliveryAt() {
+      return this.product.delivery_at
+    },
+    orderUntil() {
+      return this.product.order_until
+    },
     name() {
       return this.product.full_name;
       return "Тренировочная резинка Power Band GT by Tiguar уровень 3 оливковый";
@@ -364,7 +374,7 @@ export default {
       return "400";
     },
     currency() {
-      return "р.";
+      return this.$store.getters.currency;
     },
     priceWithCurrency() {
       return this.price + " " + this.currency;

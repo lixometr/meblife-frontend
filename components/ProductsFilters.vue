@@ -60,6 +60,7 @@ import svgFilter from "@/assets/icons/filter.svg";
 import svgSort from "@/assets/icons/sort.svg";
 import svgTruck from "@/assets/icons/truck.svg";
 import svgTriangle from "@/assets/icons/arrow-down-triangle.svg";
+import {filtersFromQuery} from "@/helpers/functions";
 import _ from "lodash";
 export default {
   props: {
@@ -68,7 +69,7 @@ export default {
   data() {
     return {
       delivery: this.$route.query.delivery || undefined ,
-      filterValues: {},
+      filterValues: this.$route.query,
     };
   },
   components: {
@@ -82,6 +83,7 @@ export default {
       return !_.isEmpty(this.filterValues);
     },
   },
+
   methods: {
     openPanelFilter() {
       this.$store.dispatch("modal/open", {

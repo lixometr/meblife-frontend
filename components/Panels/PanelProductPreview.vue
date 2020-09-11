@@ -60,14 +60,24 @@
               >
                 <div class="flex">
                   <div class="flex-1">{{attr.name.name}}</div>
-                  <template v-if="attr.name.type !== 'decimal'">
-                    <nuxt-link
-                      :to="$url.filter(value.slug)"
-                      class="flex-1"
-                      v-for="(value, idx) in attr.value"
-                      :key="idx"
-                    >{{value.name}}</nuxt-link>
-                  </template>
+                  <div  class="flex-1 flex flex-wrap">
+                    <template v-if="attr.name.attribute_type !== 'decimal'">
+                      <nuxt-link
+                        :to="$url.filter(product.primary_category.slug, attr.name.slug, value.slug)"
+                       
+                        v-for="(value, idx) in attr.value"
+                        :key="idx"
+                      >{{value.name}}</nuxt-link>
+                    </template>
+                    <template v-else>
+                      <span
+                        :to="$url.filter(product.primary_category.slug, attr.name.slug, value.slug)"
+                        class="flex-1"
+                        v-for="(value, idx) in attr.value"
+                        :key="idx"
+                      >{{value.name}}</span>
+                    </template>
+                  </div>
                 </div>
               </div>
             </div>
@@ -91,7 +101,10 @@
               :to="$url.product(product.slug)"
               class="btn btn-md btn-red uppercase w-100"
             >Перейти на страницу товара</nuxt-link>
-            <div class="mb-3 color-orange uppercase font-bold text-14 mt-7 pl-1" v-if="similarItems.length > 0">Похожие продукты</div>
+            <div
+              class="mb-3 color-orange uppercase font-bold text-14 mt-7 pl-1"
+              v-if="similarItems.length > 0"
+            >Похожие продукты</div>
             <div
               class="flex flex-wrap panel-product-preview__similar-items"
               v-if="similarItems.length > 0"
@@ -268,7 +281,7 @@ export default {
           (await this.$api.$get("similarProductItems", {
             slug: this.params.slug,
           })) || [];
-          console.log(this.similarItems)
+        console.log(this.similarItems);
       } catch (err) {
         this.$error(err);
       }
@@ -278,9 +291,9 @@ export default {
         this.product = await this.$api.$get("product", {
           slug: this.params.slug,
         });
-        await this.fetchSimilarProducts()
+        await this.fetchSimilarProducts();
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
     },
   },

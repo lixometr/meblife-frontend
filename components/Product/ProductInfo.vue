@@ -50,7 +50,7 @@
           </template>
           <template v-slot:content>
             <div class="pl-4 pt-4 bg-pale">
-              <div class="bg-pale p-4 text-center" v-if="sizeImage">
+              <div class="bg-pale p-4 text-center" v-if="sizeImage && sizeImage.url ">
                 <img :src="sizeImage.url" alt="size_image" />
               </div>
               <div v-html="description"></div>
@@ -162,6 +162,7 @@ export default {
           { name: "Код товара", value: this.product.sku },
         ],
         items: this.product.attributes,
+        categorySlug: this.product.primary_category.slug
       };
     }
   },

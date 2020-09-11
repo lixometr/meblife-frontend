@@ -13,6 +13,7 @@ export const filtersFromQuery = (query, stringify = false) => {
       const attributes = Object.keys(filters).filter(prop => notAttr.includes(prop) === false).map(prop => ({ name: prop, value: filters[prop].split(',') }))
       filters.attributes = attributes
       notAttr.forEach(filterName => {
+            if (filterName === 'delivery') return
             if (filters[filterName]) {
                   filters[filterName] = filters[filterName].split(',')
             }
@@ -21,9 +22,11 @@ export const filtersFromQuery = (query, stringify = false) => {
             delete filters[noFilt]
       })
       const normFilters = {}
-      filters = Object.keys(filters).filter(prop => attributes.findIndex(attr => attr.name === prop) < 0).map(prop => {
+
+      Object.keys(filters).filter(prop => attributes.findIndex(attr => attr.name === prop) < 0).map(prop => {
             normFilters[prop] = filters[prop]
       })
+
       if (stringify) {
             return JSON.stringify(normFilters)
       }

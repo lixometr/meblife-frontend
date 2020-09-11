@@ -1,3 +1,4 @@
+import _ from "lodash"
 class UrlBuilder {
     constructor(app) {
         this.path = {
@@ -32,8 +33,13 @@ class UrlBuilder {
         return this.app.localePath(this.path.look + slug)
 
     }
-    filter(slug) {
-        return this.app.localePath(slug)
+    filter(categorySlug, nameSlug, valueSlug) {
+        let values = valueSlug;
+        if (_.isArray(valueSlug)) {
+            values = valueSlug.join(',')
+        }
+        const url = `${this.path.category}${categorySlug}?${nameSlug}=${values}`
+        return this.app.localePath(url)
 
     }
 }

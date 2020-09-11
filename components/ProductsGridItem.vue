@@ -1,6 +1,12 @@
 <template>
   <div class="products-grid-item">
-    <nuxt-link class="d-block h-100 no-underline" :to="$url.product(item.slug)">
+    <nuxt-link class="d-block h-100 no-underline position-relative" :to="$url.product(item.slug)">
+      <div class="products-grid-item__labels">
+        <div
+          class="products-grid-item__label bg-white border color-orange pl-4 pt-1 pb-1 pr-4 mb-3 border-grey text-12"
+          v-if="sale"
+        >-{{sale}}%</div>
+      </div>
       <div class="products-grid-item__img" v-ripple.300>
         <img class="no-bg size-contain" :src="image" :alt="name" />
       </div>
@@ -17,7 +23,11 @@
         v-if="delivery24"
       >{{$t('delivery24')}}</div>
 
-      <div class="products-grid-item__delivery" key="noDelivery24" v-else>{{delivery}} {{deliveryText}}</div>
+      <div
+        class="products-grid-item__delivery"
+        key="noDelivery24"
+        v-else
+      >{{delivery}} {{deliveryText}}</div>
     </nuxt-link>
     <div class="products-grid-item__preview">
       <div class="btn btn-circle btn-white flex align-center justify-center" @click="openPreview">
@@ -43,6 +53,9 @@ export default {
     },
     name() {
       return this.item.full_name;
+    },
+    sale() {
+      return this.item.promotion && this.item.promotion.value;
     },
     currency() {
       return this.$store.getters.currency;
@@ -99,6 +112,13 @@ export default {
     top: 18px;
     right: 25px;
     z-index: 10;
+  }
+  &__labels {
+    position: absolute;
+    top: 20px;
+  }
+  &__label {
+    border-left: none;
   }
 }
 </style>

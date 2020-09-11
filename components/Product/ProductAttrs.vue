@@ -22,15 +22,15 @@
         >
           <span class="flex-1">{{sub_attr.name.name}}:</span>
           <span class="flex-1">
-            <template v-if="sub_attr.name.type !== 'decimal'">
+            <template v-if="sub_attr.name.attribute_type !== 'decimal'">
               <nuxt-link
                 v-for="(value, idx) in sub_attr.value"
-                :to="$url.filter(value.slug) "
-
+                :to="$url.filter(categorySlug, sub_attr.name.slug, value.slug) "
+                class="mr-2"
                 :key="idx"
               >{{value.name}}</nuxt-link>
             </template>
-            <span v-else>{{sub_attr.slug}}</span>
+            <span v-else>{{sub_attr.value[0] && sub_attr.value[0].name}}</span>
           </span>
         </div>
       </div>
@@ -44,6 +44,7 @@ export default {
   props: {
     items: Array,
     common: Array,
+    categorySlug: String
   },
 };
 </script>

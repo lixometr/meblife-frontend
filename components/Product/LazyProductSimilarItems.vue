@@ -9,13 +9,18 @@
         :height="'400px'"
       >
         <template v-slot:slide="{item}">
-          <nuxt-link :to="$url.product(item.slug)" class="shadow flex flex-column rounded-10 p-4 h-100">
-            <div class="flex-1 flex align-center">
-              <img :src="item.default_image && item.default_image.url" alt />
+          <nuxt-link
+            :to="$url.product(item.slug)"
+            class="shadow flex flex-column rounded-10 p-4 h-100"
+          >
+            <div class="flex-1 text-center similar-products__image-wrapper">
+              <img class="size-contain" :src="item.default_image && item.default_image.url" alt />
             </div>
-            <p class="font-bold truncate white-space-no-wrap">{{item.name}}</p>
-            <p class="text-14">{{item.price}}</p>
-            <p class="color-green">{{item.delivery}}</p>
+            <div class="shrink-0">
+              <p class="font-bold truncate white-space-no-wrap">{{item.name}}</p>
+              <p class="text-14">{{item.price}} {{currency}}</p>
+              <p class="color-green">{{item.delivery}}</p>
+            </div>
           </nuxt-link>
         </template>
       </AppSlider>
@@ -33,6 +38,11 @@ export default {
   beforeMount() {
     this.loadData();
   },
+  computed: {
+currency() {
+  return this.$store.getters.currency
+}
+  },
   methods: {
     async loadData() {
       try {
@@ -48,5 +58,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
+.similar-products__image-wrapper {
+  max-height: 100%;
+  position: relative;
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
 </style>

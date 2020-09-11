@@ -1,4 +1,4 @@
-
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 export default {
   /*
   ** Nuxt rendering mode
@@ -62,7 +62,11 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
+    '@nuxtjs/moment'
   ],
+  moment: {
+    locales: ['ru']
+  },
   /*
   ** Nuxt.js modulesd
   */
@@ -92,6 +96,7 @@ export default {
       }
     ],
     'vue-scrollto/nuxt',
+    'cookie-universal-nuxt',
     [
       'nuxt-i18n',
       {
@@ -146,6 +151,9 @@ export default {
     }
   },
   build: {
-    analyze: false
+    analyze: false,
+    plugins: [
+      new LodashModuleReplacementPlugin
+    ]
   }
 }

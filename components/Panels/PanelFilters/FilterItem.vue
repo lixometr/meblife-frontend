@@ -104,7 +104,7 @@ export default {
   },
   computed: {
     itemType() {
-      return this.item.name.type;
+      return this.item.name.attribute_type;
     },
     itemValue: {
       get() {

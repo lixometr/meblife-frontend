@@ -62,6 +62,7 @@ export default {
   },
   beforeMount() {
     this.initFilters();
+    console.log("values", this.values);
   },
   computed: {
     filterItems() {
@@ -85,23 +86,16 @@ export default {
             name: {
               name: this.$t("filters." + prop),
               slug: prop,
-              type: prop === "price" ? "decimal" : "values",
+              attribute_type: prop === "price" ? "decimal" : "values",
             },
             value: this.filterItems[prop],
           };
         });
-      console.log(noAttrs);
       return noAttrs || [];
     },
   },
   methods: {
     initFilters() {
-      // const query = this.$route.query;
-      // const values = Object.keys(query).map(paramName => {
-      //   let paramValues = query[paramName]
-      //   paramValues = paramValues.split(',')
-      // // this.items.find(item => item.)
-      // })
       /*
         from
         {price: [200, 300], attributes: [{name: "slug", value: ["slug"]}]}
@@ -115,8 +109,9 @@ export default {
       }
      */
       let normFilterValues = {};
-      const filterValues = filtersFromQuery(this.$route.query, false);
+      const filterValues = { ...filtersFromQuery(this.$route.query, false) };
       const attributes = filterValues.attributes;
+
       attributes.forEach((attr) => {
         const attrInItems = this.attributeFilters.find(
           (attrFilter) => attrFilter.name.slug === attr.name
@@ -142,7 +137,7 @@ export default {
         );
         if (!paramInItems) return;
         let filterValue;
-        if (paramInItems.name.type === "decimal") {
+        if (paramInItems.name.attribute_type === "decimal") {
           filterValue = filterValues[filterSlug];
         } else {
           filterValue = filterValues[filterSlug].map((filterVal) => {
@@ -163,6 +158,7 @@ export default {
     },
 
     apply() {
+      console.log(this.values);
       this.change({ values: { ...this.values, sort_by: this.sortBy } });
       this.$emit("close");
     },
