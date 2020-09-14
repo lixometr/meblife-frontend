@@ -49,7 +49,18 @@
       </div>
     </div>
     <div class="flex flex-wrap mt-3" v-if="hasFilters">
-      <!-- <span v-for=""></span> -->
+      <span class="btn btn-white btn-sm mr-2" v-for="(value, filterSlug, index) in filterValues" :key="index">
+        <span class="mr-1">{{$store.getters['filters/getFilterName'](filterSlug)}}:</span>
+         <span
+          v-for="(filterValue, idx) in value"
+          :key="idx"
+        >
+          <template
+            v-if="$store.getters['filters/getFilterType'](filterSlug) === 'decimal'"
+          >{{filterValue}}{{ value.length - 1 > idx ? ', ' : ""}}</template>
+          <template v-else>{{filterValue.name}}{{ value.length - 1 > idx ? ', ' : ""}}</template>
+        </span>
+      </span>
       <span class="btn btn-white btn-sm" @click="resetFilters">{{$t('resetFilters')}}</span>
     </div>
   </div>
@@ -60,7 +71,7 @@ import svgFilter from "@/assets/icons/filter.svg";
 import svgSort from "@/assets/icons/sort.svg";
 import svgTruck from "@/assets/icons/truck.svg";
 import svgTriangle from "@/assets/icons/arrow-down-triangle.svg";
-import {filtersFromQuery} from "@/helpers/functions";
+import { filtersFromQuery } from "@/helpers/functions";
 import _ from "lodash";
 export default {
   props: {
@@ -68,8 +79,8 @@ export default {
   },
   data() {
     return {
-      delivery: this.$route.query.delivery || undefined ,
-      filterValues: this.$route.query,
+      // delivery: this.$route.query.delivery || undefined ,
+      // filterValues: this.$route.query,
     };
   },
   components: {
@@ -81,6 +92,12 @@ export default {
   computed: {
     hasFilters() {
       return !_.isEmpty(this.filterValues);
+    },
+    delivery() {
+      return this.$store.getters["filters/delivery"];
+    },
+    filterValues() {
+      return this.$store.getters["filters/valueObj"];
     },
   },
 
@@ -102,67 +119,32 @@ export default {
       });
     },
 
-    getFiltersQueryUrl() {
-      let queryObj = {};
-      /*
-        values = {
-          attr-slug: [{name: "", slug: ""}]
-        }
-        to
-        {
-          attr-slug: slug,slug
-        }
-      */
-      const values = this.filterValues;
-      Object.keys(values).forEach((prop) => {
-        if (!values[prop]) return;
-        let valueStr = values[prop];
-        if (_.isArray(values[prop])) {
-          valueStr = values[prop].reduce((str, val, idx) => {
-            if (val.slug) {
-              str += val.slug;
-            } else {
-              str += val;
-            }
-            if (idx < values[prop].length - 1) {
-              str += ",";
-            }
-            return str;
-          }, "");
-        }
-
-        if (!valueStr) return;
-        queryObj[prop] = valueStr;
-      });
-      queryObj.sort_by = values.sort_by;
-      return queryObj;
-    },
     openPanelCategories() {
       this.$store.dispatch("modal/open", { name: "panel-categories" });
     },
     resetFilters() {
-      this.filterValues = {}
-      this.delivery = undefined
-      this.setQueryUrl()
+      this.$store.commit("filters/resetFilterValues");
+      this.$store.commit("filters/setDelivery", undefined);
+      this.setQueryUrl();
     },
     onFilterChange({ values }) {
-      this.filterValues = values;
       this.setQueryUrl();
     },
     selectDelivery(val) {
-      this.delivery = val;
+      this.$store.commit("filters/setDelivery", val);
       this.setQueryUrl();
     },
     setQueryUrl() {
       this.$router.push({
-        query: { ...this.getFiltersQueryUrl(), delivery: this.delivery },
+        query: { ...this.$store.getters["filters/filtersToQuery"] },
       });
     },
   },
   watch: {
     "$route.query"() {
       console.log("changed");
-      this.delivery = this.$route.query.delivery || undefined;
+      this.$store.commit("filters/init", this.$route.query);
+      // this.delivery = this.$route.query.delivery || undefined;
     },
   },
 };

@@ -53,16 +53,22 @@
             </div>
           </div>
           <h1 class="product__name text-18 mt-4">{{name}}</h1>
-          <div class="product__price mt-5 text-18 font-bold">
-            <span>{{priceWithCurrency}}</span>
+          <div class="product__price mt-5 text-18">
+            <span class="bg-orange color-white p-1 text-14 mr-2" v-if="sale">-{{sale}}%</span>
+            <span class="font-bold mr-1 text-18">{{priceWithCurrency}}</span>
             <s class="text-14" v-if="oldPrice">{{oldPriceWithCurrency}}</s>
+          </div>
+          <div class="mt-2" v-if="saleExpires">
+            {{$t('promotionText[0]')}}
+            <b>{{$moment(new Date(saleExpires)).format('DD.MM.YYYY')}}</b>
+            {{$t('promotionText[1]')}}
           </div>
 
           <div class="flex mt-5">
             <ProductCnt class="product__cnt" v-model="productCnt" />
             <button
               class="product__add_to_cart btn btn-green btn-md ml-3 font-bold flex-1"
-              @click="addToCart"
+              @click.prevent="addToCart"
             >Добавить в корзину</button>
           </div>
           <div class="product-delivery-info text-14 mt-5">
@@ -73,7 +79,10 @@
                 <svgCheckmark width="12" />
               </div>
               <div>
-                <div class="mb-3" v-if="availableStock || availableStockManufacturer">Товар в наличии!</div>
+                <div
+                  class="mb-3"
+                  v-if="availableStock || availableStockManufacturer"
+                >Товар в наличии!</div>
                 <p>
                   на нашем складе:
                   <b>{{availableStock}} шт.</b>
@@ -102,10 +111,10 @@
                 <svgTruck width="12" />
               </div>
               <div>
-                <p >
-                  Доставка с оплатой
-                  <b v-if="!freeDelivery"> 14,90 {{currency}}</b>
-                  <b v-else>0 {{currency}}</b>
+                <p>
+                  Доставка 
+                  <b v-if="!freeDelivery">с оплатой 14,90 {{currency}}</b>
+                  <b class="font-bold uppercase" v-else>{{$t('freeDelivery')}} </b>
                 </p>
               </div>
             </div>
@@ -124,9 +133,7 @@
       </div>
     </div>
 
-    <ProductInfo
-      :product="product"
-    />
+    <ProductInfo :product="product" />
 
     <ArrowExpand class="md-hidden">
       <template v-slot:default>
@@ -139,7 +146,7 @@
 
     <LazyProductSimilarItems />
     <LazyProductSimilarCategories />
-    <ProductCategories :items="categories" :activeCategory="category"/>
+    <ProductCategories :items="categories" :activeCategory="category" />
   </div>
 </template>
 <script>
@@ -163,6 +170,11 @@ import ProductCnt from "@/components/Product/ProductCnt";
 // import ProductSimilarItems from "@/components/Product/ProductSimilarItems";
 // import ProductSimilarCategories from "@/components/Product/ProductSimilarCategories";
 export default {
+  head() {
+    return {
+      title:  this.product.full_name
+    }
+  },
   components: {
     svgHeartStroke,
     svgArrowBack,
@@ -205,6 +217,18 @@ export default {
     };
   },
   computed: {
+    sale() {
+      if (this.product.promotion) {
+        return this.product.promotion.value;
+      }
+      return false;
+    },
+    saleExpires() {
+      if (this.product.promotion) {
+        return this.product.promotion.end_at;
+      }
+      return false;
+    },
 
     attributes() {
       return this.product.attributes;
@@ -360,10 +384,10 @@ export default {
       return this.product.free_delivery;
     },
     deliveryAt() {
-      return this.product.delivery_at
+      return this.product.delivery_at;
     },
     orderUntil() {
-      return this.product.order_until
+      return this.product.order_until;
     },
     name() {
       return this.product.full_name;
@@ -417,17 +441,29 @@ export default {
           </div>
         </div>`;
     },
-   
   },
   methods: {
     goBack() {
       this.$router.push(this.$url.category(this.category.slug));
     },
     makeFavourite() {
-      this.$store.dispatch('favourite/add', {id: this.product._id});
+      this.$store.dispatch("favourite/add", { id: this.product._id });
     },
     addToCart() {
-      this.$store.dispatch('cart/add', {id: this.product._id});
+      let isNew = !this.$store.getters["cart/hasItem"](this.product._id);
+
+      this.$store.dispatch("cart/add", {
+        id: this.product._id,
+        cnt: this.productCnt,
+      });
+      console.log(isNew)
+      this.openCartModal(isNew);
+    },
+    openCartModal(added) {
+      this.$store.dispatch("modal/open", {
+        name: "panel-cart",
+        props: { added },
+      });
     },
     openSliderModal(startIdx) {
       this.$modal.show("slider-modal", {

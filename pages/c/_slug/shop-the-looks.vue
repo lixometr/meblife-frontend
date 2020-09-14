@@ -1,22 +1,29 @@
 <template>
-  <div class="category-looks">
-    <client-only>
-      <div v-masonry transition-duration="0" item-selector=".item" class="masonry-container">
-        <div
-          class="looks-list__item item"
-          v-masonry-tile
-          v-for="look in looks"
-          :key="look._id"
-          @click="openLook(look._id)"
-        >
-          <img class="looks-list__item-image w-100 h-auto" :src="look.image.url" :alt="look.name" />
-          <div class="looks-list__item-btn btn btn-circle btn-blur color-white">
-            <svgFullScreen width="26" />
+  <div class="category-looks position-relative">
+    <Loader v-if="isLoading" key="isLoading" />
+    <template v-else>
+      <client-only>
+        <div v-masonry transition-duration="0" item-selector=".item" class="masonry-container">
+          <div
+            class="looks-list__item item"
+            v-masonry-tile
+            v-for="look in looks"
+            :key="look._id"
+            @click="openLook(look._id)"
+          >
+            <img
+            data-not-lazy
+              class="looks-list__item-image w-100 h-auto"
+              :src="look.image && look.image.url"
+              :alt="look.name"
+            />
+            <div class="looks-list__item-btn btn btn-circle btn-blur color-white">
+              <svgFullScreen width="26" />
+            </div>
           </div>
         </div>
-      </div>
-    </client-only>
-    <div class="looks-list"></div>
+      </client-only>
+    </template>
   </div>
 </template>
 
@@ -24,46 +31,50 @@
 import svgFullScreen from "@/assets/icons/fullscreen.svg";
 export default {
   name: "Categorylooks",
+  inheritAttrs: false,
   props: {
     items: Array,
+    isLoading: Boolean,
   },
   components: {
     svgFullScreen,
   },
+
   computed: {
     looks() {
-      return [
-        {
-          image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=650,height=650,quality=85,format=auto/inspirationImage/inspirationImage20190207-20547-1shf7ze.jpg",
-          },
-        },
-        {
-          image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=650,height=650,quality=85,format=auto/inspirationImage/inspirationImage20190207-20547-c6sv1k.jpg",
-          },
-        },
-        {
-          image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=650,height=650,quality=85,format=auto/inspirationImage/inspirationImage20190207-20547-abh32s.jpg",
-          },
-        },
-        {
-          image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=650,height=650,quality=85,format=auto/inspirationImage/inspirationImage20190207-20547-1etayzn.jpg",
-          },
-        },
-        {
-          image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=650,height=650,quality=85,format=auto/inspirationImage/inspirationImage20190207-20547-1we3x2s.jpg",
-          },
-        },
-      ];
+      return this.items;
+      // return [
+      //   {
+      //     image: {
+      //       url:
+      //         "https://cdn.wonder.pl/cdn-cgi/image/width=650,height=650,quality=85,format=auto/inspirationImage/inspirationImage20190207-20547-1shf7ze.jpg",
+      //     },
+      //   },
+      //   {
+      //     image: {
+      //       url:
+      //         "https://cdn.wonder.pl/cdn-cgi/image/width=650,height=650,quality=85,format=auto/inspirationImage/inspirationImage20190207-20547-c6sv1k.jpg",
+      //     },
+      //   },
+      //   {
+      //     image: {
+      //       url:
+      //         "https://cdn.wonder.pl/cdn-cgi/image/width=650,height=650,quality=85,format=auto/inspirationImage/inspirationImage20190207-20547-abh32s.jpg",
+      //     },
+      //   },
+      //   {
+      //     image: {
+      //       url:
+      //         "https://cdn.wonder.pl/cdn-cgi/image/width=650,height=650,quality=85,format=auto/inspirationImage/inspirationImage20190207-20547-1etayzn.jpg",
+      //     },
+      //   },
+      //   {
+      //     image: {
+      //       url:
+      //         "https://cdn.wonder.pl/cdn-cgi/image/width=650,height=650,quality=85,format=auto/inspirationImage/inspirationImage20190207-20547-1we3x2s.jpg",
+      //     },
+      //   },
+      // ];
       return this.items;
     },
   },

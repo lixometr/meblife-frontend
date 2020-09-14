@@ -22,5 +22,15 @@ export default {
   inspirations: "Вдохновения",
   buyLook: "Купить образ",
   from: "От",
-  to: "До"
+  to: "До",
+  promotionText: ['Акция продлится до', 'или пока есть запасы!'],
+  back: "Назад",
+  toCart: "В корзину",
+  itemsInCart: "Товары в вашей корзине",
+  itemAddedToCart: "Товар добавлен в корзину",
+  priceForOne: "Цена за шт",
+  deliveryText: "Доставка",
+  totalSum: "Общая сумма",
+  taxCart: "В том числе налог 27% ндс",
+  freeDelivery: "Бесплатная доставка"
 }

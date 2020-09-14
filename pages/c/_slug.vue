@@ -11,7 +11,7 @@
           <div class="page-header__title flex-1 flex align-center justify-center flex-column">
             <h1
               class="mw-100 truncate pl-3 pr-3 mb-3 uppercase color-white text-center"
-            >{{categoryName}}</h1>
+            >{{categoryFullName}}</h1>
             <div class="flex overflow-auto justify-md-start pl-3 pr-3">
               <nuxt-link to="/" class="btn btn-md btn-blur mr-2 font-bold">Домой</nuxt-link>
               <nuxt-link
@@ -82,6 +82,11 @@ import { filtersFromQuery } from "@/helpers/functions";
 export default {
   name: "CategorySlug",
   scrollToTop: true,
+  head() {
+    return {
+      title: this.categoryName + ' - Meblife' 
+    }
+  },
   components: {
     Header,
     CategoriesBar,
@@ -134,6 +139,7 @@ export default {
       return this.$route.path === this.$url.category(this.$route.params.slug);
     },
     headerImage() {
+      console.log(this.category)
       return (
         (this.category.bg_image && this.category.bg_image.url) ||
         "https://cdn.wonder.pl/cdn-cgi/image/width=1920,height=1920,quality=85,format=auto/category-image/f58e28f1944986e847ffb0dd3518993ddcbd2a23.jpg"
@@ -145,6 +151,34 @@ export default {
         "shop-the-looks": "ФОТОГРАФИИ ТОВАРОВ ИЗ КАТЕГОРИИ",
       };
       return prefixes[this.currentPageName] || "";
+    },
+    categoryFullName() {
+      const filterVales = this.$store.getters["filters/valueObj"];
+      console.log(filterVales);
+      let sufix = "";
+      if (filterVales.manufacturer) {
+        sufix += ` - ${filterVales.manufacturer[0].name}`;
+      }
+      Object.keys(filterVales).map((filterSlug) => {
+        const isAttr = this.$store.getters["filters/isAttribute"](filterSlug);
+        console.log(isAttr)
+        if (!isAttr) return;
+        const attrType = this.$store.getters["filters/getFilterType"](
+          filterSlug
+        );
+        const attrName = this.$store.getters["filters/getFilterName"](
+          filterSlug
+        );
+        const value = filterVales[filterSlug];
+        value.forEach((val) => {
+          if (attrType === "decimal") {
+            sufix += ` - ${attrName}: ${val}`;
+          } else {
+            sufix += ` - ${attrName}: ${val.name}`;
+          }
+        });
+      });
+      return this.categoryName + sufix;
     },
     categoryName() {
       return this.categoryNamePrefix + " " + this.category.name;
@@ -189,6 +223,8 @@ export default {
         this.items = result.products;
         this.itemsInfo = result.info;
         this.filters = result.filters;
+        this.$store.commit("filters/setItems", this.filters);
+        this.$store.commit("filters/init", this.$route.query);
       } catch (err) {
         this.$error(err);
       }
@@ -198,6 +234,7 @@ export default {
         const result = await this.$api.$get("categoryLooks", {
           slug: this.$route.params.slug,
         });
+        this.items = result
       } catch (err) {
         this.$error(err);
       }

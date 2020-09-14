@@ -4,6 +4,9 @@
 @import "_components.scss";
 @import "_transitions.scss";
 
+img{
+    max-height: 100%;
+}
 // Lazy Load image fadeIn effect
 .is-lazyloaded {
     animation: fadeIn 1s ease forwards;

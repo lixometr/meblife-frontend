@@ -4,6 +4,7 @@ const panels = {
     'panel-filters': () => import("@/components/Panels/PanelFilters"),
     'panel-sub-filters': () => import("@/components/Panels/PanelFilters/SubFilter"),
     'panel-look': () => import("@/components/Panels/PanelLook"),
+    'panel-cart': () => import("@/components/Panels/PanelCart"),
     'panel-categories': () => import("@/components/Panels/PanelCategories"),
     'slider-modal': () => import("@/components/Modals/SliderModal")
 };
@@ -17,6 +18,7 @@ export const state = () => ({
         'panel-filters': {},
         'sub-filter-panel': {},
         'panel-look': {},
+        'panel-cart': {},
         'panel-categories': {
             shiftX: 0,
             transition: 'slideRight',

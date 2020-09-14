@@ -1,6 +1,6 @@
 <template>
   <div class="product-cnt">
-    <div class="product-cnt_btn btn btn-md btn-grey justify-between" @click="toggle">
+    <div class="product-cnt_btn btn btn-md btn-grey justify-between" :class="elClass" @click="toggle">
       <span class="mr-3">{{value}}</span>
       <svgArrowDown width="15" />
     </div>
@@ -24,6 +24,7 @@ export default {
       type: Number,
       default: 20,
     },
+    elClass: [Array, Object, String]
   },
   components: {
     svgArrowDown,
@@ -59,6 +60,7 @@ export default {
     width: 90px;
     overflow-y: auto;
     max-height: 300px;
+    z-index: 30;
     &-item {
       display: block !important;
       border-radius: 0;

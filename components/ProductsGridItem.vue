@@ -1,7 +1,7 @@
 <template>
   <div class="products-grid-item">
     <nuxt-link class="d-block h-100 no-underline position-relative" :to="$url.product(item.slug)">
-      <div class="products-grid-item__labels">
+      <div class="products-grid-item__labels z-1">
         <div
           class="products-grid-item__label bg-white border color-orange pl-4 pt-1 pb-1 pr-4 mb-3 border-grey text-12"
           v-if="sale"
@@ -23,11 +23,9 @@
         v-if="delivery24"
       >{{$t('delivery24')}}</div>
 
-      <div
-        class="products-grid-item__delivery"
-        key="noDelivery24"
-        v-else
-      >{{delivery}} {{deliveryText}}</div>
+      <div class="products-grid-item__delivery" key="noDelivery24" v-else>
+        <span v-if="delivery">{{delivery}} {{deliveryText}}</span>
+      </div>
     </nuxt-link>
     <div class="products-grid-item__preview">
       <div class="btn btn-circle btn-white flex align-center justify-center" @click="openPreview">

@@ -3,7 +3,6 @@
     name="panel-look"
     headerTheme="dark"
     class="panel-look"
-    @before-open="beforeOpen"
     :isStatic="false"
     @close="$emit('close')"
   >
@@ -14,15 +13,23 @@
     </template>
     <template v-slot:content>
       <div class="panel-look-content">
-        <div class="panel-look__image cursor-pointer" @click="openModal" >
-          <img :src="item.image.url" alt />
+        <div v-if="isLoading">
+          <Loader class="absolute-center" />
         </div>
-        <h6 class="mt-2 mb-2 uppercase text-center" >Соответствующие продукты</h6>
-        <div class="panel-look__products flex flex-wrap">
-          <div class="panel-look__product" v-for="(product, idx) in products" :key="idx">
-            <nuxt-link :to="$url.product(product.slug)" class="bg-grey rounded-10 p-6 " >
-              <img class="no-bg size-contain w-100 h-100" :src="product.default_image.url" alt />
-            </nuxt-link>
+
+        <div class="flex h-100 flex-column" v-else>
+          <div class="panel-look__image cursor-pointer" @click="openModal">
+            <img class="size-cover" :src="item.image.url" alt />
+          </div>
+          <div class="overflow-auto flex-1">
+            <h6 class="mt-2 mb-2 uppercase text-center">Соответствующие продукты</h6>
+            <div class="panel-look__products flex flex-wrap">
+              <div class="panel-look__product" v-for="(product, idx) in products" :key="idx">
+                <div @click="goToItem(product.slug)" class="bg-grey cursor-pointer rounded-10 p-6">
+                  <img class="no-bg size-contain w-100 h-100" :src="product.default_image.url" alt />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -38,43 +45,18 @@ export default {
     Panel,
     svgZoom,
   },
+  props: {
+    id: String,
+  },
   data() {
     return {
-      params: {},
-      item: {
-        image: {
-          url:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=650,height=650,quality=85,format=auto/inspirationImage/inspirationImage20190207-20547-c6sv1k.jpg",
-        },
-        name: "Look 1",
-        products: [
-          {
-            _id: "1",
-            name: "product 1",
-            default_image: {
-              url:
-                "https://cdn.wonder.pl/cdn-cgi/image/width=760,height=760,quality=85,format=auto/productImage/productImage20190206-20586-dcwh3b",
-            },
-          },
-          {
-            _id: "1",
-            name: "product 1",
-            default_image: {
-              url:
-                "https://cdn.wonder.pl/cdn-cgi/image/width=760,height=760,quality=85,format=auto/productImage/productImage20190206-20586-dcwh3b",
-            },
-          },
-          {
-            _id: "1",
-            name: "product 1",
-            default_image: {
-              url:
-                "https://cdn.wonder.pl/cdn-cgi/image/width=760,height=760,quality=85,format=auto/productImage/productImage20190206-20586-dcwh3b",
-            },
-          },
-        ],
-      },
+      isLoading: true,
+      item: {},
     };
+  },
+
+  async beforeMount() {
+    await this.loadLook();
   },
   computed: {
     products() {
@@ -85,22 +67,23 @@ export default {
     },
   },
   methods: {
-    async beforeOpen({ params }) {
-      this.params = params;
-      //   await this.loadLook();
-    },
     openModal() {
       this.$modal.show("slider-modal", {
         items: this.lookImages,
       });
     },
+    goToItem(slug) {
+      this.$router.push(this.$url.product(slug));
+      this.$emit("close");
+    },
     async loadLook() {
+      this.isLoading = true;
       try {
-        this.item =
-          (await this.$api.$get("look", { id: this.params.id })) || {};
+        this.item = (await this.$api.$get("lookById", { id: this.id })) || {};
       } catch (err) {
         this.$error(err);
       }
+      this.isLoading = false;
     },
   },
 };
@@ -109,10 +92,14 @@ export default {
 <style lang="scss">
 .panel-look {
   position: relative;
+  height: 100%;
   .panel-title {
     background-color: transparent;
     position: relative;
     z-index: 10;
+  }
+  &__image {
+    height: 400px;
   }
   &-content {
     position: absolute;

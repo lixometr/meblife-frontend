@@ -36,10 +36,13 @@
           </nuxt-link>
         </div>
         <div class="nav-right__item nav__cart shrink-0">
-          <nuxt-link class="p-3" to="#">
-            <svgCart width="23" />
+          <div class="p-3 cursor-pointer" @click="cartModalOpen">
+            <div class="position-relative">
+              <svgCart width="23" />
+              <div class="nav__cart-cnt" v-if="cartCnt > 0">{{cartCnt}}</div>
+            </div>
             <span class="nav-right__item-text uppercase text-12 d-block md-hidden">Корзина</span>
-          </nuxt-link>
+          </div>
         </div>
       </div>
     </div>
@@ -66,7 +69,15 @@ export default {
     svgSearch,
     svgBurger,
   },
+  computed: {
+    cartCnt() {
+      return this.$store.getters["cart/cnt"];
+    },
+  },
   methods: {
+    cartModalOpen() {
+      this.$store.dispatch("modal/open", { name: "panel-cart" });
+    },
     searchModalOpen() {
       this.$modal.show("modal-search");
     },
@@ -112,12 +123,12 @@ export default {
     @include md {
       width: 50px;
       height: 50px;
-      padding: 0!important;
+      padding: 0 !important;
     }
     svg {
       flex-shrink: 0;
       @include md {
-        margin-right: 0!important;
+        margin-right: 0 !important;
       }
     }
   }
@@ -128,6 +139,23 @@ export default {
   &.dark {
     color: $white;
     fill: $white;
+  }
+  &__cart {
+    position: relative;
+  }
+  &__cart-cnt {
+    position: absolute;
+    top: -8px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background: $orange;
+    color: $white;
+    text-align: center;
+    line-height: 20px;
+    font-size: 0.75rem;
+    border-radius: 50%;
+    font-weight: normal;
   }
   &-menu__item {
     color: inherit;

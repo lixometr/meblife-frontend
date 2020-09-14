@@ -8,7 +8,7 @@
   >
     <template v-slot:title>ФИЛЬТРЫ</template>
     <template v-slot:content>
-      <div class="panel-filters__content">
+      <div class="panel-filters__content overflow-auto">
         <FilterSortItem v-model="sortBy" :isOpen="sortOpen" />
         <FilterItem
           v-for="(filterItem, idx) in allFilters"
@@ -72,6 +72,7 @@ export default {
       return this.filterItems.attributes || [];
     },
     allFilters() {
+      return this.$store.getters['filters/allFilterItems']
       return [...this.staticFilters, ...this.attributeFilters];
     },
     staticFilters() {
@@ -93,64 +94,13 @@ export default {
         });
       return noAttrs || [];
     },
+    valueObj() {
+      return this.$store.getters["filters/valueObj"];
+    },
   },
   methods: {
     initFilters() {
-      /*
-        from
-        {price: [200, 300], attributes: [{name: "slug", value: ["slug"]}]}
-        
-      */
-      /*
-      to: {
-        {
-          'attr-name-slug': [{name: "", slug: ""}]
-        }
-      }
-     */
-      let normFilterValues = {};
-      const filterValues = { ...filtersFromQuery(this.$route.query, false) };
-      const attributes = filterValues.attributes;
-
-      attributes.forEach((attr) => {
-        const attrInItems = this.attributeFilters.find(
-          (attrFilter) => attrFilter.name.slug === attr.name
-        );
-        if (!attrInItems) return;
-        let attrValues;
-        if (attrInItems.name.type === "decimal") {
-          attrValues = attr.value;
-        } else {
-          attrValues = attr.value.map((attrVal) => {
-            return attrInItems.value.find(
-              (attrItemVal) => attrItemVal.slug === attrVal
-            );
-          });
-        }
-
-        normFilterValues[attr.name] = attrValues;
-      });
-      delete filterValues.attributes;
-      Object.keys(filterValues).map((filterSlug) => {
-        const paramInItems = this.staticFilters.find(
-          (filter) => filter.name.slug === filterSlug
-        );
-        if (!paramInItems) return;
-        let filterValue;
-        if (paramInItems.name.attribute_type === "decimal") {
-          filterValue = filterValues[filterSlug];
-        } else {
-          filterValue = filterValues[filterSlug].map((filterVal) => {
-            return paramInItems.value.find(
-              (filterItemVal) => filterItemVal.slug === filterVal
-            );
-          });
-        }
-
-        normFilterValues[filterSlug] = filterValue;
-      });
-      normFilterValues = { ...normFilterValues };
-      this.values = normFilterValues;
+      this.values = this.valueObj;
     },
     changeFilter(event, filterItem) {
       const value = event;
@@ -158,14 +108,22 @@ export default {
     },
 
     apply() {
-      console.log(this.values);
-      this.change({ values: { ...this.values, sort_by: this.sortBy } });
+      this.$store.commit("filters/setValuesFromValues", this.values);
+      this.$store.commit("filters/setSort", this.sortBy);
+      this.$router.push({
+        query: { ...this.$store.getters["filters/filtersToQuery"] },
+      });
       this.$emit("close");
     },
     cancel() {
       this.$emit("close");
     },
   },
+  watch: {
+    valueObj() {
+      this.vaues = this.valueObj
+    }
+  }
 };
 </script>
 

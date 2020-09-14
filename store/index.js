@@ -31,21 +31,26 @@ export const mutations = {
   },
   initCurrency(state) {
     const currency = this.$cookies.get('currency')
-    if(currency) {
-      state.activeCurrencySymbol = currency
-      return
+    if (currency) {
+      if (state.currencies.findIndex(cur => cur.symbol === currency) > -1) {
+        state.activeCurrencySymbol = currency
+        return
+      }
+
     }
     this.commit('selectCurrency', this.getters.currencies[0].symbol)
   }
 }
 export const actions = {
-  async nuxtServerInit({ commit }, {app}) {
+  async nuxtServerInit({ commit }, { app, i18n, route }) {
     try {
       const languages = await this.$api.$get('languages')
       commit('setLanguages', languages)
       const currencies = await this.$api.$get('currencies')
       commit('setCurrencies', currencies)
       commit('initCurrency')
+      commit('cart/init')
+      
     } catch (err) {
       this.$error(err)
     }

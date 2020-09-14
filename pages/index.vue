@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
       <h1 class="title">
-        <CButton color="primary">Click me</CButton>
 
         frontend
       </h1>
