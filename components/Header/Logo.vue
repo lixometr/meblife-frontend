@@ -26,6 +26,7 @@ export default {
     width: 78px;
     color: $orange;
     margin-bottom: 5px;
+    transform: rotate(180deg);
     @include md {
       width: 40px;
     }

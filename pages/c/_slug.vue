@@ -63,7 +63,7 @@
             <SearchBtn variant="light" text="Категории поиска" />
             <CategoriesBar class="md-hidden mt-5" :categories="categoriesPrimary" />
           </div>
-          <div class="category-page__content flex-1">
+          <div class="category-page__content mw-100 flex-1">
             <nuxt-child :isLoading="isLoading" :items="items" :info="itemsInfo" :filters="filters" />
           </div>
         </div>
@@ -139,7 +139,6 @@ export default {
       return this.$route.path === this.$url.category(this.$route.params.slug);
     },
     headerImage() {
-      console.log(this.category)
       return (
         (this.category.bg_image && this.category.bg_image.url) ||
         "https://cdn.wonder.pl/cdn-cgi/image/width=1920,height=1920,quality=85,format=auto/category-image/f58e28f1944986e847ffb0dd3518993ddcbd2a23.jpg"
@@ -154,14 +153,12 @@ export default {
     },
     categoryFullName() {
       const filterVales = this.$store.getters["filters/valueObj"];
-      console.log(filterVales);
       let sufix = "";
       if (filterVales.manufacturer) {
         sufix += ` - ${filterVales.manufacturer[0].name}`;
       }
       Object.keys(filterVales).map((filterSlug) => {
         const isAttr = this.$store.getters["filters/isAttribute"](filterSlug);
-        console.log(isAttr)
         if (!isAttr) return;
         const attrType = this.$store.getters["filters/getFilterType"](
           filterSlug
@@ -244,6 +241,7 @@ export default {
         const result = await this.$api.$get("categoryInspirations", {
           slug: this.$route.params.slug,
         });
+        this.items = result
       } catch (err) {
         this.$error(err);
       }

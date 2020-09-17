@@ -24,9 +24,9 @@
           <div class="overflow-auto flex-1">
             <h6 class="mt-2 mb-2 uppercase text-center">Соответствующие продукты</h6>
             <div class="panel-look__products flex flex-wrap">
-              <div class="panel-look__product" v-for="(product, idx) in products" :key="idx">
-                <div @click="goToItem(product.slug)" class="bg-grey cursor-pointer rounded-10 p-6">
-                  <img class="no-bg size-contain w-100 h-100" :src="product.default_image.url" alt />
+              <div class="panel-look__product " v-for="(product, idx) in products" :key="idx">
+                <div @click="goToItem(product.slug)" class="position-relative h-100 bg-grey cursor-pointer rounded-10 p-6">
+                  <img class=" no-bg size-contain w-100 h-100" :src="product.default_image.url" alt />
                 </div>
               </div>
             </div>

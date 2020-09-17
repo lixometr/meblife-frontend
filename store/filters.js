@@ -72,8 +72,14 @@ export const getters = {
         let query = {}
         const filters = getters.getFiltersToQuery(getters.valueObj)
         query = { ...query, ...filters }
-        query.sort_by = getters.sortBy
-        query.delivery = getters.delivery
+        if (getters.sortBy) {
+            query.sort_by = getters.sortBy
+
+        }
+        if (getters.delivery) {
+            query.delivery = getters.delivery
+
+        }
         return query
     },
     delivery(state) {
@@ -114,7 +120,7 @@ export const getters = {
             const filterType = inFilterItems.name.attribute_type
             let filterActiveValues = []
             if (filterType === 'decimal') {
-                filterActiveValues = inFilterItems.value
+                filterActiveValues = allValuesObj[valueNameSlug]
             } else {
                 filterActiveValues = inFilterItems.value.filter(filterValue => {
                     return allValuesObj[valueNameSlug].includes(filterValue.slug)
@@ -133,7 +139,7 @@ export const getters = {
     allValuesObj(state, getters) {
         const result = { ...getters.notAttrFilterValues }
         const valueAttributes = state.values && state.values.attributes
-        if(!valueAttributes) return result
+        if (!valueAttributes) return result
 
         valueAttributes.map(valueAttr => {
             result[valueAttr.name] = valueAttr.value
@@ -176,7 +182,7 @@ export const getters = {
     },
     isAttribute(state, getters) {
         return (slug) => {
-            return !Object.keys(getters.notAttrFilterValues).includes(slug) 
+            return !Object.keys(getters.notAttrFilterValues).includes(slug)
         }
     },
     /*
@@ -204,18 +210,36 @@ export const mutations = {
         state.items = items
     },
     setValues(state, values) {
+        console.log('setting', values)
+
         state.values = values
     },
 
     setValuesFromValues(state, values) {
         const newValues = this.getters['filters/getFiltersToQuery'](values)
-        this.commit("filters/setValues", filtersFromQuery(newValues));
+        const newItems = filtersFromQuery(newValues)
+
+        this.commit("filters/setValues", newItems);
     },
     setSort(state, sortBy) {
         state.sortBy = sortBy
     },
     setDelivery(state, delivery) {
         state.delivery = delivery
+    },
+    removeFilter(state, slug) {
+        const isAttr = this.getters['filters/isAttribute'](slug)
+        if (isAttr) {
+            const attributes = state.values.attributes.filter(attr => attr.name !== slug)
+            const newValues = { ...state.values, attributes }
+            this.commit("filters/setValues", newValues);
+
+        } else {
+            const newValues = { ...state.values }
+            newValues[slug] = undefined
+            this.commit("filters/setValues", newValues);
+
+        }
     },
     resetFilterValues(state) {
         this.commit('filters/setValues', filtersFromQuery({}))

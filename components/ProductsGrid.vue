@@ -113,6 +113,9 @@ export default {
 <style lang="scss">
 .products-grid {
   min-width: 400px;
+  @include sm {
+    min-width: auto;
+  }
   &__wrapper {
     width: 100%;
     margin-left: -0.5rem;

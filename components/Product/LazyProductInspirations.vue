@@ -1,8 +1,8 @@
 <template>
   <div class="similar-products-slider overflow-hidden" v-if="items.length">
     <div class="container">
-      <h3 class="mb-4">Товары похожие на этот</h3>
-      <ProductsSlider :items="items" />
+      <h3 class="mb-4">{{$t('productSimilarInspirations')}}</h3>
+      <InspirationsSlider :items="items" size="lg" />
     </div>
   </div>
 </template>
@@ -17,20 +17,15 @@ export default {
   beforeMount() {
     this.loadData();
   },
-  computed: {
-currency() {
-  return this.$store.getters.currency
-}
-  },
   methods: {
     async loadData() {
       try {
-        const data = await this.$api.$get("similarProductItems", {
+        const data = await this.$api.$get("productInspirations", {
           slug: this.$route.params.slug,
         });
         this.items = data || [];
       } catch (err) {
-        console.log(err);
+        this.$error(err)
       }
     },
   },

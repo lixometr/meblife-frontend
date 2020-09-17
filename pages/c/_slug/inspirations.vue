@@ -1,23 +1,26 @@
 <template>
-  <div class="category-inspirations">
-    <div class="inspirations-list">
-      <nuxt-link
-        :to="$url.inspiration(inspiration.slug)"
-        class="inspirations-list__item"
-        v-for="inspiration in inspirations"
-        :key="inspiration._id"
-      >
-        <img
-          class="inspirations-list__item-image size-cover w-100 h-auto"
-          :src="inspiration.image.url"
-          :alt="inspiration.name"
-        />
-        <p class="inspirations-list__item-title color-white text-16">{{inspiration.name}}</p>
-        <div class="inspirations-list__item-btn btn btn-circle  btn-blur color-white">
-          <svgFullScreen width="26" />
-        </div>
-      </nuxt-link>
-    </div>
+  <div class="category-inspirations position-relative">
+    <Loader v-if="isLoading" key="isLoading" />
+    <template v-else>
+      <div class="inspirations-list">
+        <nuxt-link
+          :to="$url.inspiration(inspiration.slug)"
+          class="inspirations-list__item"
+          v-for="inspiration in inspirations"
+          :key="inspiration._id"
+        >
+          <img
+            class="inspirations-list__item-image size-cover w-100 h-auto"
+            :src="inspiration.image.url"
+            :alt="inspiration.name"
+          />
+          <p class="inspirations-list__item-title color-white text-16">{{inspiration.name}}</p>
+          <div class="inspirations-list__item-btn btn btn-circle btn-blur color-white">
+            <svgFullScreen width="26" />
+          </div>
+        </nuxt-link>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -27,12 +30,14 @@ export default {
   name: "CategoryInspirations",
   props: {
     items: Array,
+    isLoading: Boolean,
   },
   components: {
     svgFullScreen,
   },
   computed: {
     inspirations() {
+      return this.items;
       return [
         {
           image: {
@@ -93,12 +98,12 @@ export default {
     position: relative;
     font-size: 0;
     @include xl {
-        width: calc(50% - 15px);
+      width: calc(50% - 15px);
     }
     @include md {
-        margin-right: 0;
+      margin-right: 0;
 
-        width: 100%;
+      width: 100%;
     }
     &::before {
       content: "";

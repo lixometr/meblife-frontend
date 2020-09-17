@@ -15,6 +15,15 @@
                 <svgHeartStroke width="24" />
               </div>
             </div>
+            <div class="product-labels">
+              <template v-if="labels.length > 0">
+                <div
+                  class="bg-white border uppercase pl-4 pt-1 pb-1 pr-4 mb-2 border-grey text-12"
+                  v-for="label in labels"
+                  :key="label._id"
+                >{{label.name}}</div>
+              </template>
+            </div>
             <div class="product-slider-wrapper pr-7 pl-7">
               <AppSlider
                 class="product-slider overflow-hidden"
@@ -58,11 +67,8 @@
             <span class="font-bold mr-1 text-18">{{priceWithCurrency}}</span>
             <s class="text-14" v-if="oldPrice">{{oldPriceWithCurrency}}</s>
           </div>
-          <div class="mt-2" v-if="saleExpires">
-            {{$t('promotionText[0]')}}
-            <b>{{$moment(new Date(saleExpires)).format('DD.MM.YYYY')}}</b>
-            {{$t('promotionText[1]')}}
-          </div>
+
+          <div class="mt-2 text-14" v-if="saleExpires" v-html="promotionText"></div>
 
           <div class="flex mt-5">
             <ProductCnt class="product__cnt" v-model="productCnt" />
@@ -112,9 +118,9 @@
               </div>
               <div>
                 <p>
-                  Доставка 
+                  Доставка
                   <b v-if="!freeDelivery">с оплатой 14,90 {{currency}}</b>
-                  <b class="font-bold uppercase" v-else>{{$t('freeDelivery')}} </b>
+                  <b class="font-bold uppercase" v-else>{{$t('freeDelivery')}}</b>
                 </p>
               </div>
             </div>
@@ -143,8 +149,9 @@
       </template>
       <template v-slot:btnText>Показать детали бренда</template>
     </ArrowExpand>
-
+    <LazyProductLooks />
     <LazyProductSimilarItems />
+    <LazyProductInspirations />
     <LazyProductSimilarCategories />
     <ProductCategories :items="categories" :activeCategory="category" />
   </div>
@@ -170,10 +177,11 @@ import ProductCnt from "@/components/Product/ProductCnt";
 // import ProductSimilarItems from "@/components/Product/ProductSimilarItems";
 // import ProductSimilarCategories from "@/components/Product/ProductSimilarCategories";
 export default {
+  name: "ProductSlug",
   head() {
     return {
-      title:  this.product.full_name
-    }
+      title: this.product.full_name,
+    };
   },
   components: {
     svgHeartStroke,
@@ -223,6 +231,16 @@ export default {
       }
       return false;
     },
+    labels() {
+      return this.product.labels || [];
+    },
+    promotionText() {
+      const saleText = this.$t("promotionText");
+      const date = this.$moment(new Date(this.saleExpires)).format(
+        "DD.MM.YYYY"
+      );
+      return saleText.replace("{{date}}", `<b>${date}</b>`);
+    },
     saleExpires() {
       if (this.product.promotion) {
         return this.product.promotion.end_at;
@@ -262,115 +280,6 @@ export default {
           name:
             "Тренировочная резинка Power Band GT by Tiguar уровень 3 оливковый",
           slug: "#",
-        },
-      ];
-    },
-    similarItems() {
-      return [
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морских",
-          price: "65 злотых",
-          delivery: "24",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морски asdd as dsad sad sa sa",
-          price: "65 злотых",
-          delivery: "24",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морских",
-          price: "65 злотых",
-          delivery: "24",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морских",
-          price: "65 злотых",
-          delivery: "24",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морских",
-          price: "65 злотых",
-          delivery: "24",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морских",
-          price: "65 злотых",
-          delivery: "24",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морских",
-          price: "65 злотых",
-          delivery: "24",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морских",
-          price: "65 злотых",
-          delivery: "24",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морских",
-          price: "65 злотых",
-          delivery: "24",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морских",
-          price: "65 злотых",
-          delivery: "24",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морских",
-          price: "65 злотых",
-          delivery: "24",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морских",
-          price: "65 злотых",
-          delivery: "24",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/product-file/81d253831a8461b279215ee5b281cb140095e80f.jpg",
-          name: "Резина для морских",
-          price: "65 злотых",
-          delivery: "24",
-        },
-      ];
-    },
-    similarCategories() {
-      return [
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/category-image-b95c44c4ad17aa52b4471a7f007824fae0b3d321.jpg",
-          name: "Бутылки с водой",
-        },
-        {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=300,height=300,quality=85,format=auto/category-image-01059c8c76a7aba4920ba6b2f6dc409432cdc96b.jpg",
-          name: "Бутылки ",
         },
       ];
     },
@@ -422,24 +331,6 @@ export default {
     },
     description() {
       return this.product.description;
-      return `
-        <div class="text-14">
-          <p
-            class="mt-3"
-          >Специальные каучуки, подготовленные в сотрудничестве с Якубом Подгорски, создателем концепции GT. Это чрезвычайно прочные каучуки, которые используются не только в этом виде тренировок, но и в комплексной спортивной (моторной) подготовке. Благодаря четырем уровням сопротивления их можно легко выбрать в зависимости от потребностей тренирующегося и уровня подготовки. Их инновация заключается в новаторской системе маркировки степени сопротивления резины, которая показывает, сколько силы еще нужно приложить для оптимального растяжения во время упражнения.</p>
-          <div class="mt-4">
-            <p>1-й уровень сопротивления - слива;</p>
-            <p>2 уровень сопротивления - море;</p>
-            <p>3 уровень устойчивости - оливковый;</p>
-            <p>Уровень сопротивления 4 - серый.</p>
-          </div>
-          <div class="mt-4">
-            <p>Растяжка силового диапазона:</p>
-            <p>- удлинение на 50% - 4 кг;</p>
-            <p>- 100% удлинение - 8 кг;</p>
-            <p>- удлинение на 200% - 15 кг.</p>
-          </div>
-        </div>`;
     },
   },
   methods: {
@@ -456,7 +347,7 @@ export default {
         id: this.product._id,
         cnt: this.productCnt,
       });
-      console.log(isNew)
+      console.log(isNew);
       this.openCartModal(isNew);
     },
     openCartModal(added) {
@@ -501,6 +392,12 @@ export default {
       width: 100%;
       padding-left: 0;
     }
+  }
+  .product-labels {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    z-index: 30;
   }
 
   .product-delivery__icon {

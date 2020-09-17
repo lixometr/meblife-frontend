@@ -23,7 +23,6 @@ export default {
   buyLook: "Купить образ",
   from: "От",
   to: "До",
-  promotionText: ['Акция продлится до', 'или пока есть запасы!'],
   back: "Назад",
   toCart: "В корзину",
   itemsInCart: "Товары в вашей корзине",
@@ -32,5 +31,9 @@ export default {
   deliveryText: "Доставка",
   totalSum: "Общая сумма",
   taxCart: "В том числе налог 27% ндс",
-  freeDelivery: "Бесплатная доставка"
+  freeDelivery: "Бесплатная доставка",
+  promotionText: "Акция продлится до {{date}} или пока есть запасы!",
+  inspirationsSimilar: 'Предварительный просмотр выбранных коллекций',
+  productSimilarInspirations: 'Вдохновения',
+  productLooks: 'Образы продукта: '
 }

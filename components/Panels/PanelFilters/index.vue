@@ -121,7 +121,7 @@ export default {
   },
   watch: {
     valueObj() {
-      this.vaues = this.valueObj
+      this.values = this.valueObj
     }
   }
 };

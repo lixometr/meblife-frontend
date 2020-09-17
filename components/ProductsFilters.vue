@@ -49,17 +49,19 @@
       </div>
     </div>
     <div class="flex flex-wrap mt-3" v-if="hasFilters">
-      <span class="btn btn-white btn-sm mr-2" v-for="(value, filterSlug, index) in filterValues" :key="index">
+      <span
+        class="btn btn-white btn-sm mr-2"
+        v-for="(value, filterSlug, index) in filterValues"
+        :key="index"
+      >
         <span class="mr-1">{{$store.getters['filters/getFilterName'](filterSlug)}}:</span>
-         <span
-          v-for="(filterValue, idx) in value"
-          :key="idx"
-        >
+        <span v-for="(filterValue, idx) in value" :key="idx">
           <template
             v-if="$store.getters['filters/getFilterType'](filterSlug) === 'decimal'"
           >{{filterValue}}{{ value.length - 1 > idx ? ', ' : ""}}</template>
           <template v-else>{{filterValue.name}}{{ value.length - 1 > idx ? ', ' : ""}}</template>
         </span>
+        <svgClose class="ml-1" width="20" @click="removeFilter(filterSlug)" />
       </span>
       <span class="btn btn-white btn-sm" @click="resetFilters">{{$t('resetFilters')}}</span>
     </div>
@@ -71,6 +73,7 @@ import svgFilter from "@/assets/icons/filter.svg";
 import svgSort from "@/assets/icons/sort.svg";
 import svgTruck from "@/assets/icons/truck.svg";
 import svgTriangle from "@/assets/icons/arrow-down-triangle.svg";
+import svgClose from "@/assets/icons/close.svg";
 import { filtersFromQuery } from "@/helpers/functions";
 import _ from "lodash";
 export default {
@@ -88,6 +91,7 @@ export default {
     svgSort,
     svgTruck,
     svgTriangle,
+    svgClose,
   },
   computed: {
     hasFilters() {
@@ -127,6 +131,10 @@ export default {
       this.$store.commit("filters/setDelivery", undefined);
       this.setQueryUrl();
     },
+    removeFilter(filterSlug) {
+      this.$store.commit('filters/removeFilter', filterSlug)
+      this.setQueryUrl()
+    },
     onFilterChange({ values }) {
       this.setQueryUrl();
     },
@@ -142,7 +150,6 @@ export default {
   },
   watch: {
     "$route.query"() {
-      console.log("changed");
       this.$store.commit("filters/init", this.$route.query);
       // this.delivery = this.$route.query.delivery || undefined;
     },

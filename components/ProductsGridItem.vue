@@ -3,9 +3,16 @@
     <nuxt-link class="d-block h-100 no-underline position-relative" :to="$url.product(item.slug)">
       <div class="products-grid-item__labels z-1">
         <div
-          class="products-grid-item__label bg-white border color-orange pl-4 pt-1 pb-1 pr-4 mb-3 border-grey text-12"
+          class="products-grid-item__label bg-white border color-orange pl-4 pt-1 pb-1 pr-4 mb-2 border-grey text-12"
           v-if="sale"
         >-{{sale}}%</div>
+        <template v-if=" labels.length > 0">
+          <div
+            class="products-grid-item__label bg-white border uppercase pl-4 pt-1 pb-1 pr-4 mb-2 border-grey text-12"
+            v-for="label in labels"
+            :key="label._id"
+          >{{label.name}}</div>
+        </template>
       </div>
       <div class="products-grid-item__img" v-ripple.300>
         <img class="no-bg size-contain" :src="image" :alt="name" />
@@ -54,6 +61,9 @@ export default {
     },
     sale() {
       return this.item.promotion && this.item.promotion.value;
+    },
+    labels() {
+      return this.item.labels || []
     },
     currency() {
       return this.$store.getters.currency;

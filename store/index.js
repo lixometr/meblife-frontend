@@ -1,7 +1,8 @@
 export const state = () => ({
   activeCurrencySymbol: '',
   currencies: [],
-  languages: []
+  languages: [],
+  defaultCurrencyId: ''
 })
 export const getters = {
   currencies(state) {
@@ -36,9 +37,16 @@ export const mutations = {
         state.activeCurrencySymbol = currency
         return
       }
-
     }
-    this.commit('selectCurrency', this.getters.currencies[0].symbol)
+    let idx = this.getters.currencies.findIndex(cur => cur._id == state.defaultCurrencyId)
+    if (idx < 0) {
+      idx = 0
+    }
+
+    this.commit('selectCurrency', this.getters.currencies[idx].symbol)
+  },
+  setDefaultCurrencyId(state, id) {
+    state.defaultCurrencyId = id
   }
 }
 export const actions = {
@@ -47,13 +55,15 @@ export const actions = {
       const languages = await this.$api.$get('languages')
       commit('setLanguages', languages)
       const currencies = await this.$api.$get('currencies')
+      const defaultCurrencyId = await this.$api.$get('settingByName', { name: 'currency' })
+      commit('setDefaultCurrencyId', defaultCurrencyId)
       commit('setCurrencies', currencies)
       commit('initCurrency')
       commit('cart/init')
-      
+
     } catch (err) {
       this.$error(err)
     }
+  },
 
-  }
 }

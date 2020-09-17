@@ -3,7 +3,7 @@
     <ProductsFilters class="mb-3" :items="filters" />
     <Loader v-if="isLoading" />
     <template v-else>
-      <div class="mb-3 text-14">{{totalProducts}} {{itemSclon}} | {{nowPage}} из {{totalPages}}</div>
+      <div class="mb-3 text-14" v-if="info">{{totalProducts}} {{itemSclon}} | {{nowPage}} из {{totalPages}}</div>
       <ProductsGrid :items="items" />
     </template>
   </div>

@@ -50,10 +50,23 @@
 .text-left {
   text-align: left;
 }
+.text-right {
+  text-align: right;
+}
 
 .text-md-left {
   @include md {
     text-align: left;
+  }
+}
+.text-md-center {
+  @include md {
+    text-align: center;
+  }
+}
+.text-md-right {
+  @include md {
+    text-align: right;
   }
 }
 
