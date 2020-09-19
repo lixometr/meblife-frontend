@@ -15,7 +15,7 @@
         </template>
       </div>
       <div class="products-grid-item__img" v-ripple.300>
-        <img class="no-bg size-contain" :src="image" :alt="name" />
+        <AppImage class="no-bg " contain v-bind="image" :alt="name" />
       </div>
       <div class="products-grid-item__name mt-4 mb-2">
         <h3 class="truncate text-14 font-bold capitalize hover-underline">{{name}}</h3>
@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     image() {
-      return this.item.default_image && this.item.default_image.url;
+      return this.item.default_image ;
     },
     name() {
       return this.item.full_name;

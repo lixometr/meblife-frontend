@@ -9,10 +9,11 @@
           v-for="inspiration in inspirations"
           :key="inspiration._id"
         >
-          <img
+          <AppImage
             class="inspirations-list__item-image size-cover w-100 h-auto"
-            :src="inspiration.image.url"
+            v-bind="inspiration.image"
             :alt="inspiration.name"
+            
           />
           <p class="inspirations-list__item-title color-white text-16">{{inspiration.name}}</p>
           <div class="inspirations-list__item-btn btn btn-circle btn-blur color-white">
@@ -28,6 +29,7 @@
 import svgFullScreen from "@/assets/icons/fullscreen.svg";
 export default {
   name: "CategoryInspirations",
+  inheritAttrs: false,
   props: {
     items: Array,
     isLoading: Boolean,

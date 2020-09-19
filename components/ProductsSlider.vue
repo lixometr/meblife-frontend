@@ -12,7 +12,7 @@
         >
           <div class="p-5 flex-1">
             <div class="position-relative h-100">
-              <img class="size-contain absolute-full" :src="item.default_image && item.default_image.url" alt />
+              <AppImage class="size-contain absolute-full" v-bind="item.default_image"  />
             </div>
           </div>
           <div class="text-14">

@@ -1,11 +1,15 @@
 <template>
   <div class="container pb-8" v-if="show">
-    <div class="flex md-column mb-5" style="height: 500px" v-if="imageLeft || imageRight">
+    <div
+      class="flex md-column mb-5"
+      style="height: 500px"
+      v-if="(imageLeft && imageLeft.url) || (imageRight && imageRight.url)"
+    >
       <div class="flex-1 position-relative mr-3">
-        <img class="absolute-full size-cover" :src="imageLeft" alt />
+        <AppImage class="absolute-full size-cover" v-bind="imageLeft" />
       </div>
       <div class="flex-1 position-relative">
-        <img class="absolute-full size-cover" :src="imageRight" alt />
+        <AppImage class="absolute-full size-cover" v-bind="imageRight" />
       </div>
     </div>
     <div class="mb-8">
@@ -18,21 +22,27 @@
 
 <script>
 export default {
-    props: {
-        title: String,
-        text: String,
-        imageLeft: String,
-        imageRight: String,
-        products: {
-          type: Array,
-          default: () => ([])
-        }
+  props: {
+    title: String,
+    text: String,
+    imageLeft: Object,
+    imageRight: Object,
+    products: {
+      type: Array,
+      default: () => [],
     },
-    computed: {
-      show() {
-        return this.title || this.text || this.imageLeft || this.imageRight || this.products.length > 0
-      }
-    }
+  },
+  computed: {
+    show() {
+      return (
+        this.title ||
+        this.text ||
+        (this.imageLeft && this.imageLeft.url) ||
+        (this.imageRight && this.imageRight.url) ||
+        this.products.length > 0
+      );
+    },
+  },
 };
 </script>
 

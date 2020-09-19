@@ -9,9 +9,9 @@
     >
       <template v-slot:slide="{item}">
         <nuxt-link :to="$url.inspiration(item.slug)" class="d-block inspiration-item w-100 h-100">
-          <img
+          <AppImage
             class="inspiration-item-image size-cover w-100 h-auto"
-            :src="item.image.url"
+            v-bind="item.image"
             :alt="item.name"
           />
           <p class="inspiration-item-title color-white text-14">{{item.name}}</p>

@@ -29,9 +29,8 @@
             v-show-slide="!showAttrs"
           >
             <template v-slot:slide="{item, idx}">
-              <img
-                :src="item.url"
-                alt
+              <AppImage
+                v-bind="item"
                 class="size-contain no-bg cursor-pointer"
                 @click="openSliderModal(idx)"
               />

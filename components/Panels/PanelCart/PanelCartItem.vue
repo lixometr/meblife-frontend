@@ -3,7 +3,7 @@
     <div class="flex">
       <div class="panel-cart__item-img shadow ">
         <nuxt-link class="position-relative d-block w-100 h-100" :to="$url.product(item.slug)">
-          <img class="absolute-full size-contain" :src="image" alt />
+          <AppImage class="absolute-full size-contain" v-bind="image"  />
         </nuxt-link>
       </div>
       <div class="panel-cart__item-content pl-3">
@@ -68,7 +68,7 @@ export default {
       return this.item.delivery_24;
     },
     image() {
-      return this.item.default_image && this.item.default_image.url;
+      return this.item.default_image ;
     },
     price() {
       return this.item.price;

@@ -30,7 +30,7 @@
       >
         <template v-slot:slide="{item}">
           <div class="slider-modal-slider__item cursor-pointer">
-            <img :src="item.url" :alt="item.alt" />
+            <AppImage v-bind="item"  />
           </div>
         </template>
       </AppSlider>

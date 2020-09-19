@@ -11,10 +11,10 @@
             :key="look._id"
             @click="openLook(look._id)"
           >
-            <img
-            data-not-lazy
+            <AppImage
+              data-not-lazy
               class="looks-list__item-image w-100 h-auto"
-              :src="look.image && look.image.url"
+              v-bind="look.image"
               :alt="look.name"
             />
             <div class="looks-list__item-btn btn btn-circle btn-blur color-white">

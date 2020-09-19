@@ -4,6 +4,7 @@
 
     <SliderModal />
     <div class="container">
+      <ModuleGroupsArea :moduleGroups="moduleGroupsTop" />
       <div class="flex md-column">
         <div class="product__images-wrapper">
           <div class="product__images">
@@ -31,7 +32,12 @@
                 :slideClass="['bg-pale']"
               >
                 <template v-slot:slide="{item, idx}">
-                  <img :src="item.url" alt class="size-contain no-bg" @click="openSliderModal(idx)" />
+                  <AppImage
+                    v-bind="item"
+                    alt
+                    class="size-contain no-bg"
+                    @click="openSliderModal(idx)"
+                  />
                 </template>
               </AppSlider>
             </div>
@@ -48,7 +54,7 @@
           <div class="product-info__top flex align-center justify-between">
             <div class="product__brand">
               <nuxt-link :to="$url.manufacturer(product.manufacturer.slug)">
-                <img :src="brandImage" alt="brand" />
+                <AppImage v-bind="brandImage" />
               </nuxt-link>
             </div>
             <div class="product__labels shrink-0">
@@ -144,7 +150,7 @@
     <ArrowExpand class="md-hidden">
       <template v-slot:default>
         <div class="product-brand__details flex justify-center mb-5">
-          <img width="200" :src="brandImage" alt />
+          <AppImage width="200" v-bind="brandImage" />
         </div>
       </template>
       <template v-slot:btnText>Показать детали бренда</template>
@@ -154,6 +160,9 @@
     <LazyProductInspirations />
     <LazyProductSimilarCategories />
     <ProductCategories :items="categories" :activeCategory="category" />
+    <div class="container">
+      <ModuleGroupsArea :moduleGroups="moduleGroupsBottom" />
+    </div>
   </div>
 </template>
 <script>
@@ -210,10 +219,19 @@ export default {
       const productCategories = await $api.$get("categoryParents", {
         slug: product.primary_category.slug,
       });
-      console.log(productCategories);
+      const moduleGroupsBottom = await store.dispatch(
+        "fetchModuleGroups",
+        product.module_groups_bottom
+      );
+      const moduleGroupsTop = await store.dispatch(
+        "fetchModuleGroups",
+        product.module_groups_top
+      );
       return {
         product,
         productCategories,
+        moduleGroupsBottom,
+        moduleGroupsTop,
       };
     } catch (err) {
       error(err);
@@ -319,7 +337,7 @@ export default {
       return this.oldPrice + " " + this.currency;
     },
     brandImage() {
-      return this.product.manufacturer.image.url;
+      return this.product.manufacturer.image;
 
       return "https://cdn.wonder.pl/cdn-cgi/image/width=88,height=88,quality=85,format=auto/manufacturer/b59bf0599981f8f0f3466acc754347c9af69fbbf.jpg";
     },

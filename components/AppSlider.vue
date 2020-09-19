@@ -9,7 +9,7 @@
       >
         <swiper-slide v-for="(item, idx) in items" :key="idx" :class="slideClass">
           <slot name="slide" :item="item" :idx="idx">
-            <img :src="item.url" alt class="size-contain no-bg" />
+            <AppImage v-bind="item"  alt class="size-contain no-bg" />
           </slot>
         </swiper-slide>
         <div

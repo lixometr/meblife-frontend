@@ -2,7 +2,7 @@
   <div class="inspiration-page">
     <Header class="default-header" variant="dark" />
     <div class="page-header">
-      <img :src="headerImage" class="page-header__image" alt />
+      <AppImage v-bind="headerImage" class="page-header__image" alt />
       <div class="image-placeholder"></div>
 
       <div class="page-header__content">
@@ -33,15 +33,16 @@
           :imageRight="secondBlockImageRight"
           :products="products2"
         />
-        <InspirationBlock
-          :products="products3"
-        />
+        <InspirationBlock :products="products3" />
         <!-- <InspirationSlider class="mt-4" :items="products3" v-if="products3.length > 0" /> -->
-        <div class="mt-3" v-if="separatorImage">
-          <img class="w-100 size-cover" :src="separatorImage" alt />
+        <div class="mt-3" v-if="separatorImage && separatorImage.url">
+          <AppImage class="w-100 size-cover" v-bind="separatorImage" hide />
         </div>
       </section>
-      <section class="inspiration-page__similar mt-5 overflow-hidden" v-if="smilarInspirations.length > 0">
+      <section
+        class="inspiration-page__similar mt-5 overflow-hidden"
+        v-if="smilarInspirations.length > 0"
+      >
         <div class="container">
           <div class="font-bold mb-3">{{$t('inspirationsSimilar')}}:</div>
           <SimilarInspirations :items="smilarInspirations" />
@@ -82,13 +83,15 @@ export default {
   },
   computed: {
     smilarInspirations() {
-      return [
-        this.inspiration,
-        this.inspiration,
-        this.inspiration,
-        this.inspiration,
-        this.inspiration,
-      ] || []
+      return (
+        [
+          this.inspiration,
+          this.inspiration,
+          this.inspiration,
+          this.inspiration,
+          this.inspiration,
+        ] || []
+      );
     },
     hasTemplate() {
       return !this.inspiration.no_template;
@@ -97,10 +100,7 @@ export default {
       return this.$store.getters.currency;
     },
     headerImage() {
-      return (
-        (this.inspiration.header_image && this.inspiration.header_image.url) ||
-        ""
-      );
+      return this.inspiration.header_image;
 
       return "https://cdn.wonder.pl/cdn-cgi/image/width=1435,height=1435,quality=85,format=auto/inspiration-b656afbeac380fe0fe1f3f25b994abbd67ff1391.jpg";
     },
@@ -130,12 +130,12 @@ export default {
       return "БЛИЖЕ К ПРИРОДЕ - СТУЛЬЯ ИЗ НАТУРАЛЬНЫХ МАТЕРИАЛОВ";
     },
     firstBlockImageLeft() {
-      return this.inspiration.first_block_image_left.url;
+      return this.inspiration.first_block_image_left;
 
       return "https://cdn.wonder.pl/cdn-cgi/image/width=1000,height=1000,quality=85,format=auto/inspiration-dd333f9735915e09696c0ee4f9683f7fc16356c3.jpg";
     },
     firstBlockImageRight() {
-      return this.inspiration.first_block_image_right.url;
+      return this.inspiration.first_block_image_right;
 
       return "https://cdn.wonder.pl/cdn-cgi/image/width=1000,height=1000,quality=85,format=auto/inspirationPageImage/inspirationPageImage20190205-28044-1ejrc3v.jpg";
     },
@@ -146,12 +146,12 @@ export default {
       return this.inspiration.second_block_introduction_title;
     },
     secondBlockImageLeft() {
-      return this.inspiration.second_block_image_left.url;
+      return this.inspiration.second_block_image_left;
 
       return "https://cdn.wonder.pl/cdn-cgi/image/width=1000,height=1000,quality=85,format=auto/inspiration-51041fc6e3c20993be5222a0cc9624a484eed06d.jpg";
     },
     secondBlockImageRight() {
-      return this.inspiration.second_block_image_right.url;
+      return this.inspiration.second_block_image_right;
 
       return "https://cdn.wonder.pl/cdn-cgi/image/width=1000,height=1000,quality=85,format=auto/inspiration-1433d9efe008eac8832cb9e62d3aac3957b38a24.jpg";
     },
@@ -259,7 +259,7 @@ export default {
       return this.inspiration.products3;
     },
     separatorImage() {
-      return this.inspiration.separator_image.url;
+      return this.inspiration.separator_image;
     },
   },
 };

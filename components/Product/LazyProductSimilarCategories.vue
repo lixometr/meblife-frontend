@@ -9,9 +9,12 @@
         :height="'400px'"
       >
         <template v-slot:slide="{item}">
-          <nuxt-link :to="$url.category(item.slug)" class="shadow flex flex-column rounded-10 p-4 h-100">
+          <nuxt-link
+            :to="$url.category(item.slug)"
+            class="shadow flex flex-column rounded-10 p-4 h-100"
+          >
             <div class="flex-1 flex align-center">
-              <img :src="item.image && item.image.url" alt />
+              <AppImage v-bind="item.image " />
             </div>
             <p class="font-bold truncate white-space-no-wrap">{{item.name}}</p>
           </nuxt-link>
@@ -29,7 +32,7 @@ export default {
     };
   },
   beforeMount() {
-      this.loadData()
+    this.loadData();
   },
   methods: {
     async loadData() {
@@ -39,7 +42,7 @@ export default {
         });
         this.items = data || [];
       } catch (err) {
-          console.log(err)
+        console.log(err);
       }
     },
   },

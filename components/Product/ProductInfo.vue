@@ -21,7 +21,7 @@
           <div class="product__description" v-if="tabActive === 'description'">
             <h5>ИНФОРМАЦИЯ О ПРОДУКТЕ: {{name}}</h5>
             <div class="bg-pale p-6 mt-3 text-center" v-if="sizeImage">
-              <img :src="sizeImage.url" alt="size_image" />
+              <AppImage v-bind="sizeImage"  />
             </div>
             <div v-html="description"></div>
             <ProductAttrs v-bind="attributes" />
@@ -51,7 +51,7 @@
           <template v-slot:content>
             <div class="pl-4 pt-4 bg-pale">
               <div class="bg-pale p-4 text-center" v-if="sizeImage && sizeImage.url ">
-                <img :src="sizeImage.url" alt="size_image" />
+                <AppImage v-bind="sizeImage"  />
               </div>
               <div v-html="description"></div>
               <ProductAttrs v-bind="attributes" />

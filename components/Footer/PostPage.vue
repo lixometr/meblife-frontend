@@ -1,11 +1,16 @@
 <template>
   <div class="post-page">
     <Module35 />
-    <Module15 title="ВЫ ИЩЕТЕ ЧТО-НИБУДЬ ЕЩЕ? У КОГО ВСЕГДА БУДЕТ МНОГО ВДОХНОВЕНИЯ!" />
+    <Module15
+      class="mb-4"
+      :item="{title: 'ВЫ ИЩЕТЕ ЧТО-НИБУДЬ ЕЩЕ? У КОГО ВСЕГДА БУДЕТ МНОГО ВДОХНОВЕНИЯ!'}"
+    />
     <Module35 :height="30" />
     <Module22 :items="catItems" />
     <Module35 />
-    <Module16 title="САМЫЕ ПОПУЛЯРНЫЕ БРЕНДЫ" :items="brandItems" />
+    <div class="container">
+      <Module16 :item="{title: 'САМЫЕ ПОПУЛЯРНЫЕ БРЕНДЫ', module_images: brandItems}" />
+    </div>
     <Module35 />
     <CategoriesList class="mb-6" />
     <SocLinks />
@@ -125,46 +130,62 @@ export default {
     brandItems() {
       return [
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-d22c14ee4e5335bb8ce6954085e505cb7725c67a.jpg",
-          name: "Актон",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-d22c14ee4e5335bb8ce6954085e505cb7725c67a.jpg",
+          },
+          title: "Актон",
         },
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-e062fd25fe7700ceecf08137b6eca42872049f45.jpg",
-          name: "BLOOMINGVILLE",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-e062fd25fe7700ceecf08137b6eca42872049f45.jpg",
+          },
+          title: "BLOOMINGVILLE",
         },
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-d22c14ee4e5335bb8ce6954085e505cb7725c67a.jpg",
-          name: "Актон",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-d22c14ee4e5335bb8ce6954085e505cb7725c67a.jpg",
+          },
+          title: "Актон",
         },
 
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-d22c14ee4e5335bb8ce6954085e505cb7725c67a.jpg",
-          name: "Актон",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-d22c14ee4e5335bb8ce6954085e505cb7725c67a.jpg",
+          },
+          title: "Актон",
         },
 
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-41cb4ea06b280ed7884d11593cd8a63c0aac67aa.jpg",
-          name: "КАРЕ ДИЗАЙН",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-41cb4ea06b280ed7884d11593cd8a63c0aac67aa.jpg",
+          },
+          title: "КАРЕ ДИЗАЙН",
         },
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-41cb4ea06b280ed7884d11593cd8a63c0aac67aa.jpg",
-          name: "КАРЕ ДИЗАЙН",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-41cb4ea06b280ed7884d11593cd8a63c0aac67aa.jpg",
+          },
+          title: "КАРЕ ДИЗАЙН",
         },
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-41cb4ea06b280ed7884d11593cd8a63c0aac67aa.jpg",
-          name: "КАРЕ ДИЗАЙН",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-41cb4ea06b280ed7884d11593cd8a63c0aac67aa.jpg",
+          },
+          title: "КАРЕ ДИЗАЙН",
         },
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-41cb4ea06b280ed7884d11593cd8a63c0aac67aa.jpg",
-          name: "КАРЕ ДИЗАЙН",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=50,height=50,quality=85,format=auto/module_image-41cb4ea06b280ed7884d11593cd8a63c0aac67aa.jpg",
+          },
+          title: "КАРЕ ДИЗАЙН",
         },
       ];
     },

@@ -1,3 +1,4 @@
+import _ from "lodash"
 export const state = () => ({
   activeCurrencySymbol: '',
   currencies: [],
@@ -50,6 +51,23 @@ export const mutations = {
   }
 }
 export const actions = {
+  /**
+   * 
+   * @param {Array<id>} moduleGroupIds 
+   */
+  async fetchModuleGroups({}, moduleGroupIds) {
+    let moduleGroups = []
+    if (moduleGroupIds && _.isArray(moduleGroupIds) && !_.isEmpty(moduleGroupIds)) {
+      const resolvers = moduleGroupIds.map(async (id) => {
+        const result = await this.$api.$get("moduleGroupById", {
+          id,
+        });
+        return result
+      });
+      moduleGroups = await Promise.all(resolvers)
+      return moduleGroups
+    }
+  },
   async nuxtServerInit({ commit }, { app, i18n, route }) {
     try {
       const languages = await this.$api.$get('languages')

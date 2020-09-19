@@ -9,9 +9,9 @@
     >
       <template v-slot:slide="{item}">
         <div class="d-block inspiration-item w-100 h-100" @click="openLook(item._id)">
-          <img
+          <AppImage
+            v-bind="item.image"
             class="inspiration-item-image size-cover w-100 h-auto"
-            :src="item.image.url"
             :alt="item.name"
           />
           <div class="inspiration-item-btn btn btn-circle btn-blur color-white">
@@ -48,7 +48,6 @@ export default {
         "looks-slider--lg": this.size === "lg",
       };
     },
-
   },
   methods: {
     openLook(id) {
@@ -71,7 +70,7 @@ export default {
     .looks-slider__slider {
       height: 300px !important;
     }
-  } 
+  }
   &.looks-slider--lg {
     .looks-slider__slider {
       height: 400px !important;
