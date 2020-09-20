@@ -1,9 +1,7 @@
 <template>
   <Module id="15">
-    <div class="container">
-      <h2 class="text-24 font-bold uppercase">{{title}}</h2>
-      <div class="text-14" v-if="subTitle">{{subTitle}}</div>
-    </div>
+    <h2 class="text-24 font-bold uppercase">{{title}}</h2>
+    <AppDescription class="text-14" v-if="description" :text="description"></AppDescription>
   </Module>
 </template>
 

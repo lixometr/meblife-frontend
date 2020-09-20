@@ -3,18 +3,36 @@ export const state = () => ({
   activeCurrencySymbol: '',
   currencies: [],
   languages: [],
-  defaultCurrencyId: ''
+  defaultCurrencyId: '',
+  isLoading: false
 })
 export const getters = {
   currencies(state) {
     return state.currencies
   },
+  languages(state) {
+    return state.languages
+  },
   activeCurrency(state) {
     return state.currencies.find(cur => cur.symbol === state.activeCurrencySymbol) || {}
+  },
+  getLanguageByLocale(state, getters) {
+    return (locale) => {
+      return getters.languages.find(lang => lang.slug === locale) || {}
+    }
+  },
+  activeLanguageSlug(state) {
+    return state.i18n.locale
+  },
+  activeLanguage(state, getters) {
+    return getters.languages.find(lang => lang.slug === getters.activeLanguageSlug) || {}
   },
   currency(state, getters) {
     return getters.activeCurrency.symbol
   },
+  nuxtKey(state, getters) {
+    return getters.currency + ' ' + getters.activeLanguageSlug
+  }
 }
 export const mutations = {
   setLanguages(state, languages) {
@@ -48,14 +66,28 @@ export const mutations = {
   },
   setDefaultCurrencyId(state, id) {
     state.defaultCurrencyId = id
-  }
+  },
+  startLoading(state) {
+    state.isLoading = true
+    if (process.client) {
+      this.dispatch('modal/open', { name: 'modal-loading' })
+    }
+  },
+  stopLoading(state) {
+    state.isLoading = false
+    if (process.client) {
+      this.dispatch('modal/close', { name: 'modal-loading' })
+
+    }
+
+  },
 }
 export const actions = {
   /**
    * 
    * @param {Array<id>} moduleGroupIds 
    */
-  async fetchModuleGroups({}, moduleGroupIds) {
+  async fetchModuleGroups({ }, moduleGroupIds) {
     let moduleGroups = []
     if (moduleGroupIds && _.isArray(moduleGroupIds) && !_.isEmpty(moduleGroupIds)) {
       const resolvers = moduleGroupIds.map(async (id) => {

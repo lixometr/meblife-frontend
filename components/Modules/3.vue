@@ -1,13 +1,13 @@
 <template>
   <Module id="3">
-    <div class="flex md-column">
+    <div class="flex md-column" :class="{'flex-row-reverse': showType === 'reverse'}">
       <div class="module-3__content flex-1 pr-3 pl-3">
         <nuxt-link :to="moreBtnUrl">
           <h2 class="h3" v-if="title">{{title}}</h2>
         </nuxt-link>
-        <div class="pt-1 pb-4" v-html="subTitle" v-if="subTitle"></div>
-        <div class="text-14 text-justify" v-html="description" v-if="description"></div>
-        <div class="mt-6 ">
+        <div class="pt-1 pb-4" v-if="subTitle">{{subTitle}}</div>
+        <AppDescription class="text-14 text-justify" :text="description" v-if="description"></AppDescription>
+        <div class="mt-6">
           <nuxt-link :to="moreBtnUrl" class="btn btn-grey btn-md module-3__btn">{{moreBtn}}</nuxt-link>
         </div>
       </div>
@@ -30,7 +30,7 @@ export default {
   },
   mixins: [ModuleMixin],
   mounted() {
-    console.log(this.item)
+    console.log(this.item);
   },
   computed: {},
 };
@@ -47,8 +47,8 @@ export default {
   &__content {
     @include md {
       order: 2;
-      padding-left: 0!important;
-      padding-right: 0!important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
     }
   }
   &__btn {

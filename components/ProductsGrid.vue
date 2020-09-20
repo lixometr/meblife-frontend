@@ -1,5 +1,5 @@
 <template>
-  <div class="products-grid ">
+  <div class="products-grid pl-2 pr-2">
     <PanelProductPreview />
 
     <!-- <PanelFilters @filterItems="onApplyFilters"/> -->

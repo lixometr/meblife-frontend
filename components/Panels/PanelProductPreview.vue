@@ -59,11 +59,10 @@
               >
                 <div class="flex">
                   <div class="flex-1">{{attr.name.name}}</div>
-                  <div  class="flex-1 flex flex-wrap">
+                  <div class="flex-1 flex flex-wrap">
                     <template v-if="attr.name.attribute_type !== 'decimal'">
                       <nuxt-link
                         :to="$url.filter(product.primary_category.slug, attr.name.slug, value.slug)"
-                       
                         v-for="(value, idx) in attr.value"
                         :key="idx"
                       >{{value.name}}</nuxt-link>
@@ -150,45 +149,6 @@ export default {
     };
   },
   computed: {
-    // similarItems() {
-    //   return [
-    //     {
-    //       slug: "test",
-    //       default_image: {
-    //         url:
-    //           "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
-    //       },
-    //     },
-    //     {
-    //       slug: "test",
-    //       default_image: {
-    //         url:
-    //           "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
-    //       },
-    //     },
-    //     {
-    //       slug: "test",
-    //       default_image: {
-    //         url:
-    //           "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
-    //       },
-    //     },
-    //     {
-    //       slug: "test",
-    //       default_image: {
-    //         url:
-    //           "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
-    //       },
-    //     },
-    //     // {
-    //     //   slug: "test",
-    //     //   default_image: {
-    //     //     url:
-    //     //       "https://cdn.wonder.pl/cdn-cgi/image/width=200,height=200,quality=85,format=auto/productImage/productImage20190206-20586-2rvxif",
-    //     //   },
-    //     // },
-    //   ];
-    // },
     itemInfos() {
       return [
         {
@@ -217,35 +177,8 @@ export default {
       }, []);
       console.log(this.product.attributes);
       return attrs;
-      return [
-        {
-          name: "Цвет",
-          value: "Красный",
-          slug: "test",
-        },
-        {
-          name: "Материал",
-          value: "кожа",
-          slug: "test",
-        },
-      ];
     },
     productImages() {
-      return this.product.product_images;
-      return [
-        {
-          url:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=380,height=380,quality=85,format=auto/productImage/productImage20190206-335-1x2cxj5",
-        },
-        {
-          url:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=380,height=380,quality=85,format=auto/productImage/productImage20190206-335-1x2cxj5",
-        },
-        {
-          url:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=380,height=380,quality=85,format=auto/productImage/productImage20190206-335-1x2cxj5",
-        },
-      ];
       return this.product.product_images || [];
     },
     id() {
@@ -257,9 +190,12 @@ export default {
       this.showAttrs = !this.showAttrs;
     },
     openSliderModal(idx) {
-      this.$modal.show("slider-modal", {
-        initialSlide: idx,
-        items: this.productImages,
+      this.$store.dispatch("modal/open", {
+        name: "slider-modal",
+        props: {
+          initialSlide: idx,
+          items: this.productImages,
+        },
       });
     },
     addToFavourite() {

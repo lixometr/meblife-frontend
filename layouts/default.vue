@@ -2,9 +2,8 @@
   <main>
     <TopBar class="top-bar" />
     <Logo class="top-logo" />
-    <Nuxt />
+    <Nuxt :key="nuxtKey"/>
     <Footer class="mt-6" />
-    <SearchModal />
     <MenuModal />
   </main>
 </template>
@@ -12,14 +11,12 @@
 import Header from "@/components/Header";
 import TopBar from "@/components/Header/TopBar";
 import Footer from "@/components/Footer";
-import SearchModal from "@/components/Modals/SearchModal";
 import MenuModal from "@/components/Modals/MenuModal";
 export default {
   components: {
     Header,
     Footer,
     TopBar,
-    SearchModal,
     MenuModal
   },
   async mounted() {
@@ -28,8 +25,10 @@ export default {
     this.$modal.show('panel-'+panel)
 
   },
-  get() {
-    axios.get('/category/123')
+  computed: {
+    nuxtKey() {
+      return this.$store.getters.nuxtKey
+    }
   }
 };
 </script>

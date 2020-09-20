@@ -4,79 +4,103 @@
 @import "./_partials/_colors";
 @import "./_partials/_utils";
 @import "./_partials/_borders";
+
 body,
 html {
-    font-family: $main_font;
-    line-height: 1.4;
+  font-family: $main_font;
+  line-height: 1.4;
 }
+
 body {
-    min-width: 320px;
+  min-width: 320px;
 }
+
 svg {
-    fill: currentColor;
+  fill: currentColor;
 }
 
 .pointer-events-auto {
-    pointer-events: auto !important;
+  pointer-events: auto !important;
 }
+
 .cursor-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
+
 .no-select {
-    user-select: none;
+  user-select: none;
 }
+
 .nuxt-link-exact-active {
-    text-decoration: underline;
-    cursor: default;
+  text-decoration: underline;
+  cursor: default;
 }
 
 a {
-    color: $dark;
-    text-decoration: none;
-    &:hover {
-        text-decoration: underline;
-    }
+  color: $dark;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
+
 b,
 strong {
-    font-weight: 700;
+  font-weight: 700;
 }
+
 .slide-width {
-    width: 260px !important;
-    box-sizing: border-box;
+  width: 260px !important;
+  box-sizing: border-box;
 }
 
 .bar-top {
-    padding-top: $top_bar_offset;
+  padding-top: $top_bar_offset;
 }
 
 .absolute-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
+
 .absolute-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bg-design {
+  position: relative;
+
+  &::before {
+    content: "";
     position: absolute;
-    top: 0;
+    height: calc(100% - 200px);
+    bottom: 0;
     left: 0;
     right: 0;
-    bottom: 0;
     width: 100%;
-    height: 100%;
+    display: block;
+    background: $grey;
+    z-index: -1;
+  }
 }
-.bg-design {
-    position: relative;
-    &::before {
-        content: "";
-        position: absolute;
-        height: calc(100% - 200px);
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        display: block;
-        background: $grey;
-        z-index:-1;
-    }
+
+.ql-editor {
+  box-sizing: border-box;
+  line-height: inherit;
+  height: auto !important;
+  outline: none;
+  overflow-y: visible;
+  padding: 0 !important;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  text-align: left;
 }

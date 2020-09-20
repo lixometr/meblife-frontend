@@ -29,7 +29,7 @@ export default {
 <style lang="scss">
 .module-16 {
   &__items {
-    margin-right: -1.25rem;
+    // margin-right: -1.25rem;
     @include md {
       margin-right: 0;
     }
@@ -37,7 +37,9 @@ export default {
   &__item {
     padding-right: 1.25rem;
     width: 25%;
-
+    &:nth-child(4n) {
+      padding-right: 0;
+    }
     @include md {
       width: 100%;
       padding-right: 0;

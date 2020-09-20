@@ -1,22 +1,30 @@
 <template>
-  <div class="module-22">
+  <Module id="22">
     <div class="container">
       <div class="flex justify-between flex-wrap module-22__items">
-        <nuxt-link class="module-22__item mb-7" v-for="(item, idx) in items" :key="idx" to="#">
-          <img :src="item.img" class="size-cover h-auto" alt />
+        <nuxt-link
+          class="module-22__item mb-7"
+          v-for="(item, idx) in moduleImages"
+          :key="idx"
+          to="#"
+        >
+          <AppImage v-bind="item.image" cover class="h-auto" />
           <p class="font-bold text-18 uppercase mt-4 mb-2">{{item.title}}</p>
-          <p>{{item.description}}</p>
+          <p>{{item.sub_title}}</p>
         </nuxt-link>
       </div>
     </div>
-  </div>
+  </Module>
 </template>
 
 <script>
+import moduleValidator from "./moduleValidator";
+import ModuleMixin from "./ModuleMixin";
 export default {
   props: {
-    items: Array,
+    item: moduleValidator,
   },
+  mixins: [ModuleMixin],
 };
 </script>
 
@@ -38,9 +46,9 @@ export default {
       padding: 0 0.5rem;
     }
     img {
-        @include md {
-            height: 140px;
-        }
+      @include md {
+        height: 140px;
+      }
     }
   }
   .module-item {

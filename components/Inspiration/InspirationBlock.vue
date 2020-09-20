@@ -14,7 +14,7 @@
     </div>
     <div class="mb-8">
       <h4 class="text-right text-md-center mt-3 mb-1" v-if="title">{{title}}</h4>
-      <div v-html="text" v-if="text"></div>
+      <AppDescription :text="text" v-if="text"></AppDescription>
     </div>
     <InspirationSlider :items="products" v-if="products.length > 0" />
   </div>

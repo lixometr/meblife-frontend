@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     openSearchModal() {
-      this.$modal.show("modal-search");
+      this.$store.dispatch("modal/open", { name: "modal-search" });
     },
   },
 };

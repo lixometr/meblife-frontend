@@ -1,84 +1,147 @@
-$offset_sizes: 0, 0.25rem, 0.5rem, 1rem, 1.25rem, 1.5rem, 2rem, 2.5rem, 3rem, 3.5rem;
+$offset_sizes: 0,
+0.25rem,
+0.5rem,
+1rem,
+1.25rem,
+1.5rem,
+2rem,
+2.5rem,
+3rem,
+3.5rem;
 $i: 0;
+
 @each $val in $offset_sizes {
-    .mt-#{$i} {
-        margin-top: $val!important;
-    }
-    $i: $i + 1;
+  .mt-#{$i} {
+    margin-top: $val !important;
+  }
+
+  $i: $i+1;
 }
+
 $i: 0;
+
 @each $val in $offset_sizes {
-    .mb-#{$i} {
-        margin-bottom: $val!important;
-    }
-    $i: $i + 1;
+  .mb-#{$i} {
+    margin-bottom: $val !important;
+  }
+
+  $i: $i+1;
 }
+
 $i: 0;
+
 @each $val in $offset_sizes {
-    .ml-#{$i} {
-        margin-left: $val!important;
-    }
-    $i: $i + 1;
+  .ml-#{$i} {
+    margin-left: $val !important;
+  }
+
+  $i: $i+1;
 }
+
 $i: 0;
+
 @each $val in $offset_sizes {
-    .mr-#{$i} {
-        margin-right: $val!important;
-    }
-    $i: $i + 1;
+  .mr-#{$i} {
+    margin-right: $val !important;
+  }
+
+  $i: $i+1;
 }
+
 $i: 0;
+
 @each $val in $offset_sizes {
-    .pt-#{$i} {
-        padding-top: $val!important;
-    }
-    $i: $i + 1;
+  .pt-#{$i} {
+    padding-top: $val !important;
+  }
+
+  $i: $i+1;
 }
+
 $i: 0;
+
 @each $val in $offset_sizes {
-    .pb-#{$i} {
-        padding-bottom: $val!important;
-    }
-    $i: $i + 1;
+  .pb-#{$i} {
+    padding-bottom: $val !important;
+  }
+
+  $i: $i+1;
 }
+
 $i: 0;
+
 @each $val in $offset_sizes {
-    .pl-#{$i} {
-        padding-left: $val!important;
-    }
-    $i: $i + 1;
+  .pl-#{$i} {
+    padding-left: $val !important;
+  }
+
+  $i: $i+1;
 }
+
 $i: 0;
+
 @each $val in $offset_sizes {
-    .pr-#{$i} {
-        padding-right: $val!important;
-    }
-    $i: $i + 1;
+  .pr-#{$i} {
+    padding-right: $val !important;
+  }
+
+  $i: $i+1;
 }
+
 $i: 0;
+
 @each $val in $offset_sizes {
-    .p-#{$i} {
-        padding: $val!important;
-    }
-    $i: $i + 1;
+  .p-#{$i} {
+    padding: $val !important;
+  }
+
+  $i: $i+1;
 }
+
 $i: 0;
+
 @each $val in $offset_sizes {
-    .m-#{$i} {
-        margin: $val!important;
+  .m-#{$i} {
+    margin: $val !important;
+  }
+
+  $i: $i+1;
+}
+
+
+$offset_directions: 'mr',
+'ml',
+'mt',
+'mb',
+'pl',
+'pr',
+'pt',
+'pb';
+$names: ("mr": "margin-right", "ml": "margin-left", "mt": "margin-top", "mb": "margin-bottom", "pt": "padding-top", "pb": "padding-bottom", "pl": "padding-left", "pr": "padding-right");
+$i: 0;
+
+@each $name, $val in $names {
+  @include md {
+    .#{$name}-md-0 {
+      #{$val}: 0 !important;
     }
-    $i: $i + 1;
+  }
+
+  $i: $i+1;
 }
 
 .ml-auto {
-    margin-left: auto;
+  margin-left: auto;
 }
+
 .mr-auto {
-    margin-right: auto;
+  margin-right: auto;
 }
+
 .mt-auto {
-    margin-top: auto;
+  margin-top: auto;
 }
+
 .mb-auto {
-    margin-bottom: auto;
+  margin-bottom: auto;
 }

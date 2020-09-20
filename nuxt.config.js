@@ -24,7 +24,8 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css?family=Lato:400,700|Ubuntu:400,700&amp;display=swap&amp;subset=latin-ext" }
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css?family=Lato:400,700|Ubuntu:400,700&amp;display=swap&amp;subset=latin-ext" },
+      { rel: "stylesheet", href: "https://cdn.quilljs.com/1.3.6/quill.core.css" },
     ]
   },
   /*
@@ -46,8 +47,10 @@ export default {
     { src: '@/plugins/vue-show-slide', mode: 'client' },
     { src: '@/plugins/vue-js-modal', mode: 'client' },
     { src: '@/plugins/vue-masonry', mode: 'client' },
+    // { src: '@/plugins/vue-click-outside', mode: 'client' },
     { src: "@/plugins/url" },
     { src: "@/plugins/vue-ripple-directive", mode: "client" },
+    { src: "@/plugins/loader" },
   ],
   router: {
     middleware: 'i18n',
@@ -120,6 +123,9 @@ export default {
         strategy: "prefix",
         defaultLocale: "ru",
         fallbackLocale: 'ru',
+        vuex: {
+          syncLocale: true
+        },
         detectBrowserLanguage: {
           useCookie: true,
           cookieKey: 'i18n_redirected'

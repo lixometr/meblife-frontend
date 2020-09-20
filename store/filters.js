@@ -210,7 +210,6 @@ export const mutations = {
         state.items = items
     },
     setValues(state, values) {
-        console.log('setting', values)
 
         state.values = values
     },

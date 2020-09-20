@@ -1,12 +1,14 @@
 <template>
   <div class="post-page">
     <Module35 />
-    <Module15
-      class="mb-4"
-      :item="{title: 'ВЫ ИЩЕТЕ ЧТО-НИБУДЬ ЕЩЕ? У КОГО ВСЕГДА БУДЕТ МНОГО ВДОХНОВЕНИЯ!'}"
-    />
+    <div class="container">
+      <Module15
+        class="mb-4"
+        :item="{title: 'ВЫ ИЩЕТЕ ЧТО-НИБУДЬ ЕЩЕ? У КОГО ВСЕГДА БУДЕТ МНОГО ВДОХНОВЕНИЯ!'}"
+      />
+    </div>
     <Module35 :height="30" />
-    <Module22 :items="catItems" />
+    <Module22 :item="{module_images: catItems}" />
     <Module35 />
     <div class="container">
       <Module16 :item="{title: 'САМЫЕ ПОПУЛЯРНЫЕ БРЕНДЫ', module_images: brandItems}" />
@@ -40,6 +42,13 @@
     <Contact />
     <PopularCategories />
     <PageLinks />
+    <div class="container text-center pt-2">
+      <div class="flex justify-center align-center">
+        <p class="mr-2 text-18">Валюта:</p>
+        <CurrencySwitcher />
+      </div>
+    </div>
+
     <Bottom />
   </div>
 </template>
@@ -78,52 +87,68 @@ export default {
     catItems() {
       return [
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          },
           title: "МЕБЕЛЬ",
-          description: "Функциональная разбивка по комнатам",
+          sub_title: "Функциональная разбивка по комнатам",
         },
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          },
           title: "МЕБЕЛЬ",
-          description: "Функциональная разбивка по комнатам",
+          sub_title: "Функциональная разбивка по комнатам",
         },
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          },
           title: "МЕБЕЛЬ",
-          description: "Функциональная разбивка по комнатам",
+          sub_title: "Функциональная разбивка по комнатам",
         },
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          },
           title: "МЕБЕЛЬ",
-          description: "Функциональная разбивка по комнатам",
+          sub_title: "Функциональная разбивка по комнатам",
         },
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          },
           title: "МЕБЕЛЬ",
-          description: "Функциональная разбивка по комнатам",
+          sub_title: "Функциональная разбивка по комнатам",
         },
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          },
           title: "МЕБЕЛЬ",
-          description: "Функциональная разбивка по комнатам",
+          sub_title: "Функциональная разбивка по комнатам",
         },
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          },
           title: "МЕБЕЛЬ",
-          description: "Функциональная разбивка по комнатам",
+          sub_title: "Функциональная разбивка по комнатам",
         },
         {
-          img:
-            "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          image: {
+            url:
+              "https://cdn.wonder.pl/cdn-cgi/image/width=350,height=350,quality=85,format=auto/module_image-076b4f0756e2857c2a38b9dd2d98e80a55a76224.jpg",
+          },
           title: "МЕБЕЛЬ",
-          description: "Функциональная разбивка по комнатам",
+          sub_title: "Функциональная разбивка по комнатам",
         },
       ];
     },

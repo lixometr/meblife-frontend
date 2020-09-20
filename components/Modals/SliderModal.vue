@@ -1,15 +1,6 @@
 <template>
   <client-only>
-    <modal
-      :name="'slider-modal'"
-      :transition="'fade'"
-      :classes="['slider-modal__modal']"
-      class="slider-modal"
-      height="100%"
-      width="100%"
-      :adaptive="true"
-      @before-open="beforeModalOpen"
-    >
+    <div class="slider-modal">
       <div
         class="slider-modal-close flex align-center justify-center btn btn-circle btn-white"
         @click="close"
@@ -20,7 +11,7 @@
       <AppSlider
         class="slider-modal-slider"
         height="100%"
-        :items="slideItems"
+        :items="items"
         :options="{
             initialSlide
         }"
@@ -30,18 +21,17 @@
       >
         <template v-slot:slide="{item}">
           <div class="slider-modal-slider__item cursor-pointer">
-            <AppImage v-bind="item"  />
+            <AppImage v-bind="item" />
           </div>
         </template>
       </AppSlider>
-    </modal>
+    </div>
   </client-only>
 </template>
 
 <script>
 import svgClose from "@/assets/icons/close.svg";
 import AppSlider from "@/components/AppSlider";
-// open this.$modal.show('slider-modal', {items: [{url: "image"}]})
 export default {
   components: {
     svgClose,
@@ -49,21 +39,16 @@ export default {
   },
   props: {
     items: Array,
+    initialSlide: [Number, String],
   },
 
   data() {
-    return {
-      slideItems: this.items,
-      initialSlide: 0,
-    };
+    return {};
   },
   methods: {
     close() {
       this.$modal.hide("slider-modal");
-    },
-    beforeModalOpen({ params }) {
-      this.slideItems = params.items;
-      this.initialSlide = params.initialSlide;
+      this.$emit("close");
     },
   },
 };

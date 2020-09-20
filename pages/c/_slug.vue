@@ -6,55 +6,7 @@
       <AppImage v-bind="headerImage" class="page-header__image" />
       <div class="image-placeholder"></div>
 
-      <div class="page-header__content">
-        <div class="flex flex-column h-100">
-          <div class="page-header__title flex-1 flex align-center justify-center flex-column">
-            <h1
-              class="mw-100 truncate pl-3 pr-3 mb-3 uppercase color-white text-center"
-            >{{categoryFullName}}</h1>
-            <div class="flex overflow-auto justify-md-start pl-3 pr-3">
-              <nuxt-link to="/" class="btn btn-md btn-blur mr-2 font-bold">Домой</nuxt-link>
-              <nuxt-link
-                :to="breadcrumb.full_path"
-                class="btn btn-md btn-blur mr-2 font-bold"
-                active-class="active"
-                v-for="(breadcrumb, idx) in breadcrumbs"
-                :key="breadcrumb._id"
-              >{{breadcrumb.name}}</nuxt-link>
-            </div>
-          </div>
-          <div class="btn-tabs overflow-auto justify-between">
-            <nuxt-link
-              class="btn-tab mr-2 shrink-0"
-              exact-active-class="active"
-              :class="{'active': activeRouteInfo}"
-              :to="$url.category($route.params.slug) "
-            >
-              <div class="btn pl-3 pr-3 btn-blur font-bold">
-                <span class="truncate">Информация</span>
-              </div>
-            </nuxt-link>
-            <nuxt-link
-              :to="$url.category($route.params.slug) + '/shop-the-looks' "
-              class="btn-tab mr-2 shrink-0 text-decoration-none"
-              active-class="active"
-            >
-              <div class="btn btn-blur pl-3 pr-3 font-bold">
-                <span class="truncate">Купить образ</span>
-              </div>
-            </nuxt-link>
-            <nuxt-link
-              :to="$url.category($route.params.slug) +'/inspirations' "
-              class="btn-tab mr-2 shrink-0 text-decoration-none"
-              active-class="active"
-            >
-              <div class="btn btn-blur pl-3 pr-3 font-bold">
-                <span class="truncate">Вдохновения</span>
-              </div>
-            </nuxt-link>
-          </div>
-        </div>
-      </div>
+      <CategoryPageHeader :breadcrumbs="breadcrumbs" :categoryName="categoryFullName" />
     </div>
     <div class="category-page__row pt-3">
       <div class="container">
@@ -72,12 +24,13 @@
               :moduleGroupsTop="moduleGroupsTop"
               :moduleGroupsBottom="moduleGroupsBottom"
               :showProductsGrid="showProductsGrid"
+              :showCategoryGrid="showCategoryGrid"
+              :categoryChildren="categoryChildren"
             />
           </div>
         </div>
       </div>
     </div>
-    <SliderModal />
   </div>
 </template>
 
@@ -85,7 +38,7 @@
 import Header from "@/components/Header";
 import CategoriesBar from "@/components/CategoriesBar";
 import SearchBtn from "@/components/SearchBtn";
-import SliderModal from "@/components/Modals/SliderModal";
+
 import { filtersFromQuery } from "@/helpers/functions";
 import _ from "lodash";
 export default {
@@ -100,125 +53,51 @@ export default {
     Header,
     CategoriesBar,
     SearchBtn,
-    SliderModal,
   },
   async fetch() {
-    this.isLoading = true;
-    if (this.currentPageName === "shop-the-looks") {
-      await this.fetchLooks();
-    } else if (this.currentPageName === "inspirations") {
-      await this.fetchInspirations();
-    } else {
-      await this.fetchProducts();
-    }
-    this.isLoading = false;
+    await this.fetchItems();
   },
-  async asyncData({ route, params, $api, error, store }) {
+  async asyncData({ route, params, $api, error, store, $loader }) {
+    $loader.start();
     let category,
       categoryBreadcrumbs,
       categoriesPrimary,
       moduleGroupsTop,
-      moduleGroupsBottom;
+      moduleGroupsBottom,
+      categoryChildren;
     try {
       category = await $api.$get("category", { slug: params.slug });
       categoryBreadcrumbs = await $api.$get("categoryParents", {
         slug: params.slug,
       });
-      // moduleGroupsTop = await store.dispatch(
-      //   "fetchModuleGroups",
-      //   category.module_groups_top
-      // );
-      moduleGroupsTop = [
-        {
-          modules: [
-            {
-              title: "ПОДВЕСНЫЕ ЛАМПЫ",
-              sub_title:
-                "для поклонников модных тенденций и вневременной классики",
-              description: `Ограничиваться только подвесным светильником не стоит, но и отказываться от него полностью не стоит. Это исключительно функциональный вид светильника, недаром его называют основным освещением. Это также отличный способ ненавязчивого декоративного оформления интерьера. Вы предпочитаете классику вне моды или, может быть, предпочитаете следовать последним тенденциям? В \ o / onder вы найдете гораздо больше ...`,
-              more_btn: "Откройте для себя подвесное освещение",
-              more_btn_url: "/cat-2",
-              module_items: [
-                {
-                  type: "Category",
-                  item: {
-                    image: {
-                      url:
-                        "https://cdn.wonder.pl/cdn-cgi/image/width=1322.5,height=1322.5,quality=85,format=auto/category-image-3b6143ebb982626636b4d190944a9e6c0fbe6d80.jpg",
-                    },
-                    name: "Освещение в современном стиле",
-                  },
-                },
-                {
-                  type: "Category",
-                  item: {
-                    image: {
-                      url:
-                        "https://cdn.wonder.pl/cdn-cgi/image/width=1322.5,height=1322.5,quality=85,format=auto/category-image-3b6143ebb982626636b4d190944a9e6c0fbe6d80.jpg",
-                    },
-                    name: "Освещение в современном стиле",
-                  },
-                },
-                {
-                  type: "Category",
-                  item: {
-                    image: {
-                      url:
-                        "https://cdn.wonder.pl/cdn-cgi/image/width=1322.5,height=1322.5,quality=85,format=auto/category-image-3b6143ebb982626636b4d190944a9e6c0fbe6d80.jpg",
-                    },
-                    name: "Освещение в современном стиле",
-                  },
-                  
-                },
-                {
-                  type: "Category",
-                  item: {
-                    image: {
-                      url:
-                        "https://cdn.wonder.pl/cdn-cgi/image/width=1322.5,height=1322.5,quality=85,format=auto/category-image-3b6143ebb982626636b4d190944a9e6c0fbe6d80.jpg",
-                    },
-                    name: "Освещение в современном стиле",
-                  },
-                  
-                },
-                {
-                  type: "Category",
-                  item: {
-                    image: {
-                      url:
-                        "https://cdn.wonder.pl/cdn-cgi/image/width=1322.5,height=1322.5,quality=85,format=auto/category-image-3b6143ebb982626636b4d190944a9e6c0fbe6d80.jpg",
-                    },
-                    name: "Освещение в современном стиле",
-                  },
-                  
-                },
-                
-              ],
-              main_image: {
-                url:
-                  "https://cdn.wonder.pl/cdn-cgi/image/width=1087.5,height=1087.5,quality=85,format=auto/module/35effde5539fe0a04ce7b6966f3c1c4b334b5d82.jpg",
-              },
-
-              module_id: 3,
-            },
-          ],
-        },
-      ];
-
+      moduleGroupsTop = await store.dispatch(
+        "fetchModuleGroups",
+        category.module_groups_top
+      );
       moduleGroupsBottom = await store.dispatch(
         "fetchModuleGroups",
         category.module_groups_bottom
       );
       categoriesPrimary = await $api.$get("categoriesPrimary");
+      if (category.show_category_grid) {
+        categoryChildren = await $api.$get("categoryChildren", {
+          slug: params.slug,
+        });
+      }
     } catch (err) {
+      $loader.stop();
+
       error({ statusCode: 404, message: err.message });
     }
+    $loader.stop();
+
     return {
       moduleGroupsBottom,
       moduleGroupsTop,
       category,
       categoryBreadcrumbs,
       categoriesPrimary,
+      categoryChildren,
     };
   },
 
@@ -235,12 +114,13 @@ export default {
     this.definePageName();
   },
   computed: {
+    showCategoryGrid() {
+      return this.category.show_category_grid;
+    },
     showProductsGrid() {
-      return this.category.show_products
+      return this.category.show_products;
     },
-    activeRouteInfo() {
-      return this.$route.path === this.$url.category(this.$route.params.slug);
-    },
+
     headerImage() {
       return this.category.bg_image;
     },
@@ -290,7 +170,21 @@ export default {
       return urlCategories;
     },
   },
+  beforeCreated() {
+    console.log('ogg')
+  },
   methods: {
+    async fetchItems() {
+      this.isLoading = true;
+      if (this.currentPageName === "shop-the-looks") {
+        await this.fetchLooks();
+      } else if (this.currentPageName === "inspirations") {
+        await this.fetchInspirations();
+      } else {
+        await this.fetchProducts();
+      }
+      this.isLoading = false;
+    },
     definePageName() {
       if (this.$route.path.indexOf("shop-the-looks") >= 0) {
         this.currentPageName = "shop-the-looks";
@@ -350,7 +244,7 @@ export default {
   watch: {
     $route(val) {
       this.definePageName();
-      this.$fetch();
+      this.fetchItems();
     },
   },
 };

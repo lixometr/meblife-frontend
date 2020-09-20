@@ -1,9 +1,9 @@
 <template>
   <client-only>
-    <modal name="modal-search" class="modal-search" height="100%" width="100%" transition="fade">
+    <div class="modal-search">
       <div class="modal-search__menu-btn btn btn-md btn-red" @click="openMenuModal">
         <svgBurger width="24" class="mr-2" />
-        <span class="font-bold ">Меню</span>
+        <span class="font-bold">Меню</span>
       </div>
       <div
         class="modal-search__close flex btn-white align-center justify-center btn btn-circle"
@@ -26,7 +26,7 @@
           </div>
         </div>
       </div>
-    </modal>
+    </div>
   </client-only>
 </template>
 
@@ -39,7 +39,7 @@ export default {
   components: {
     svgClose,
     svgSearch,
-    svgBurger
+    svgBurger,
   },
   data() {
     return {
@@ -49,14 +49,16 @@ export default {
   methods: {
     close() {
       this.$modal.hide("modal-search");
+      this.$emit('close')
     },
     search() {
       console.log(this.text);
     },
     openMenuModal() {
-      this.$modal.hideAll('modal-search')
-      this.$modal.show('modal-menu')
-    }
+      this.$modal.hideAll();
+      this.$emit('close')
+      this.$modal.show("modal-menu");
+    },
   },
 };
 </script>

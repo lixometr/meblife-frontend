@@ -16,7 +16,7 @@
     <div class="inspiration-page__content" v-if="hasTemplate" key="hasTemplate">
       <div class="container">
         <h4 class="text-center mt-2 mb-1">{{introdctionTitle}}</h4>
-        <div v-html="introdctionText"></div>
+        <AppDescription :text="introdctionText"></AppDescription>
       </div>
       <section class="mt-8 bg-design pb-7 overflow-hidden">
         <InspirationBlock

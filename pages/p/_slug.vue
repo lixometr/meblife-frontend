@@ -2,7 +2,6 @@
   <div class="product-page">
     <Header class="default-header" variant="light" />
 
-    <SliderModal />
     <div class="container">
       <ModuleGroupsArea :moduleGroups="moduleGroupsTop" />
       <div class="flex md-column">
@@ -74,7 +73,7 @@
             <s class="text-14" v-if="oldPrice">{{oldPriceWithCurrency}}</s>
           </div>
 
-          <div class="mt-2 text-14" v-if="saleExpires" v-html="promotionText"></div>
+          <AppDescription class="mt-2 text-14" v-if="saleExpires" :text="promotionText"></AppDescription>
 
           <div class="flex mt-5">
             <ProductCnt class="product__cnt" v-model="productCnt" />
@@ -180,7 +179,6 @@ import ProductAttrs from "@/components/Product/ProductAttrs";
 import AppCollapse from "@/components/AppCollapse";
 import ProductCategories from "@/components/Product/ProductCategories";
 import ProductInfo from "@/components/Product/ProductInfo";
-import SliderModal from "@/components/Modals/SliderModal";
 import Header from "@/components/Header";
 import ProductCnt from "@/components/Product/ProductCnt";
 // import ProductSimilarItems from "@/components/Product/ProductSimilarItems";
@@ -207,13 +205,13 @@ export default {
     ProductCategories,
     AppCollapse,
     ProductInfo,
-    SliderModal,
     Header,
     ProductCnt,
     // ProductSimilarItems: () => import("@/components/Product/ProductSimilarItems"),
     // ProductSimilarCategories: () => import("@/components/Product/ProductSimilarCategories"),
   },
-  async asyncData({ route, error, store, params, query, $api }) {
+  async asyncData({ route, error, store, params, query, $api, $loader }) {
+    $loader.start();
     try {
       const product = await $api.$get("product", { slug: route.params.slug });
       const productCategories = await $api.$get("categoryParents", {
@@ -227,6 +225,8 @@ export default {
         "fetchModuleGroups",
         product.module_groups_top
       );
+      $loader.stop();
+
       return {
         product,
         productCategories,
@@ -234,6 +234,8 @@ export default {
         moduleGroupsTop,
       };
     } catch (err) {
+      $loader.stop();
+
       error(err);
     }
   },
@@ -375,9 +377,12 @@ export default {
       });
     },
     openSliderModal(startIdx) {
-      this.$modal.show("slider-modal", {
-        items: this.productImages,
-        initialSlide: startIdx,
+      this.$store.dispatch("modal/open", {
+        name: "slider-modal",
+        props: {
+          initialSlide: startIdx,
+          items: this.productImages,
+        },
       });
     },
   },

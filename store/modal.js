@@ -6,7 +6,9 @@ const panels = {
     'panel-look': () => import("@/components/Panels/PanelLook"),
     'panel-cart': () => import("@/components/Panels/PanelCart"),
     'panel-categories': () => import("@/components/Panels/PanelCategories"),
-    'slider-modal': () => import("@/components/Modals/SliderModal")
+    'slider-modal': () => import("@/components/Modals/SliderModal"),
+    'modal-search': () => import("@/components/Modals/SearchModal"),
+    'modal-loading': () => import("@/components/Modals/LoadingModal")
 };
 export const state = () => ({
 
@@ -33,6 +35,24 @@ export const state = () => ({
             width: "100%",
             adaptive: true
         },
+        'modal-search': {
+            name: 'search-modal',
+            transition: 'fade',
+            classes: ['search-modal__modal'],
+            class: 'search-modal',
+            height: "100%",
+            width: "100%",
+            adaptive: true
+        },
+        'modal-loading': {
+            name: 'modal-loading',
+            transition: 'fade',
+            classes: ['loading-modal__modal'],
+            class: 'loading-modal',
+            height: "100%",
+            width: "100%",
+            adaptive: true
+        },
 
     }
 })
@@ -51,7 +71,9 @@ export const actions = {
         const { default: component } = await panels[name]()
         const options = { ...defaultOptions, ...state.options[name] };
         this._vm.$modal.show(component, props, options, events)
-
     },
+    close({state}, {name}) {
+        this._vm.$modal.hide(name)
+    }
 
 }

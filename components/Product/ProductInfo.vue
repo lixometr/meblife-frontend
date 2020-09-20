@@ -23,7 +23,7 @@
             <div class="bg-pale p-6 mt-3 text-center" v-if="sizeImage">
               <AppImage v-bind="sizeImage"  />
             </div>
-            <div v-html="description"></div>
+            <AppDescription :text="description"></AppDescription>
             <ProductAttrs v-bind="attributes" />
           </div>
           <div class="product__delivery-info" v-if="tabActive === 'delivery'">
@@ -53,7 +53,7 @@
               <div class="bg-pale p-4 text-center" v-if="sizeImage && sizeImage.url ">
                 <AppImage v-bind="sizeImage"  />
               </div>
-              <div v-html="description"></div>
+              <AppDescription :text="description"></AppDescription>
               <ProductAttrs v-bind="attributes" />
             </div>
           </template>

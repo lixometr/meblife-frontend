@@ -6,6 +6,7 @@
       v-bind="moduleGroup"
     />
     <ProductsArea :items="items" :info="info" :filters="filters" :isLoading="isLoading" v-if="showProductsGrid"/>
+    <CategoryGrid :items="categoryChildren" v-if="showCategoryGrid"/>
     <ModulesArea
       v-for="moduleGroup in moduleGroupsBottom"
       :key="moduleGroup._id"
@@ -31,7 +32,9 @@ export default {
     filters: Object,
     moduleGroupsTop: Array,
     moduleGroupsBottom: Array,
-    showProductsGrid: Boolean
+    showProductsGrid: Boolean,
+    showCategoryGrid: Boolean,
+    categoryChildren: Array
   },
 
   data() {

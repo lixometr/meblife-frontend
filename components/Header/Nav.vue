@@ -6,7 +6,7 @@
         <span class="font-bold md-hidden">Меню</span>
       </div>
       <div class="nav-menu__items text-14 uppercase md-hidden">
-        <div class="nav-menu__item ml-5">
+        <!-- <div class="nav-menu__item ml-5">
           <nuxt-link to="#">Мебель A-Z</nuxt-link>
         </div>
         <div class="nav-menu__item ml-5">
@@ -14,7 +14,12 @@
         </div>
         <div class="nav-menu__item ml-5">
           <nuxt-link to="#">Аксесуары</nuxt-link>
+        </div> -->
+        <div class="nav-menu__item ml-5">
+           <LangSwitcher :variant="variant"/>
         </div>
+      
+      
       </div>
       <div class="md-show color-white cursor-pointer ml-5">
         <svgSearch class @click="searchModalOpen" width="17" />
@@ -79,7 +84,7 @@ export default {
       this.$store.dispatch("modal/open", { name: "panel-cart" });
     },
     searchModalOpen() {
-      this.$modal.show("modal-search");
+      this.$store.dispatch("modal/open", { name: "modal-search" });
     },
   },
 };
