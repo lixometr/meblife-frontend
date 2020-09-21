@@ -7,10 +7,10 @@
         v-for="item in items"
         :key="item._id"
       >
-        <div class="category-grid__item-image">
-          <AppImage contain v-bind="item.image" />
+        <div class="category-grid__item-image position-relative flex-1">
+          <AppImage class="absolute-full" contain v-bind="item.image" />
         </div>
-        <div class="category-grid__item-name text-center  ">
+        <div class="category-grid__item-name text-center  shrink-0">
           <b>{{item.name}}</b>
         </div>
       </nuxt-link>

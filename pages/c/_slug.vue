@@ -85,9 +85,9 @@ export default {
         });
       }
     } catch (err) {
+      error({ statusCode: 404, message: err.message });
       $loader.stop();
 
-      error({ statusCode: 404, message: err.message });
     }
     $loader.stop();
 
@@ -170,9 +170,7 @@ export default {
       return urlCategories;
     },
   },
-  beforeCreated() {
-    console.log('ogg')
-  },
+  
   methods: {
     async fetchItems() {
       this.isLoading = true;

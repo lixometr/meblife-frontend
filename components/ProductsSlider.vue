@@ -4,6 +4,8 @@
       :items="items"
       :options="{slidesPerView: 'auto',spaceBetween: 30}"
       :slideClass="['slide-width']"
+      v-bind="$attrs"
+      v-on="$listeners"
     >
       <template v-slot:slide="{item}">
         <nuxt-link

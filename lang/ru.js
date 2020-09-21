@@ -21,6 +21,9 @@ export default {
   sort: "Сортировка",
   inspirations: "Вдохновения",
   buyLook: "Купить образ",
+  collections: "Коллекции",
+  products: "Товары",
+  in: "в",
   from: "От",
   to: "До",
   back: "Назад",
@@ -35,5 +38,10 @@ export default {
   promotionText: "Акция продлится до {{date}} или пока есть запасы!",
   inspirationsSimilar: 'Предварительный просмотр выбранных коллекций',
   productSimilarInspirations: 'Вдохновения',
-  productLooks: 'Образы продукта: '
+  productLooks: 'Образы продукта: ',
+  download: 'Скачать',
+  brandHistory: "История бренда",
+  brandInfo: 'В двух словах',
+  manufacturerTitle: 'Встретиться с нами',
+  video: 'Видео'
 }

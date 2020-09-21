@@ -21,10 +21,11 @@
           <div class="product__description" v-if="tabActive === 'description'">
             <h5>ИНФОРМАЦИЯ О ПРОДУКТЕ: {{name}}</h5>
             <div class="bg-pale p-6 mt-3 text-center" v-if="sizeImage">
-              <AppImage v-bind="sizeImage"  />
+              <AppImage v-bind="sizeImage" />
             </div>
             <AppDescription :text="description"></AppDescription>
             <ProductAttrs v-bind="attributes" />
+            <ProductDownload class="mt-4" :items="files"/>
           </div>
           <div class="product__delivery-info" v-if="tabActive === 'delivery'">
             <p
@@ -51,10 +52,11 @@
           <template v-slot:content>
             <div class="pl-4 pt-4 bg-pale">
               <div class="bg-pale p-4 text-center" v-if="sizeImage && sizeImage.url ">
-                <AppImage v-bind="sizeImage"  />
+                <AppImage v-bind="sizeImage" />
               </div>
               <AppDescription :text="description"></AppDescription>
               <ProductAttrs v-bind="attributes" />
+              <ProductDownload class="mt-4" :items="files" />
             </div>
           </template>
         </AppCollapse>
@@ -126,7 +128,7 @@ export default {
     // await this.$nextTick()
   },
   props: {
-    product: Object
+    product: Object,
   },
   data() {
     return {
@@ -137,6 +139,9 @@ export default {
     };
   },
   computed: {
+    files() {
+      return this.product.product_files || []
+    },
     name() {
       return this.product.full_name;
     },
@@ -144,14 +149,14 @@ export default {
       return this.product.description;
     },
     delivery() {
-      return `Ради высочайшего качества обслуживания клиентов и безопасности продукции мы доставляем посылки только в сотрудничестве с опытными и профессиональными курьерскими компаниями, работающими по всей Польше. Мы также ввели возможность доставки с залогом, которая совершенно бесплатна для заказов на сумму более 499 злотых. В результате выбранная мебель, светильники или аксессуары могут быть доставлены в указанное место независимо от этажа, на котором расположена квартира, и без дополнительных затрат.`
+      return `Ради высочайшего качества обслуживания клиентов и безопасности продукции мы доставляем посылки только в сотрудничестве с опытными и профессиональными курьерскими компаниями, работающими по всей Польше. Мы также ввели возможность доставки с залогом, которая совершенно бесплатна для заказов на сумму более 499 злотых. В результате выбранная мебель, светильники или аксессуары могут быть доставлены в указанное место независимо от этажа, на котором расположена квартира, и без дополнительных затрат.`;
     },
 
     sizeImage() {
       return this.product.size_image;
     },
     attributes() {
-       return {
+      return {
         common: [
           {
             name: "Производитель",
@@ -162,9 +167,9 @@ export default {
           { name: "Код товара", value: this.product.sku },
         ],
         items: this.product.attributes,
-        categorySlug: this.product.primary_category.slug
+        categorySlug: this.product.primary_category.slug,
       };
-    }
+    },
   },
   methods: {
     openDescription() {
@@ -174,16 +179,16 @@ export default {
       this.tabActive = "delivery";
     },
     instalmentsOpen() {
-      this.$store.dispatch('modal/open', {name: "panel-installments"})
+      this.$store.dispatch("modal/open", { name: "panel-installments" });
 
       // this.$modal.show("panel-installments");
     },
     openBrand() {
-      this.$router.push(this.$url.manufacturer(this.product.manufacturer.slug))
+      this.$router.push(this.$url.manufacturer(this.product.manufacturer.slug));
     },
     deliveryOpen() {},
     contactOpen() {
-      this.$store.dispatch('modal/open', {name: 'panel-contact'})
+      this.$store.dispatch("modal/open", { name: "panel-contact" });
     },
   },
 };
