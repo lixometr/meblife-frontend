@@ -199,7 +199,7 @@ export default {
     async fetchVideo() {
       
       this.pageData = {
-        video: this.manufacturer.video
+        videos: this.manufacturer.videos
       }
     },
     async fetchItems() {

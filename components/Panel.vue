@@ -62,7 +62,7 @@ export default {
     headerClass() {
       return {
         "bg-black color-white": this.headerTheme === "dark",
-        "bg-white color-dark": this.headerTheme === "light",
+        "bg-white color-dark border-bottom border-grey": this.headerTheme === "light",
       };
     },
   },

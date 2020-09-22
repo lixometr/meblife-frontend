@@ -2,8 +2,12 @@ import Api from "@/../api/api"
 import ApiRoutes from "@/../api/api_routes"
 
 export default async ({ app, $axios, store }, inject) => {
+    store.commit('user/initToken')
     $axios.interceptors.request.use(config => {
-        config.headers.Authorization = `Bearer ${store.getters['user/token']}`
+        const token = store.getters['user/token']
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`
+        }
         config.params = Object.assign({}, {
             lang: app.i18n.locale,
             currency: store.getters.activeCurrency.slug

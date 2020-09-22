@@ -1,7 +1,7 @@
 <template>
   <div class="product-looks-slider overflow-hidden" v-if="items.length">
     <div class="container">
-      <h3 class="mb-4">{{$t("productLooks")}}</h3>
+      <h3 class="mb-4">{{$t("productLooks")}}: </h3>
       <LooksSlider :items="items" size="lg"/>
     </div>
   </div>

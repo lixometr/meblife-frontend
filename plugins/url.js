@@ -10,6 +10,7 @@ class UrlBuilder {
             inspiration: '/inspiration/',
             look: '/shop-the-look/',
             showroom: '/showroom/',
+            account: '/account/'
         }
         this.app = app;
     }
@@ -41,6 +42,9 @@ class UrlBuilder {
         const url = `${this.path.category}${categorySlug}?${nameSlug}=${values}`
         return this.app.localePath(url)
 
+    }
+    account(slug) {
+        return this.app.localePath(this.path.account + slug)
     }
 }
 export default ({ app }, inject) => {

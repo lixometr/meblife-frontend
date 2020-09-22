@@ -100,6 +100,7 @@ export default {
     ],
     'vue-scrollto/nuxt',
     'cookie-universal-nuxt',
+    '@nuxtjs/toast',
     [
       'nuxt-i18n',
       {
@@ -115,7 +116,7 @@ export default {
             iso: "ru-RU"
 
           },
-        
+
         ],
         seo: true,
         lazy: true,
@@ -136,6 +137,32 @@ export default {
   ],
   proxy: {
     "/api/": { target: "http://localhost:8080", pathRewrite: { "^/api/": "" } }
+  },
+  toast: {
+    position: 'bottom-right',
+    duration: 5000,
+    register: [
+      {
+        name: 'appError',
+        message: (payload) => {
+          return payload.message
+        },
+        options: {
+          className: 'app-error',
+          type: 'error'
+        }
+      },
+      {
+        name: 'appSuccess',
+        message: (payload) => {
+          return payload.message
+        },
+        options: {
+          className: 'app-success',
+          type: 'success'
+        }
+      }
+    ]
   },
   styleResources: {
     scss: ["~assets/scss/_vars.scss", "~assets/scss/_mixins.scss"]

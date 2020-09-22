@@ -14,12 +14,10 @@
         </div>
         <div class="nav-menu__item ml-5">
           <nuxt-link to="#">Аксесуары</nuxt-link>
-        </div> -->
+        </div>-->
         <div class="nav-menu__item ml-5">
-           <LangSwitcher :variant="variant"/>
+          <LangSwitcher :variant="variant" />
         </div>
-      
-      
       </div>
       <div class="md-show color-white cursor-pointer ml-5">
         <svgSearch class @click="searchModalOpen" width="17" />
@@ -29,22 +27,25 @@
       <SearchBtn class="mr-3 nav-search md-hidden" :text="$t('search')" :variant="variant" />
       <div class="nav-right__items text-center">
         <div class="nav-right__item nav__favourite shrink-0">
-          <nuxt-link class="p-3" to="#">
-            <svgHeart width="18" />
+          <div class="p-3 cursor-pointer" @click="openFavouritePanel">
+            <div class="position-relative">
+              <svgHeart width="18" />
+              <div class="nav__favourite-cnt nav-cnt" v-if="favouriteCnt > 0">{{favouriteCnt}}</div>
+            </div>
             <span class="nav-right__item-text uppercase text-12 d-block md-hidden">Избранное</span>
-          </nuxt-link>
+          </div>
         </div>
         <div class="nav-right__item nav__profile shrink-0">
-          <nuxt-link class="p-3" to="#">
+          <div class="p-3 cursor-pointer" @click="openProfilePanel">
             <svgUser width="18" />
             <span class="nav-right__item-text uppercase text-12 d-block md-hidden">Учетная запись</span>
-          </nuxt-link>
+          </div>
         </div>
         <div class="nav-right__item nav__cart shrink-0">
           <div class="p-3 cursor-pointer" @click="cartModalOpen">
             <div class="position-relative">
               <svgCart width="23" />
-              <div class="nav__cart-cnt" v-if="cartCnt > 0">{{cartCnt}}</div>
+              <div class="nav__cart-cnt nav-cnt" v-if="cartCnt > 0">{{cartCnt}}</div>
             </div>
             <span class="nav-right__item-text uppercase text-12 d-block md-hidden">Корзина</span>
           </div>
@@ -75,11 +76,20 @@ export default {
     svgBurger,
   },
   computed: {
+    favouriteCnt() {
+      return this.$store.getters["favourite/cnt"];
+    },
     cartCnt() {
       return this.$store.getters["cart/cnt"];
     },
   },
   methods: {
+    openFavouritePanel() {
+      this.$store.dispatch("modal/open", { name: "panel-favourite" });
+    },
+    openProfilePanel() {
+      this.$store.dispatch("modal/open", { name: "panel-account" });
+    },
     cartModalOpen() {
       this.$store.dispatch("modal/open", { name: "panel-cart" });
     },
@@ -148,7 +158,10 @@ export default {
   &__cart {
     position: relative;
   }
-  &__cart-cnt {
+  &__favourite {
+    position: relative;
+  }
+  &-cnt {
     position: absolute;
     top: -8px;
     right: 10px;

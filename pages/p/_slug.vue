@@ -11,7 +11,11 @@
               <div class="product__back product__btn-circle btn-circle" @click="goBack">
                 <svgArrowBack width="24" />
               </div>
-              <div class="product__favourite product__btn-circle btn-circle" @click="makeFavourite">
+              <div
+                class="product__favourite product__btn-circle btn btn-circle"
+                :class="{' is-favourite': isFavourite}"
+                @click="toggleFavourite"
+              >
                 <svgHeartStroke width="24" />
               </div>
             </div>
@@ -31,12 +35,7 @@
                 :slideClass="['bg-pale']"
               >
                 <template v-slot:slide="{item, idx}">
-                  <AppImage
-                    v-bind="item"
-                    alt
-                    class="size-contain no-bg"
-                    @click="openSliderModal(idx)"
-                  />
+                  <AppImage v-bind="item" class="size-contain no-bg" @click="openSliderModal(idx)" />
                 </template>
               </AppSlider>
             </div>
@@ -245,6 +244,9 @@ export default {
     };
   },
   computed: {
+    isFavourite() {
+      return this.$store.getters["favourite/isFavourite"](this.product._id);
+    },
     sale() {
       if (this.product.promotion) {
         return this.product.promotion.value;
@@ -320,7 +322,6 @@ export default {
     },
     name() {
       return this.product.full_name;
-      return "Тренировочная резинка Power Band GT by Tiguar уровень 3 оливковый";
     },
     price() {
       return this.product.price;
@@ -340,8 +341,6 @@ export default {
     },
     brandImage() {
       return this.product.manufacturer.image;
-
-      return "https://cdn.wonder.pl/cdn-cgi/image/width=88,height=88,quality=85,format=auto/manufacturer/b59bf0599981f8f0f3466acc754347c9af69fbbf.jpg";
     },
     availableStock() {
       return this.product.available_stock;
@@ -357,8 +356,8 @@ export default {
     goBack() {
       this.$router.push(this.$url.category(this.category.slug));
     },
-    makeFavourite() {
-      this.$store.dispatch("favourite/add", { id: this.product._id });
+    toggleFavourite() {
+      this.$store.dispatch("favourite/toggle", { id: this.product._id });
     },
     addToCart() {
       let isNew = !this.$store.getters["cart/hasItem"](this.product._id);
@@ -414,6 +413,19 @@ export default {
     @include md {
       width: 100%;
       padding-left: 0;
+    }
+  }
+  .product__favourite.is-favourite {
+    background: $black;
+
+    svg {
+      fill: $white;
+    }
+    &:hover {
+      background: $black;
+      svg {
+        fill: $white;
+      }
     }
   }
   .product-labels {

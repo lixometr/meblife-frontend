@@ -104,3 +104,13 @@ strong {
   -moz-tab-size: 4;
   text-align: left;
 }
+
+.app-error {
+  border-radius: 8px!important;
+  background-color: $red!important;
+  padding: .75rem 1.25rem!important;
+  color: #fff!important;
+  border: none!important;
+  font-size: 18px!important;
+  box-shadow: none!important;
+}

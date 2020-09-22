@@ -8,7 +8,11 @@ const panels = {
     'panel-categories': () => import("@/components/Panels/PanelCategories"),
     'slider-modal': () => import("@/components/Modals/SliderModal"),
     'modal-search': () => import("@/components/Modals/SearchModal"),
-    'modal-loading': () => import("@/components/Modals/LoadingModal")
+    'modal-loading': () => import("@/components/Modals/LoadingModal"),
+    'panel-login': () => import("@/components/Panels/PanelLogin"),
+    'panel-account': () => import("@/components/Panels/Account/PanelAccount"),
+    'panel-favourite': () => import("@/components/Panels/PanelFavourite"),
+    'panel-product-preview': () => import("@/components/Panels/PanelProductPreview"),
 };
 export const state = () => ({
 
@@ -21,6 +25,14 @@ export const state = () => ({
         'sub-filter-panel': {},
         'panel-look': {},
         'panel-cart': {},
+        'panel-login': {},
+        'panel-product-preview': {},
+        'panel-favourite': {
+            login: true
+        },
+        'panel-account': {
+            login: true
+        },
         'panel-categories': {
             shiftX: 0,
             transition: 'slideRight',
@@ -53,11 +65,16 @@ export const state = () => ({
             width: "100%",
             adaptive: true
         },
-
-    }
+    },
+    afterLoginOpen: ''
 })
+export const mutations = {
+    setAfterLoginOpen(state, val) {
+        state.afterLoginOpen = val
+    }
+}
 export const actions = {
-    async open({ state }, { name, props, events }) {
+    async open({ commit, state }, { name, props, events }) {
         const defaultOptions = {
             class: "panel-modal",
             height: "100%",
@@ -66,14 +83,34 @@ export const actions = {
             transition: 'slideLeft',
             overlayTransition: "panel-overlay",
             classes: ['panel-modal__modal'],
-            adaptive: true
+            adaptive: true,
+            login: false
         }
         const { default: component } = await panels[name]()
         const options = { ...defaultOptions, ...state.options[name] };
+        if (options.login) {
+            if (!this.getters['user/isAuth']) {
+                const { default: component } = await panels['panel-login']()
+                this._vm.$modal.show(component, { success: () => this.dispatch('modal/afterLogin'), ...props }, options, events)
+                commit('setAfterLoginOpen', name)
+
+                return
+            }
+        }
         this._vm.$modal.show(component, props, options, events)
+        commit('setAfterLoginOpen', '')
+
     },
-    close({state}, {name}) {
+    afterLogin({ state }) {
+        this.dispatch('modal/closeAll', { name: 'panel-login' })
+        this.dispatch('modal/open', { name: state.afterLoginOpen })
+    },
+    close({ state }, { name }) {
         this._vm.$modal.hide(name)
+    },
+    closeAll() {
+        this._vm.$modal.hideAll()
+
     }
 
 }

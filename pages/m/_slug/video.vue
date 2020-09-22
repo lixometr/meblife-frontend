@@ -1,6 +1,6 @@
 <template>
-    <div>
-
+    <div class="pt-4">
+        <AppDescription :text="pageData.videos"/>
     </div>
 </template>
 

@@ -6,19 +6,22 @@
     @before-open="beforeOpen"
   >
     <template v-slot:title>
-      <div class="text-14">БЫСТРЫЙ ПРОСМОТР</div>
+      <div class="text-14 uppercase">{{$t('fastView')}}</div>
     </template>
     <template v-slot:headerButtons>
       <div
         class="panel-product-preview__favourite flex align-center justify-center btn btn-circle mr-2"
-        @click="addToFavourite"
+        :class="{'is-favourite bg-black color-white': isFavourite}"
+        @click="toggleFavourite"
       >
         <svgLike width="20" />
       </div>
     </template>
     <template v-slot:content>
       <div class="panel-product-preview__content flex-1">
-        <Loader v-if="isLoading" />
+        <div class="h-100 flex align-center justify-center" v-if="isLoading">
+          <Loader  />
+        </div>
         <div class v-else>
           <AppSlider
             :items="productImages"
@@ -46,7 +49,8 @@
               >
                 <div class="flex">
                   <div class="flex-1">{{info.name}}</div>
-                  <div class="flex-1">{{info.value}}</div>
+                  <div class="flex-1" v-if="!info.full_slug">{{info.value}}</div>
+                  <nuxt-link :to="info.full_slug" class="flex-1" v-else>{{info.value}}</nuxt-link>
                 </div>
               </div>
             </div>
@@ -84,7 +88,7 @@
                 class="text-center text-14 underline cursor-pointer pb-3 flex justify-center"
                 @click="toggleAttrs"
               >
-                Показать больше деталей
+                {{$t('showDetails')}}
                 <ArrowDown
                   width="23"
                   class="ml-1 color-black transition"
@@ -98,11 +102,11 @@
             <nuxt-link
               :to="$url.product(product.slug)"
               class="btn btn-md btn-red uppercase w-100"
-            >Перейти на страницу товара</nuxt-link>
+            >{{$t('visitProductPage')}}</nuxt-link>
             <div
               class="mb-3 color-orange uppercase font-bold text-14 mt-7 pl-1"
               v-if="similarItems.length > 0"
-            >Похожие продукты</div>
+            >{{$t('similarProduct')}}</div>
             <div
               class="flex flex-wrap panel-product-preview__similar-items"
               v-if="similarItems.length > 0"
@@ -149,24 +153,27 @@ export default {
     };
   },
   computed: {
+    isFavourite() {
+      return this.$store.getters["favourite/isFavourite"](this.product._id);
+    },
     itemInfos() {
       return [
         {
-          name: "Наименование товара",
+          name: this.$t("productName"),
           value: this.product.full_name,
         },
         {
-          name: "Цена",
+          name: this.$t("filters.price"),
           value: this.product.price + " " + this.$store.getters.currency,
         },
         {
-          name: "Производитель",
+          name: this.$t("filters.manufacturer"),
           value: this.product.manufacturer.name,
           slug: this.product.manufacturer.slug,
           full_slug: this.$url.manufacturer(this.product.manufacturer.slug),
         },
         {
-          name: "Номер товара",
+          name: this.$t("sku"),
           value: this.product.sku,
         },
       ];
@@ -198,13 +205,10 @@ export default {
         },
       });
     },
-    addToFavourite() {
-      this.$store.dispatch("favourite/add", {
-        id: this.id,
-      });
+    async toggleFavourite() {
+      this.$store.dispatch("favourite/toggle", { id: this.product._id });
     },
     async beforeOpen({ params }) {
-      console.log(this);
       this.params = params;
       this.isLoading = true;
       await this.fetchProduct();
@@ -241,15 +245,25 @@ export default {
     overflow-y: auto;
     max-height: 100%;
   }
-  &__similar-items {
-  }
+
   .panel-modal__modal {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
   }
-
+  &__favourite.is-favourite {
+    background: $black;
+    svg {
+      fill: $white;
+    }
+    &:hover {
+      background: $black;
+      svg {
+        fill: $white;
+      }
+    }
+  }
   &__similar-item {
     height: 9rem;
     width: 50%;

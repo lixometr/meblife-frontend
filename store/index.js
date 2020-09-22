@@ -100,8 +100,10 @@ export const actions = {
       return moduleGroups
     }
   },
-  async nuxtServerInit({ commit }, { app, i18n, route }) {
+  async nuxtServerInit({ commit, dispatch }, { app, i18n, route }) {
     try {
+      await dispatch('user/init')
+
       const languages = await this.$api.$get('languages')
       commit('setLanguages', languages)
       const currencies = await this.$api.$get('currencies')
@@ -110,6 +112,7 @@ export const actions = {
       commit('setCurrencies', currencies)
       commit('initCurrency')
       commit('cart/init')
+      await dispatch('favourite/init')
 
     } catch (err) {
       this.$error(err)

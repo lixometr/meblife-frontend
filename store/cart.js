@@ -29,6 +29,7 @@ export const getters = {
 
 export const mutations = {
     add(state, { cnt, id }) {
+        if(!id) return
         cnt = parseInt(cnt)
         if (isNaN(cnt)) cnt = 1
         let cookieCart = this.$cookies.get('cart')

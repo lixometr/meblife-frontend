@@ -1,6 +1,6 @@
 <template>
   <Panel name="panel-contact" headerTheme="light" class="panel-contact" :isStatic="false" @close="$emit('close')">
-    <template v-slot:title>КОНТАКТЫ</template>
+    <template v-slot:title><span class="uppercase">{{$t('contacts')}}</span></template>
     <template v-slot:content>
       <div class="panel-contact__header">
         <img src="/img/contact.webp" alt="contact" class="size-cover z-0" />
@@ -11,7 +11,7 @@
               :class="{'active': tabActive === 1}"
               @click="selectTab(1)"
             >
-              <span class="truncate">Информация</span>
+              <span class="truncate">{{$t('information')}}</span>
             </div>
           </div>
           <div class="btn-tab mr-2 flex-1 shrink-0" :class="{'active': tabActive === 2}">
@@ -20,7 +20,7 @@
               :class="{'active': tabActive === 2}"
               @click="selectTab(2)"
             >
-              <span class="truncate">Купить образ</span>
+              <span class="truncate">{{$t('buyLook')}}</span>
             </div>
           </div>
           <div class="btn-tab flex-1 shrink-0" :class="{'active': tabActive === 3}">
@@ -29,7 +29,7 @@
               :class="{'active': tabActive === 3}"
               @click="selectTab(3)"
             >
-              <span class="truncate">Вдохновения</span>
+              <span class="truncate">{{$t('inspirations')}}</span>
             </div>
           </div>
         </div>
