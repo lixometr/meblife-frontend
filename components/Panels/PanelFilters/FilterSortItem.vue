@@ -62,6 +62,14 @@ export default {
       ],
     };
   },
+  created() {
+    let activeSortItem = this.sortItems.find(
+      (item) => item.value === this.value
+    );
+    if (!activeSortItem) {
+      this.sortBy = this.sortItems[2].value;
+    }
+  },
   computed: {
     sortBy: {
       get() {
@@ -72,7 +80,10 @@ export default {
       },
     },
     nowSortTitle() {
-      const sortItem = this.sortItems.find((item) => item.value === this.value);
+      let sortItem = this.sortItems.find((item) => item.value === this.value);
+      if (!sortItem) {
+        sortItem = this.sortItems[2];
+      }
       return sortItem.title;
     },
   },

@@ -3,14 +3,17 @@
         <div class="flex justify-center" v-if="isLoading">
             <Loader />
         </div>
-        <InspirationsArea :items="items" v-else />
+        <InspirationsArea :items="inspirations" :info="inspirationsInfo" v-else />
     </div>
 </template>
 
 <script>
     export default {
+        inheritAttrs: false,
+
         props: {
-            items: Array,
+            inspirations: Array,
+            inspirationsInfo: Object,
             isLoading: Boolean
         }
     }

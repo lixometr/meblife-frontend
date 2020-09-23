@@ -24,7 +24,11 @@ svg {
 }
 
 .cursor-pointer {
-  cursor: pointer;
+  cursor: pointer !important;
+}
+
+.cursor-default {
+  cursor: default !important;
 }
 
 .no-select {
@@ -106,11 +110,11 @@ strong {
 }
 
 .app-error {
-  border-radius: 8px!important;
-  background-color: $red!important;
-  padding: .75rem 1.25rem!important;
-  color: #fff!important;
-  border: none!important;
-  font-size: 18px!important;
-  box-shadow: none!important;
+  border-radius: 8px !important;
+  background-color: $red !important;
+  padding: .75rem 1.25rem !important;
+  color: #fff !important;
+  border: none !important;
+  font-size: 18px !important;
+  box-shadow: none !important;
 }

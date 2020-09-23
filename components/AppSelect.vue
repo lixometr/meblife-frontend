@@ -1,17 +1,18 @@
 <template>
-  <div class="app-select-switcher">
-    <div class="app-select-switcher__trigger" @click="toggle">
-      {{value}}
+  <div class="app-select">
+    <div class="app-select__trigger btn btn-md btn-white justify-between" @click="toggle">
+      <slot name="trigger">{{value}}</slot>
       <svgArrowDown width="15" />
     </div>
-    <div class="app-select-switcher__list" v-if="isOpen">
+    <div class="app-select__list shadow" v-if="isOpen">
       <div
-        class="app-select-switcher__item cursor-pointer"
-        :class="{'active': value === item}"
+        class="app-select__list-item cursor-pointer btn btn-white pt-2 pb-2 text-14"
         v-for="(item, idx) in items"
         :key="idx"
         @click="selectItem(idx)"
-      >{{item.name}}</div>
+      >
+        <slot name="option">{{item}}</slot>
+      </div>
     </div>
   </div>
 </template>
@@ -23,7 +24,6 @@ export default {
   props: {
     value: [String, Object, Number],
     options: Array,
-    keyField: String
   },
   data() {
     return {
@@ -51,4 +51,23 @@ export default {
 </script>
 
 <style lang="scss" >
+.app-select {
+  position: relative;
+  &__list {
+    position: absolute;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 300px;
+    left: 0;
+    right: 0;
+    bottom: -10px;
+    transform: translateY(100%);
+    z-index: 30;
+    &-item {
+      display: block !important;
+      border-radius: 0;
+      border: none;
+    }
+  }
+}
 </style>

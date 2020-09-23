@@ -46,6 +46,7 @@ export default {
   or: "или",
   from: "от",
   to: "до",
+  iz: 'из',
   signup: "Зарегестрироваться",
   back: "Назад",
   toCart: "В корзину",
@@ -73,5 +74,7 @@ export default {
   visitProductPage: 'Перейти на страницу товара',
   showDetails: 'Показать больше деталей',
   favourite: 'Избранное',
-  accountText: 'Личный кабинет'
+  accountText: 'Личный кабинет',
+  prev: 'Назад',
+  next: "Вперед"
 }

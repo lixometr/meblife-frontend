@@ -11,6 +11,8 @@
 
 <script>
 export default {
+        inheritAttrs: false,
+
   props: {
     isLoading: Boolean,
     pageData: Object,

@@ -1,22 +1,22 @@
 <template>
-  <Module id="3">
+  <Module id="1">
     <div class="flex md-column" :class="{'flex-row-reverse': showType === 'reverse'}">
-      <div class="module-3__content flex-1 pr-3 pl-3">
+      <div class="module-1__content flex-1 pr-3 pl-3">
         <nuxt-link :to="moreBtnUrl">
           <h2 class="h3" v-if="title">{{title}}</h2>
         </nuxt-link>
         <div class="pt-1 pb-4" v-if="subTitle">{{subTitle}}</div>
         <AppDescription class="text-14 text-justify" :text="description" v-if="description"></AppDescription>
         <div class="mt-6">
-          <nuxt-link :to="moreBtnUrl" class="btn btn-grey btn-md module-3__btn" v-if="moreBtn">{{moreBtn}}</nuxt-link>
+          <nuxt-link :to="moreBtnUrl" class="btn btn-grey btn-md module-1__btn">{{moreBtn}}</nuxt-link>
+        </div>
+        <div class="mt-4">
+          <ModuleSlider :items="moduleItems" v-if="moduleItems.length > 0" />
         </div>
       </div>
-      <nuxt-link :to="moreBtnUrl" class="d-block module-3__image position-relative flex-1" >
+      <nuxt-link :to="moreBtnUrl" class="d-block module-1__image position-relative flex-1">
         <AppImage cover v-bind="mainImage" alt="test" hide />
       </nuxt-link>
-    </div>
-    <div class="mt-4">
-      <ModuleSlider :items="moduleItems" v-if="moduleItems.length > 0" />
     </div>
   </Module>
 </template>
@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style lang="scss" >
-.module-3 {
+.module-1 {
   &__image {
     @include md {
       order: 1;

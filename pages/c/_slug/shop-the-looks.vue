@@ -2,7 +2,7 @@
   <div class="category-looks position-relative">
     <Loader v-if="isLoading" key="isLoading" />
     <template v-else>
-      <LooksArea :items="items"/>
+      <LooksArea :items="looks" :info="looksInfo" />
     </template>
   </div>
 </template>
@@ -12,19 +12,14 @@ export default {
   name: "Categorylooks",
   inheritAttrs: false,
   props: {
-    items: Array,
+    looks: Array,
+    looksInfo: Object,
+
     isLoading: Boolean,
   },
- 
 
-  computed: {
-    looks() {
-      return this.items;
-    },
-  },
-  methods: {
-    
-  },
+  computed: {},
+  methods: {},
 };
 </script>
 

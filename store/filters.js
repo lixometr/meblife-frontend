@@ -1,7 +1,5 @@
 import { filtersFromQuery } from "@/helpers/functions";
 import _ from "lodash";
-import { get } from "../../backend/model/File";
-const container = {}
 export const state = () => ({
     /*
         {
@@ -29,6 +27,7 @@ export const state = () => ({
     values: {},
     sortBy: undefined,
     delivery: undefined,
+    page: undefined,
     noAttrFields: {}
 
 })
@@ -78,6 +77,9 @@ export const getters = {
         }
         if (getters.delivery) {
             query.delivery = getters.delivery
+        }
+        if (getters.page) {
+            query.page = getters.page
 
         }
         return query
@@ -87,6 +89,9 @@ export const getters = {
     },
     sortBy(state) {
         return state.sortBy
+    },
+    page(state) {
+        return state.page
     },
     getFilterType(state, getters) {
         return (slug) => {
@@ -207,10 +212,9 @@ export const getters = {
 }
 export const mutations = {
     setItems(state, items) {
-        state.items = items
+        state.items = items || {}
     },
     setValues(state, values) {
-
         state.values = values
     },
 
@@ -219,12 +223,23 @@ export const mutations = {
         const newItems = filtersFromQuery(newValues)
 
         this.commit("filters/setValues", newItems);
+        this.commit("filters/resetPage");
     },
     setSort(state, sortBy) {
         state.sortBy = sortBy
+        this.commit("filters/resetPage");
+
     },
     setDelivery(state, delivery) {
         state.delivery = delivery
+        this.commit("filters/resetPage");
+
+    },
+    setPage(state, page) {
+        state.page = page
+    },
+    resetPage(state, page) {
+        state.page = undefined
     },
     removeFilter(state, slug) {
         const isAttr = this.getters['filters/isAttribute'](slug)
@@ -256,5 +271,10 @@ export const mutations = {
 export const actions = {
     init({ commit }, query) {
         commit('init', query)
+    },
+    apply() {
+        this.$router.push({
+            query: { ...this.getters["filters/filtersToQuery"] },
+        });
     }
 }

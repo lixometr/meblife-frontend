@@ -5,7 +5,7 @@
       :key="moduleGroup._id"
       v-bind="moduleGroup"
     />
-    <ProductsArea :items="items" :info="info" :filters="filters" :isLoading="isLoading" v-if="showProductsGrid"/>
+    <ProductsArea :items="products" :info="productsInfo" :filters="productsFilters" :isLoading="isLoading" v-if="showProductsGrid"/>
     <CategoryGrid :items="categoryChildren" v-if="showCategoryGrid"/>
     <ModulesArea
       v-for="moduleGroup in moduleGroupsBottom"
@@ -27,9 +27,9 @@ export default {
   },
   props: {
     isLoading: Boolean,
-    info: Object,
-    items: Array,
-    filters: Object,
+    productsInfo: Object,
+    products: Array,
+    productsFilters: Object,
     moduleGroupsTop: Array,
     moduleGroupsBottom: Array,
     showProductsGrid: Boolean,

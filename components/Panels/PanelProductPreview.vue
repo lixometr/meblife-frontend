@@ -106,7 +106,7 @@
             <div
               class="mb-3 color-orange uppercase font-bold text-14 mt-7 pl-1"
               v-if="similarItems.length > 0"
-            >{{$t('similarProduct')}}</div>
+            >{{$t('similarProducts')}}</div>
             <div
               class="flex flex-wrap panel-product-preview__similar-items"
               v-if="similarItems.length > 0"

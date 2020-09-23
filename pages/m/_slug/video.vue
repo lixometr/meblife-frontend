@@ -6,6 +6,8 @@
 
 <script>
     export default {
+        inheritAttrs: false,
+
         props: {
             pageData: Object
         }

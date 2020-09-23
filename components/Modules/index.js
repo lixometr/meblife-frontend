@@ -8,6 +8,9 @@ import Module8 from "./8"
 import Module21 from "./21"
 import Module23 from "./23"
 import Module14 from "./14"
+import Module28 from "./28"
+import Module1 from "./1"
+import Module26 from "./26"
 
 export default {
     Module15,
@@ -20,5 +23,8 @@ export default {
     Module21,
     Module23,
     Module14,
+    Module28,
+    Module1,
+    Module26,
 
 }

@@ -18,6 +18,7 @@
         </div>
       </nuxt-link>
     </div>
+    <Pagination class="mt-3" v-model="page" :totalPages="totalPages" />
   </div>
 </template>
 
@@ -27,9 +28,32 @@ import svgFullScreen from "@/assets/icons/fullscreen.svg";
 export default {
   props: {
     items: Array,
+    info: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   components: {
     svgFullScreen,
+  },
+  created() {
+    this.$store.commit("filters/init", this.$route.query);
+  },
+  data() {
+    return {
+      page: this.info.nowPage,
+    };
+  },
+  computed: {
+    totalPages() {
+      return this.info.totalPages;
+    },
+  },
+  watch: {
+    page() {
+      this.$store.commit("filters/setPage", this.page);
+      this.$store.dispatch("filters/apply");
+    },
   },
 };
 </script>

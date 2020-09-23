@@ -18,9 +18,13 @@
           <div class="category-page__content mw-100 flex-1">
             <nuxt-child
               :isLoading="isLoading"
-              :items="items"
-              :info="itemsInfo"
-              :filters="filters"
+              :products="products"
+              :productsInfo="productsInfo"
+              :productsFilters="productsFilters"
+              :inspirations="inspirations"
+              :inspirationsInfo="inspirationsInfo"
+              :looks="looks"
+              :looksInfo="looksInfo"
               :moduleGroupsTop="moduleGroupsTop"
               :moduleGroupsBottom="moduleGroupsBottom"
               :showProductsGrid="showProductsGrid"
@@ -38,7 +42,9 @@
 import Header from "@/components/Header";
 import CategoriesBar from "@/components/CategoriesBar";
 import SearchBtn from "@/components/SearchBtn";
-
+import FetchProducts from "@/mixins/fetch/FetchProducts";
+import FetchInspirations from "@/mixins/fetch/FetchInspirations";
+import FetchLooks from "@/mixins/fetch/FetchLooks";
 import { filtersFromQuery } from "@/helpers/functions";
 import _ from "lodash";
 export default {
@@ -49,6 +55,7 @@ export default {
       title: this.categoryName + " - Meblife",
     };
   },
+  mixins: [FetchProducts, FetchInspirations, FetchLooks],
   components: {
     Header,
     CategoriesBar,
@@ -87,7 +94,6 @@ export default {
     } catch (err) {
       error({ statusCode: 404, message: err.message });
       $loader.stop();
-
     }
     $loader.stop();
 
@@ -104,10 +110,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      items: [],
       currentPageName: "products",
-      itemsInfo: {},
-      filters: {},
     };
   },
   created() {
@@ -170,16 +173,16 @@ export default {
       return urlCategories;
     },
   },
-  
+
   methods: {
     async fetchItems() {
       this.isLoading = true;
       if (this.currentPageName === "shop-the-looks") {
-        await this.fetchLooks();
+        await this.fetchLooks('categoryLooks');
       } else if (this.currentPageName === "inspirations") {
-        await this.fetchInspirations();
+        await this.fetchInspirations('categoryInspirations');
       } else {
-        await this.fetchProducts();
+        await this.fetchProducts('categoryProducts');
       }
       this.isLoading = false;
     },
@@ -190,52 +193,6 @@ export default {
         this.currentPageName = "inspirations";
       } else {
         this.currentPageName = "products";
-      }
-    },
-    async fetchProducts() {
-      // return;
-      try {
-        const result = await this.$api.$get(
-          "categoryProducts",
-          {
-            slug: this.$route.params.slug,
-          },
-          {
-            params: {
-              filters: filtersFromQuery(this.$route.query, true),
-              sort_by: this.$route.query.sort_by,
-              need_filters: true,
-            },
-          }
-        );
-
-        this.items = result.products;
-        this.itemsInfo = result.info;
-        this.filters = result.filters;
-        this.$store.commit("filters/setItems", this.filters);
-        this.$store.commit("filters/init", this.$route.query);
-      } catch (err) {
-        this.$error(err);
-      }
-    },
-    async fetchLooks() {
-      try {
-        const result = await this.$api.$get("categoryLooks", {
-          slug: this.$route.params.slug,
-        });
-        this.items = result;
-      } catch (err) {
-        this.$error(err);
-      }
-    },
-    async fetchInspirations() {
-      try {
-        const result = await this.$api.$get("categoryInspirations", {
-          slug: this.$route.params.slug,
-        });
-        this.items = result;
-      } catch (err) {
-        this.$error(err);
       }
     },
   },

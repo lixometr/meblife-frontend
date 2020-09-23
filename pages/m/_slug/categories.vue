@@ -15,6 +15,8 @@
 
 <script>
 export default {
+        inheritAttrs: false,
+
   props: {
     items: Array,
     isLoading: Boolean,

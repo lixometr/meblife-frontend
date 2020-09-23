@@ -1,23 +1,27 @@
 <template>
   <div class="pt-4">
     <ProductsArea
-      :items="items"
+      :items="products"
       :isLoading="isLoading"
-      :filters="pageData.filters"
-      :info="pageData.info"
+      :filters="productsFilters"
+      :info="productsInfo"
     />
   </div>
 </template>
 
 <script>
 export default {
+        inheritAttrs: false,
+
   props: {
-    items: Array,
+    products: Array,
+    productsInfo: Object,
+    productsFilters: Object,
     isLoading: Boolean,
     pageData: Object,
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 </style>

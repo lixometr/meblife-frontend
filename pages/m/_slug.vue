@@ -8,7 +8,9 @@
         <div class="flex flex-column h-100">
           <div class="page-header__title flex-1 flex align-center justify-center flex-column">
             <div>
-              <h4 class="text-left color-white manufacturer-page__pre-title">{{$t('manufacturerTitle')}}</h4>
+              <h4
+                class="text-left color-white manufacturer-page__pre-title"
+              >{{$t('manufacturerTitle')}}</h4>
               <h1
                 class="mw-100 truncate pl-3 pr-3 mb-3 uppercase color-white text-center"
               >{{manufacturerName}}</h1>
@@ -87,19 +89,34 @@
     </div>
     <div class="manufacturer-content">
       <div class="container">
-        <nuxt-child :isLoading="isLoading" :items="items" :pageData="pageData"></nuxt-child>
+        <nuxt-child
+          :isLoading="isLoading"
+          :items="items"
+          :products="products"
+          :productsInfo="productsInfo"
+          :inspirations="inspirations"
+          :inspirationsInfo="inspirationsInfo"
+          :looks="looks"
+          :looksInfo="looksInfo"
+          :productsFilters="productsFilters"
+          :pageData="pageData"
+        ></nuxt-child>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import FetchProducts from "@/mixins/fetch/FetchProducts";
+import FetchInspirations from "@/mixins/fetch/FetchInspirations";
+import FetchLooks from "@/mixins/fetch/FetchLooks";
 export default {
   head() {
     return {
       title: this.manufacturerName,
     };
   },
+  mixins: [FetchProducts, FetchInspirations, FetchLooks],
   async fetch() {
     await this.fetchItems();
   },
@@ -162,7 +179,6 @@ export default {
         this.currentPageName = "info";
       }
     },
-    async fetchProducts() {},
     async fetchCategories() {
       const categories = await this.$api.$get("categoriesByManufacturer", {
         slug: this.manufacturer.slug,
@@ -172,14 +188,7 @@ export default {
         manufacturerName: this.manufacturerName,
       };
     },
-    async fetchCollections() {
-      const inspirations = await this.$api.$get("manufacturerInspirations", {slug: this.manufacturer.slug});
-      this.items = inspirations;
-    },
-    async fetchLooks() {
-      const looks = await this.$api.$get("manufacturerLooks", {slug: this.manufacturer.slug});
-      this.items = looks;
-    },
+
     async fetchHistory() {
       this.pageData = {
         history: this.manufacturer.history,
@@ -197,22 +206,21 @@ export default {
       };
     },
     async fetchVideo() {
-      
       this.pageData = {
-        videos: this.manufacturer.videos
-      }
+        videos: this.manufacturer.videos,
+      };
     },
     async fetchItems() {
       this.isLoading = true;
       try {
         if (this.currentPageName === "products") {
-          await this.fetchProducts();
+          await this.fetchProducts('manufacturerProducts');
         } else if (this.currentPageName === "categories") {
           await this.fetchCategories();
         } else if (this.currentPageName === "collections") {
-          await this.fetchCollections();
+          await this.fetchInspirations('manufacturerInspirations');
         } else if (this.currentPageName === "shop-the-looks") {
-          await this.fetchLooks();
+          await this.fetchLooks('manufacturerLooks');
         } else if (this.currentPageName === "history") {
           await this.fetchHistory();
         } else if (this.currentPageName === "video") {
@@ -229,7 +237,7 @@ export default {
   watch: {
     $route() {
       this.definePageName();
-      console.log(this.currentPageName)
+      console.log(this.currentPageName);
       this.fetchItems();
     },
   },

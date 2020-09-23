@@ -2,7 +2,7 @@
   <div class="category-inspirations position-relative">
     <Loader v-if="isLoading" key="isLoading" />
     <template v-else>
-      <InspirationsArea :items="items" />
+      <InspirationsArea :items="inspirations" :info="inspirationsInfo"/>
     </template>
   </div>
 </template>
@@ -12,14 +12,13 @@ export default {
   name: "CategoryInspirations",
   inheritAttrs: false,
   props: {
-    items: Array,
+    inspirations: Array,
+    inspirationsInfo: Object,
     isLoading: Boolean,
   },
 
   computed: {
-    inspirations() {
-      return this.items;
-    },
+   
   },
 };
 </script>

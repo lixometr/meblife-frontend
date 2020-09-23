@@ -21,6 +21,7 @@
         </div>
       </div>
     </client-only>
+    <Pagination class="mt-3" v-model="page" :totalPages="totalPages" />
   </div>
 </template>
 
@@ -30,13 +31,37 @@ import svgFullScreen from "@/assets/icons/fullscreen.svg";
 export default {
   props: {
     items: Array,
+    info: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   components: {
     svgFullScreen,
   },
+  data() {
+    return {
+      page: this.info.nowPage,
+    };
+  },
+  created() {
+    this.$store.commit("filters/init", this.$route.query);
+  },
+
+  computed: {
+    totalPages() {
+      return this.info.totalPages;
+    },
+  },
   methods: {
     openLook(id) {
       this.$store.dispatch("modal/open", { name: "panel-look", props: { id } });
+    },
+  },
+  watch: {
+    page() {
+      this.$store.commit("filters/setPage", this.page);
+      this.$store.dispatch("filters/apply");
     },
   },
 };
