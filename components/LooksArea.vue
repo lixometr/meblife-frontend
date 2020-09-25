@@ -1,27 +1,39 @@
 <template>
   <div>
-    <client-only>
-      <div v-masonry transition-duration="0" item-selector=".item" class="masonry-container">
+    <div v-if="items.length" key="hasItems">
+      <client-only>
         <div
-          class="looks-list__item item"
-          v-masonry-tile
-          v-for="look in items"
-          :key="look._id"
-          @click="openLook(look._id)"
+          v-masonry
+          transition-duration="0"
+          item-selector=".item"
+          class="masonry-container"
         >
-          <AppImage
-            data-not-lazy
-            class="looks-list__item-image w-100 h-auto"
-            v-bind="look.image"
-            :alt="look.name"
-          />
-          <div class="looks-list__item-btn btn btn-circle btn-blur color-white">
-            <svgFullScreen width="26" />
+          <div
+            class="looks-list__item item"
+            v-masonry-tile
+            v-for="look in items"
+            :key="look._id"
+            @click="openLook(look._id)"
+          >
+            <AppImage
+              data-not-lazy
+              class="looks-list__item-image w-100 h-auto"
+              v-bind="look.image"
+              :alt="look.name"
+            />
+            <div
+              class="looks-list__item-btn btn btn-circle btn-blur color-white"
+            >
+              <svgFullScreen width="26" />
+            </div>
           </div>
         </div>
-      </div>
-    </client-only>
-    <Pagination class="mt-3" v-model="page" :totalPages="totalPages" />
+      </client-only>
+      <Pagination class="mt-3" v-model="page" :totalPages="totalPages" />
+    </div>
+    <div class="text-center" key="noItems" v-else>
+      {{ $t("noItems") }}
+    </div>
   </div>
 </template>
 

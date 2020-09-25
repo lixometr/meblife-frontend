@@ -178,11 +178,11 @@ export default {
     async fetchItems() {
       this.isLoading = true;
       if (this.currentPageName === "shop-the-looks") {
-        await this.fetchLooks('categoryLooks');
+        await this.fetchLooks("categoryLooks");
       } else if (this.currentPageName === "inspirations") {
-        await this.fetchInspirations('categoryInspirations');
+        await this.fetchInspirations("categoryInspirations");
       } else {
-        await this.fetchProducts('categoryProducts');
+        await this.fetchProducts("categoryProducts");
       }
       this.isLoading = false;
     },

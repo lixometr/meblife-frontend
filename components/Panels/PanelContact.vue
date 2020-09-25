@@ -1,6 +1,6 @@
 <template>
   <Panel name="panel-contact" headerTheme="light" class="panel-contact" :isStatic="false" @close="$emit('close')">
-    <template v-slot:title><span class="uppercase">{{$t('contacts')}}</span></template>
+    <template v-slot:title><span class="uppercase">{{$t('panelContact.panelTitle')}}</span></template>
     <template v-slot:content>
       <div class="panel-contact__header">
         <img src="/img/contact.webp" alt="contact" class="size-cover z-0" />
@@ -38,32 +38,34 @@
         <transition name="fadeDown" mode="out-in">
           <div class="info" v-if="tabActive === 1" key="1">
             <div class="text-12 text-center">
-              <h4 class="uppercase font-bold mb-2">КАК МЫ МОЖЕМ ТЕБЕ ПОМОЧЬ?</h4>
-              <p class="mb-3">Наши специалисты к вашим услугам. Вы можете связаться с нами:</p>
-              <p>Пн-пт С 8:00 до 21:00 и сб С 10:00 до 16:00</p>
+              <h4 class="uppercase font-bold mb-2">{{$t('panelContact.tabs[0].title')}}</h4>
+              <p class="mb-3">{{$t('panelContact.tabs[0].text1')}}</p>
+              <p>{{$t('panelContact.tabs[0].text2')}}</p>
+              <div class="pt-4">
+                <ContactBtnPhone class="mb-2"/>
+                <ContactBtnEmail />
+              </div>
             </div>
           </div>
           <div class="buy-view" v-if="tabActive === 2" key="2">
-            <h5 class="uppercase font-bold text-center mb-1">Купить образ</h5>
+            <h5 class="uppercase font-bold text-center mb-1">{{$t('panelContact.tabs[1].title')}}</h5>
             <p class="text-14">
-              Вы ищете красивый интерьер? Здесь вы найдете их множество! Это не только идеи для украшения комнат разного назначения и использования, но и аранжировки, которые вписываются в разные стили.
-              Вы предпочитаете уютные скандинавские интерьеры, а точнее элегантный гламур? Думая о ваших индивидуальных предпочтениях и потребностях, мы подготовили гораздо больше ... Сотни предметов мебели, светильников и аксессуаров - среди них обязательно найдется что-то идеальное именно для вас.
+            {{$t('panelContact.tabs[1].text')}}
             </p>
             <nuxt-link
               to="/shop-the-looks"
               class="btn btn-red btn-md w-100 mt-4 font-bold"
-            >Показать все образы</nuxt-link>
+            >{{$t('panelContact.tabs[1].btnText')}}</nuxt-link>
           </div>
           <div class="buy-view" v-if="tabActive === 3" key="3">
-            <h5 class="uppercase font-bold text-center mb-1">ВДОХНОВЕНИЯ</h5>
+            <h5 class="uppercase font-bold text-center mb-1">{{$t('panelContact.tabs[2].title')}}</h5>
             <p class="text-14">
-              Вы немного беспокоитесь о планировании собственного декора? Совершенно ненужно - вы всегда можете рассчитывать на нашу помощь в этом вопросе. Здесь вы найдете множество советов и хитростей по дизайну интерьера, которые сделают путь к интерьеру вашей мечты намного проще.
-              Или, может быть, вас интересуют современные тенденции в дизайне дома, и вы хотите быть в курсе последних событий? В этой теме вы также можете рассчитывать на что-то приятное с нами - не только информацию о моде, но и новости о новых коллекциях ведущих мировых брендов.
+             {{$t('panelContact.tabs[2].text')}}
             </p>
             <nuxt-link
               to="/inspirations"
               class="btn btn-red btn-md w-100 mt-4 font-bold"
-            >Показать все вдохновения</nuxt-link>
+            >{{$t('panelContact.tabs[2].btnText')}}</nuxt-link>
           </div>
         </transition>
       </div>

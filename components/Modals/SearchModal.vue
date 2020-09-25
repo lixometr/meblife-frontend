@@ -57,7 +57,7 @@ export default {
     openMenuModal() {
       this.$modal.hideAll();
       this.$emit('close')
-      this.$modal.show("modal-menu");
+      this.$store.dispatch('modal/open', {name: 'modal-menu'})
     },
   },
 };

@@ -43,6 +43,7 @@ export default {
   plugins: [
     { src: '@/plugins/error' },
     { src: '@/plugins/api' },
+    { src: '@/plugins/i18n' },
     { src: '@/plugins/vue-awesome-swiper', mode: 'client' },
     { src: '@/plugins/vue-show-slide', mode: 'client' },
     { src: '@/plugins/vue-js-modal', mode: 'client' },
@@ -54,7 +55,17 @@ export default {
   ],
   router: {
     middleware: 'i18n',
-    prefetchLinks: false
+    prefetchLinks: false,
+    extendRoutes(routes, resolve) {
+      // const newRoutes = [...routes]
+      // routes = [
+      //   {
+      //     path: '/:lang',
+      //     children: newRoutes 
+      //   }
+      // ]
+      // console.log(routes)
+    }
   },
   /*
   ** Auto import components
@@ -101,43 +112,44 @@ export default {
     'vue-scrollto/nuxt',
     'cookie-universal-nuxt',
     '@nuxtjs/toast',
-    [
-      'nuxt-i18n',
-      {
-        locales: [
-          {
-            code: 'ua',
-            file: 'ua.js',
-            iso: "ua-UA"
-          },
-          {
-            code: 'ru',
-            file: 'ru.js',
-            iso: "ru-RU"
+    
+    // [
+    //   'nuxt-i18n',
+    //   {
+    //     locales: [
+    //       {
+    //         code: 'ua',
+    //         file: 'ua.js',
+    //         iso: "ua-UA"
+    //       },
+    //       {
+    //         code: 'ru',
+    //         file: 'ru.js',
+    //         iso: "ru-RU"
 
-          },
+    //       },
 
-        ],
-        seo: true,
-        lazy: true,
-        langDir: 'lang/',
-        strategy: "prefix",
-        defaultLocale: "ru",
-        fallbackLocale: 'ru',
-        vuex: {
-          syncLocale: true
-        },
-        detectBrowserLanguage: {
-          useCookie: true,
-          cookieKey: 'i18n_redirected'
-        }
-      }
-    ],
+    //     ],
+    //     seo: true,
+    //     lazy: true,
+    //     langDir: 'lang/',
+    //     strategy: "prefix",
+    //     defaultLocale: "ru",
+    //     fallbackLocale: 'ru',
+    //     vuex: {
+    //       syncLocale: true
+    //     },
+    //     detectBrowserLanguage: {
+    //       useCookie: true,
+    //       cookieKey: 'i18n_redirected'
+    //     }
+    //   }
+    // ],
 
   ],
-  proxy: {
-    "/api/": { target: "http://localhost:8080", pathRewrite: { "^/api/": "" } }
-  },
+  // proxy: {
+  //   "/api/": { target: "http://localhost:8080", pathRewrite: { "^/api/": "" } }
+  // },
   toast: {
     position: 'bottom-right',
     duration: 5000,

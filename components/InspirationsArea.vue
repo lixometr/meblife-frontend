@@ -1,24 +1,33 @@
 <template>
   <div class="inspirations-area">
-    <div class="inspirations-list">
-      <nuxt-link
-        :to="$url.inspiration(inspiration.slug)"
-        class="inspirations-list__item"
-        v-for="inspiration in items"
-        :key="inspiration._id"
-      >
-        <AppImage
-          class="inspirations-list__item-image size-cover w-100 h-auto"
-          v-bind="inspiration.image"
-          :alt="inspiration.name"
-        />
-        <p class="inspirations-list__item-title color-white text-16">{{inspiration.name}}</p>
-        <div class="inspirations-list__item-btn btn btn-circle btn-blur color-white">
-          <svgFullScreen width="26" />
-        </div>
-      </nuxt-link>
+    <div v-if="items.length" key="hasItems">
+      <div class="inspirations-list">
+        <nuxt-link
+          :to="$url.inspiration(inspiration.slug)"
+          class="inspirations-list__item"
+          v-for="inspiration in items"
+          :key="inspiration._id"
+        >
+          <AppImage
+            class="inspirations-list__item-image size-cover w-100 h-auto"
+            v-bind="inspiration.image"
+            :alt="inspiration.name"
+          />
+          <p class="inspirations-list__item-title color-white text-16">
+            {{ inspiration.name }}
+          </p>
+          <div
+            class="inspirations-list__item-btn btn btn-circle btn-blur color-white"
+          >
+            <svgFullScreen width="26" />
+          </div>
+        </nuxt-link>
+      </div>
+      <Pagination class="mt-3" v-model="page" :totalPages="totalPages" />
     </div>
-    <Pagination class="mt-3" v-model="page" :totalPages="totalPages" />
+    <div class="text-center" key="noItems" v-else>
+      {{$t('noItems')}}
+    </div>
   </div>
 </template>
 

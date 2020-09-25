@@ -1,27 +1,40 @@
 <template>
-  <div class="auth-input" :class="classes">
-    <label class="auth-input__label" :for="inputId">{{label}}</label>
-    <input
-      class="auth-input__input"
-      :type="type"
-      :id="inputId"
-      v-on="listeners"
-      v-bind="attrs"
-      @focus="onFocus"
-      @blur="onBlur"
-    />
+  <div class="auth-input-wrapper">
+    <div class="auth-input" :class="classes">
+      <label class="auth-input__label" :for="inputId">{{ label }}</label>
+      <input
+        class="auth-input__input"
+        :type="type"
+        :id="inputId"
+        v-on="listeners"
+        v-bind="attrs"
+        @focus="onFocus"
+        @blur="onBlur"
+      />
+    </div>
+    <p class="color-red mt-1 text-14 flex align-center" v-if="error.length > 0">
+      <svgError width="15" class="mr-2" />{{ error }}
+    </p>
   </div>
 </template>
 
 <script>
+import svgError from "@/assets/icons/error.svg";
 export default {
   props: {
     value: String,
     label: String,
+    error: {
+      type: String,
+      default: "",
+    },
     type: {
       type: String,
       defalt: "text",
     },
+  },
+  components: {
+    svgError,
   },
   data() {
     return {
@@ -30,18 +43,18 @@ export default {
     };
   },
   computed: {
-      attrs() {
-          return {
-              ...this.$attrs,
-              value: this.text
-          }
-      },
-      listeners() {
-          return {
-              ...this.$listeners,
-              input: this.onInput
-          }
-      },
+    attrs() {
+      return {
+        ...this.$attrs,
+        value: this.text,
+      };
+    },
+    listeners() {
+      return {
+        ...this.$listeners,
+        input: this.onInput,
+      };
+    },
     classes() {
       return {
         active: this.isActive,

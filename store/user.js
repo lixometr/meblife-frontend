@@ -34,6 +34,11 @@ export const mutations = {
     initToken(state) {
         const token = this.$cookies.get('auth_token')
         state.token = token
+    },
+    logout(state) {
+        state.token = ''
+        state.user = {}
+        this.$cookies.remove('auth_token')
     }
 }
 
@@ -71,5 +76,8 @@ export const actions = {
     },
     async changePassword({ }, data) {
         return this.$api.$put('changePassword', null, data)
+    },
+    logout({commit}) {
+        commit('logout')
     }
 }

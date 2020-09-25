@@ -7,10 +7,14 @@ const panels = {
     'panel-cart': () => import("@/components/Panels/PanelCart"),
     'panel-categories': () => import("@/components/Panels/PanelCategories"),
     'slider-modal': () => import("@/components/Modals/SliderModal"),
+    'modal-menu': () => import("@/components/Modals/MenuModal"),
     'modal-search': () => import("@/components/Modals/SearchModal"),
     'modal-loading': () => import("@/components/Modals/LoadingModal"),
     'panel-login': () => import("@/components/Panels/PanelLogin"),
     'panel-account': () => import("@/components/Panels/Account/PanelAccount"),
+    'panel-account.personalData': () => import("@/components/Panels/Account/PanelPersonalData"),
+    'panel-account.changePassword': () => import("@/components/Panels/Account/PanelChangePassword"),
+    'panel-account.changeEmail': () => import("@/components/Panels/Account/PanelChangeEmail"),
     'panel-favourite': () => import("@/components/Panels/PanelFavourite"),
     'panel-product-preview': () => import("@/components/Panels/PanelProductPreview"),
 };
@@ -27,6 +31,9 @@ export const state = () => ({
         'panel-cart': {},
         'panel-login': {},
         'panel-product-preview': {},
+        'panel-account.personalData': {},
+        'panel-account.changePassword': {},
+        'panel-account.changeEmail': {},
         'panel-favourite': {
             login: true
         },
@@ -52,6 +59,15 @@ export const state = () => ({
             transition: 'fade',
             classes: ['search-modal__modal'],
             class: 'search-modal',
+            height: "100%",
+            width: "100%",
+            adaptive: true
+        },
+        'modal-menu': {
+            name: 'modal-menu',
+            transition: 'fade',
+            classes: ['menu-modal__modal'],
+            class: 'menu-modal',
             height: "100%",
             width: "100%",
             adaptive: true

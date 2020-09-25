@@ -49,7 +49,7 @@ export default {
       this.isOpen = !this.isOpen;
     },
     async switchLanguage(slug) {
-      await this.$i18n.setLocale(slug);
+      this.$store.dispatch('i18n/setLocale', slug);
       this.$router.push(`/`);
       this.isOpen = false;
     },

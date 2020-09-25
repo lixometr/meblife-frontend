@@ -2,16 +2,19 @@ import _ from "lodash"
 export const state = () => ({
   activeCurrencySymbol: '',
   currencies: [],
-  languages: [],
   defaultCurrencyId: '',
-  isLoading: false
+  isLoading: false,
+  passwordLength: 4,
 })
 export const getters = {
+  passwordLength(state) {
+    return state.passwordLength
+  },
   currencies(state) {
     return state.currencies
   },
-  languages(state) {
-    return state.languages
+  languages(state, getters) {
+    return state.i18n.languages
   },
   activeCurrency(state) {
     return state.currencies.find(cur => cur.symbol === state.activeCurrencySymbol) || {}
@@ -32,12 +35,13 @@ export const getters = {
   },
   nuxtKey(state, getters) {
     return getters.currency + ' ' + getters.activeLanguageSlug
+  },
+  isLoading(state) {
+    return state.isLoading
   }
 }
 export const mutations = {
-  setLanguages(state, languages) {
-    state.languages = languages;
-  },
+
   setCurrencies(state, currencies) {
     state.currencies = currencies;
   },
@@ -70,13 +74,13 @@ export const mutations = {
   startLoading(state) {
     state.isLoading = true
     if (process.client) {
-      this.dispatch('modal/open', { name: 'modal-loading' })
+      // this.dispatch('modal/open', { name: 'modal-loading' })
     }
   },
   stopLoading(state) {
     state.isLoading = false
     if (process.client) {
-      this.dispatch('modal/close', { name: 'modal-loading' })
+      // this.dispatch('modal/close', { name: 'modal-loading' })
 
     }
 
@@ -102,10 +106,11 @@ export const actions = {
   },
   async nuxtServerInit({ commit, dispatch }, { app, i18n, route }) {
     try {
+
+
+      await dispatch('settings/init')
       await dispatch('user/init')
 
-      const languages = await this.$api.$get('languages')
-      commit('setLanguages', languages)
       const currencies = await this.$api.$get('currencies')
       const defaultCurrencyId = await this.$api.$get('settingByName', { name: 'currency' })
       commit('setDefaultCurrencyId', defaultCurrencyId)

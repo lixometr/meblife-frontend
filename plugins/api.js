@@ -9,10 +9,10 @@ export default async ({ app, $axios, store }, inject) => {
             config.headers.Authorization = `Bearer ${token}`
         }
         config.params = Object.assign({}, {
-            lang: app.i18n.locale,
+            lang: store.getters['i18n/locale'],
             currency: store.getters.activeCurrency.slug
         }, config.params)
         return config
     })
-    inject('api', new Api(ApiRoutes(), $axios, {}))
+    inject('api', new Api(ApiRoutes({baseUrl: 'http://localhost:8080'}), $axios, {}))
 }

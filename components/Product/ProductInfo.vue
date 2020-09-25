@@ -8,18 +8,18 @@
               class="btn btn-grey btn-md mr-2"
               :class="{'active': tabActive === 'description'}"
               @click="openDescription"
-            >Описание товара</button>
-            <button class="btn btn-grey btn-md mr-2" @click="instalmentsOpen">Покупки в расрочку</button>
-            <button class="btn btn-grey btn-md mr-2" @click="contactOpen">Задайте вопрос</button>
-            <button class="btn btn-grey btn-md mr-2" @click="openBrand">Бренд</button>
+            >{{$t('product.tabs.description')}}</button>
+            <button class="btn btn-grey btn-md mr-2" @click="instalmentsOpen">{{$t('product.tabs.installments')}}</button>
+            <button class="btn btn-grey btn-md mr-2" @click="contactOpen">{{$t('product.tabs.ask')}}</button>
+            <button class="btn btn-grey btn-md mr-2" @click="openBrand">{{$t('product.tabs.brand')}}</button>
             <button
               class="btn btn-grey btn-md mr-2"
               :class="{'active': tabActive === 'delivery'}"
               @click="openDeliveryInfo"
-            >Доставка</button>
+            >{{$t('deliveryText')}}</button>
           </div>
           <div class="product__description" v-if="tabActive === 'description'">
-            <h5>ИНФОРМАЦИЯ О ПРОДУКТЕ: {{name}}</h5>
+            <h5>{{$t('product.info')}} {{name}}</h5>
             <div class="bg-pale p-6 mt-3 text-center" v-if="sizeImage">
               <AppImage v-bind="sizeImage" />
             </div>
@@ -31,7 +31,7 @@
             <p
               class="text-center"
               style="max-width: 350px"
-            >Ради высочайшего качества обслуживания клиентов и безопасности продукции мы доставляем посылки только в сотрудничестве с опытными и профессиональными курьерскими компаниями, работающими по всей Польше. Мы также ввели возможность доставки с залогом, которая совершенно бесплатна для заказов на сумму более 499 злотых. В результате выбранная мебель, светильники или аксессуары могут быть доставлены в указанное место независимо от этажа, на котором расположена квартира, и без дополнительных затрат.</p>
+            >{{$t('product.deliveryText')}}</p>
           </div>
           <!-- /.product__description -->
         </div>
@@ -41,7 +41,7 @@
         <AppCollapse v-model="descriptionCollapseOpen" class="border-bottom border-white">
           <template v-slot:trigger>
             <div class="pr-4 pl-4 pt-3 pb-3 bg-pale no-select cursor-pointer flex">
-              <span class="flex-1">Описание товара</span>
+              <span class="flex-1">{{$t('product.tabs.description')}}</span>
               <ArrowDown
                 class="transition"
                 :class="{'rotate-180': descriptionCollapseOpen}"
@@ -63,7 +63,7 @@
         <AppCollapse v-model="brandCollapseOpen" class="border-bottom border-white">
           <template v-slot:trigger>
             <div class="pr-4 pl-4 pt-3 pb-3 bg-pale no-select cursor-pointer flex">
-              <span class="flex-1">Бренд</span>
+              <span class="flex-1">{{$t('product.tabs.brand')}}</span>
               <ArrowDown class="transition" :class="{'rotate-180': brandCollapseOpen}" width="30" />
             </div>
           </template>
@@ -74,7 +74,7 @@
         <AppCollapse v-model="deliveryCollapseOpen" class="border-bottom border-grey">
           <template v-slot:trigger>
             <div class="pr-4 pl-4 pt-3 pb-3 bg-pale cursor-pointer flex">
-              <span class="flex-1 no-select">Доставка</span>
+              <span class="flex-1 no-select">{{$t('product.tabs.delivery')}}</span>
               <ArrowDown
                 class="transition"
                 :class="{'rotate-180': deliveryCollapseOpen}"
@@ -92,21 +92,21 @@
           class="pr-4 pl-4 pt-3 pb-3 bg-white border-bottom border-grey cursor-pointer flex"
           @click="deliveryOpen"
         >
-          <span class="flex-1 no-select text-14">Доставка</span>
+          <span class="flex-1 no-select text-14">{{$t('product.tabs.delivery')}}</span>
           <ArrowRight width="30" />
         </div>
         <div
           class="pr-4 pl-4 pt-3 pb-3 bg-white border-bottom border-grey cursor-pointer flex"
           @click="instalmentsOpen"
         >
-          <span class="flex-1 no-select text-14">Покупки в расрочку</span>
+          <span class="flex-1 no-select text-14">{{$t('product.tabs.installments')}}</span>
           <ArrowRight width="30" />
         </div>
         <div
           class="pr-4 pl-4 pt-3 pb-3 bg-white border-bottom border-grey cursor-pointer flex"
           @click="contactOpen"
         >
-          <span class="flex-1 no-select text-14">Контакт</span>
+          <span class="flex-1 no-select text-14">{{$t('product.tabs.ask')}}</span>
           <ArrowRight width="30" />
         </div>
       </div>

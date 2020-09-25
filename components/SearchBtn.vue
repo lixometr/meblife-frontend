@@ -1,7 +1,7 @@
 <template>
   <div class="search" :style="styles">
     <button
-      class="search__btn btn btn-md"
+      class="search__btn btn btn-md h-100"
       :class="{'btn-blur': variant === 'dark', 'btn-white': variant === 'light'}"
       @click="openSearchModal"
     >

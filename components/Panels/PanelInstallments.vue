@@ -1,45 +1,64 @@
 <template>
-  <Panel name="panel-installments" headerTheme="dark" class="panel-installments" :isStatic="false" @close="$emit('close')"> 
-    <template v-slot:title>ПОКУПКИ В РАССРОЧКУ</template>
+  <Panel
+    name="panel-installments"
+    headerTheme="dark"
+    class="panel-installments"
+    :isStatic="false"
+    @close="$emit('close')"
+  >
+    <template v-slot:title>{{ $t("panelInstallments.panelTitle") }}</template>
     <template v-slot:content>
-      <div class="panel-installments__content p-4">
-        <h5 class="pb-4">ПРОДАЖА В РАССРОЧКУ ОСУЩЕСТВЛЯЕТСЯ ПРИ СОТРУДНИЧЕСТВЕ С BGŻ BNP PARIBAS.</h5>
-        <p class="text-14">Если в предложении другого магазина вы найдете интересующий вас товар по цене ниже, чем предложенная на сайте wonder.pl, свяжитесь с нами - при его покупке вы получите соответствующую скидку. <b>Как это сделать?</b></p>
+      <div class="panel-installments__content panel-modal__content p-4">
+        <h5 class="pb-4">{{ $t("panelInstallments.title") }}</h5>
+        <p class="text-14">{{ $t("panelInstallments.subTitle") }}</p>
         <div class="panel-installments__list mt-3">
           <div class="bg-pale border-bottom border-white p-4 flex">
-            <div class="panel-installments__icon bg-orange color-white p-1 shrink-0 mr-2">
+            <div
+              class="panel-installments__icon bg-orange color-white p-1 shrink-0 mr-2"
+            >
               <svgCheckmark width="35" />
             </div>
-             <p class="text-14">
-                Вы выбираете один из двух возможных вариантов погашения: 10 или 20 равных 0% платежей - без скрытых затрат, только стоимость покупок.
-              </p>
+            <p class="text-14">
+              {{ $t("panelInstallments.text[0]") }}
+            </p>
           </div>
           <div class="bg-pale border-bottom border-white p-4 flex">
-            <div class="panel-installments__icon bg-orange color-white p-1 shrink-0 mr-2">
+            <div
+              class="panel-installments__icon bg-orange color-white p-1 shrink-0 mr-2"
+            >
               <svgCheckmark width="35" />
             </div>
-             <p class="text-14">
-               Продажа в рассрочку распространяется только на заказы на сумму более 300 злотых (в случае 10 платежей) или 600 злотых (в случае 20 платежей).
-              </p>
+            <p class="text-14">
+              {{ $t("panelInstallments.text[1]") }}
+            </p>
           </div>
           <div class="bg-pale border-bottom border-white p-4 flex">
-            <div class="panel-installments__icon bg-orange color-white p-1 shrink-0 mr-2">
+            <div
+              class="panel-installments__icon bg-orange color-white p-1 shrink-0 mr-2"
+            >
               <svgCheckmark width="35" />
             </div>
-             <p class="text-14">
-               Банк отправляет вам заявку на получение кредита с просьбой заполнить ее.
-              </p>
+            <p class="text-14">
+              {{ $t("panelInstallments.text[2]") }}
+            </p>
           </div>
           <div class="bg-pale border-bottom border-white p-4 flex">
-            <div class="panel-installments__icon bg-orange color-white p-1 shrink-0 mr-2">
+            <div
+              class="panel-installments__icon bg-orange color-white p-1 shrink-0 mr-2"
+            >
               <svgCheckmark width="35" />
             </div>
-             <p class="text-14">
-              В случае положительного решения Банк связывается с wonder.shop для подтверждения готовности к отправке товара.
-              </p>
+            <p class="text-14">
+              {{ $t("panelInstallments.text[3]") }}
+            </p>
           </div>
         </div>
-        <div class="btn btn-black w-100 pt-3 pb-3 font-bold mt-3">Контакт</div>
+        <div
+          class="btn btn-black w-100 pt-3 pb-3 font-bold mt-3"
+          @click="openPanelContact"
+        >
+          {{ $t("panelInstallments.btnText") }}
+        </div>
       </div>
     </template>
   </Panel>
@@ -59,6 +78,10 @@ export default {
     };
   },
   methods: {
+    openPanelContact() {
+      this.$store.dispatch("modal/closeAll");
+      this.$store.dispatch("modal/open", { name: "panel-contact" });
+    },
     selectTab(id) {
       this.tabActive = id;
     },

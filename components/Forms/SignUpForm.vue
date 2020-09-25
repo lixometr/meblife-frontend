@@ -1,7 +1,7 @@
 <template>
   <form action="#" @submit.prevent="onSubmit">
     <div class="mb-2">
-      <AuthInput type="text" :label="$t('inputName')" v-model="name" />
+      <AuthInput type="text" :label="$t('signUpPage.inputName')" v-model="name" />
       <p class="mt-1 text-14 color-red" v-if="isSubmited && $v.name.$error">
         <span v-if="!$v.name.required">
           <svgError width="12" class="mr-1" />
@@ -10,7 +10,7 @@
       </p>
     </div>
     <div class="mb-2">
-      <AuthInput type="email" :label="$t('inputEmail')" v-model="email" />
+      <AuthInput type="email" :label="$t('signUpPage.inputEmail')" v-model="email" />
       <p class="mt-1 text-14 color-red" v-if="isSubmited && $v.email.$error">
         <span v-if="!$v.email.required">
           <svgError width="12" class="mr-1" />
@@ -23,7 +23,7 @@
       </p>
     </div>
     <div>
-      <AuthInput type="password" :label="$t('inputPassword')" v-model="password" />
+      <AuthInput type="password" :label="$t('signUpPage.inputPassword')" v-model="password" />
       <p class="mt-1 text-14 color-red" v-if="isSubmited && $v.password.$error">
         <span v-if="!$v.password.required">
           <svgError width="12" class="mr-1" />

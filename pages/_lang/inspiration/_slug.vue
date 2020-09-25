@@ -7,15 +7,19 @@
 
       <div class="page-header__content">
         <div class="flex flex-column h-100">
-          <div class="page-header__title flex-1 flex align-center justify-center flex-column">
-            <h1 class="mw-100 pl-3 pr-3 mb-3 uppercase color-white text-center">{{name}}</h1>
+          <div
+            class="page-header__title flex-1 flex align-center justify-center flex-column"
+          >
+            <h1 class="mw-100 pl-3 pr-3 mb-3 uppercase color-white text-center">
+              {{ name }}
+            </h1>
           </div>
         </div>
       </div>
     </div>
     <div class="inspiration-page__content" v-if="hasTemplate" key="hasTemplate">
       <div class="container">
-        <h4 class="text-center mt-2 mb-1">{{introdctionTitle}}</h4>
+        <h4 class="text-center mt-2 mb-1">{{ introdctionTitle }}</h4>
         <AppDescription :text="introdctionText"></AppDescription>
       </div>
       <section class="mt-8 bg-design pb-7 overflow-hidden">
@@ -41,58 +45,68 @@
       </section>
       <section
         class="inspiration-page__similar mt-5 overflow-hidden"
-        v-if="smilarInspirations.length > 0"
+        v-if="similarInspirations.length > 0"
       >
         <div class="container">
-          <div class="font-bold mb-3">{{$t('inspirationsSimilar')}}:</div>
-          <SimilarInspirations :items="smilarInspirations" />
+          <div class="font-bold mb-3">{{ $t("inspirationsSimilar") }}:</div>
+          <SimilarInspirations :items="similarInspirations" />
         </div>
       </section>
     </div>
     <div class="inspiration-page__content pt-5" v-else key="no-template">
       <div class="container">
-        <ProductsArea :items="products" :filters="productFilters" />
+        <ProductsArea
+          :items="products"
+          :filters="productsFilters"
+          :info="productsInfo"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import FetchProducts from "@/mixins/fetch/FetchProducts";
 export default {
-  async asyncData({ $api, params, $error, error }) {
+  mixins: [FetchProducts],
+  async fetch() {
+    if (this.inspiration.no_template) {
+      await this.fetchProducts("inspirationProducts", {
+        slug: this.inspiration.slug,
+      });
+    }
+  },
+  async asyncData({ $api, params, $error, error, $loader }) {
+    $loader.start();
     try {
       const inspiration = await $api.$get("inspiration", {
         slug: params.slug,
       });
-      if (inspiration.no_template) {
-        const filters = await $api.$get("inspirationFilters", {
-          slug: params.slug,
-        });
-        return {
-          inspiration,
-          products: inspiration.products1,
-          productFilters: filters,
-        };
-      }
+      const similarInspirations = await $api.$get("inspirationsSimilar", {
+        slug: params.slug,
+      });
+      $loader.stop();
       return {
         inspiration,
+        similarInspirations,
       };
     } catch (err) {
+      $loader.stop();
       error({ statusCode: 404 });
     }
   },
   computed: {
-    smilarInspirations() {
-      return (
-        [
-          this.inspiration,
-          this.inspiration,
-          this.inspiration,
-          this.inspiration,
-          this.inspiration,
-        ] || []
-      );
-    },
+    // similarInspirations() {
+    //   return (
+    //     [
+    //       this.inspiration,
+    //       this.inspiration,
+    //       this.inspiration,
+    //       this.inspiration,
+    //       this.inspiration,
+    //     ] || []
+    //   );
+    // },
     hasTemplate() {
       return !this.inspiration.no_template;
     },

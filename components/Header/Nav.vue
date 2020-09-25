@@ -1,9 +1,12 @@
 <template>
-  <nav class="nav" :class="{'light': variant === 'light',  'dark': variant === 'dark'}">
+  <nav
+    class="nav"
+    :class="{ light: variant === 'light', dark: variant === 'dark' }"
+  >
     <div class="flex align-center nav-left">
-      <div class="nav-menu__btn btn btn-md btn-red">
+      <div class="nav-menu__btn btn btn-md btn-red" @click="openMenuModal">
         <svgBurger width="24" class="mr-2" />
-        <span class="font-bold md-hidden">Меню</span>
+        <span class="font-bold md-hidden">{{$t('menuText')}}</span>
       </div>
       <div class="nav-menu__items text-14 uppercase md-hidden">
         <!-- <div class="nav-menu__item ml-5">
@@ -24,30 +27,47 @@
       </div>
     </div>
     <div class="nav-right flex align-center justify-end">
-      <SearchBtn class="mr-3 nav-search md-hidden" :text="$t('search')" :variant="variant" />
+      <SearchBtn
+        class="mr-3 nav-search md-hidden"
+        :text="$t('search')"
+        :variant="variant"
+      />
       <div class="nav-right__items text-center">
         <div class="nav-right__item nav__favourite shrink-0">
           <div class="p-3 cursor-pointer" @click="openFavouritePanel">
             <div class="position-relative">
               <svgHeart width="18" />
-              <div class="nav__favourite-cnt nav-cnt" v-if="favouriteCnt > 0">{{favouriteCnt}}</div>
+              <div class="nav__favourite-cnt nav-cnt" v-if="favouriteCnt > 0">
+                {{ favouriteCnt }}
+              </div>
             </div>
-            <span class="nav-right__item-text uppercase text-12 d-block md-hidden">Избранное</span>
+            <span
+              class="nav-right__item-text uppercase text-12 d-block md-hidden"
+              >{{$t('header.favourite')}}</span
+            >
           </div>
         </div>
         <div class="nav-right__item nav__profile shrink-0">
           <div class="p-3 cursor-pointer" @click="openProfilePanel">
             <svgUser width="18" />
-            <span class="nav-right__item-text uppercase text-12 d-block md-hidden">Учетная запись</span>
+            <span
+              class="nav-right__item-text uppercase text-12 d-block md-hidden"
+              >{{$t('header.account')}}</span
+            >
           </div>
         </div>
         <div class="nav-right__item nav__cart shrink-0">
           <div class="p-3 cursor-pointer" @click="cartModalOpen">
             <div class="position-relative">
               <svgCart width="23" />
-              <div class="nav__cart-cnt nav-cnt" v-if="cartCnt > 0">{{cartCnt}}</div>
+              <div class="nav__cart-cnt nav-cnt" v-if="cartCnt > 0">
+                {{ cartCnt }}
+              </div>
             </div>
-            <span class="nav-right__item-text uppercase text-12 d-block md-hidden">Корзина</span>
+            <span
+              class="nav-right__item-text uppercase text-12 d-block md-hidden"
+              >{{$t('header.cart')}}</span
+            >
           </div>
         </div>
       </div>
@@ -84,6 +104,9 @@ export default {
     },
   },
   methods: {
+    openMenuModal() {
+      this.$store.dispatch("modal/open", { name: "modal-menu" });
+    },
     openFavouritePanel() {
       this.$store.dispatch("modal/open", { name: "panel-favourite" });
     },

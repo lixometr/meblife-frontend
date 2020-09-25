@@ -4,20 +4,18 @@
     <Logo class="top-logo" />
     <Nuxt :key="nuxtKey"/>
     <Footer class="mt-6" />
-    <MenuModal />
+    <LoadingModal v-if="$store.getters.isLoading"/>
   </main>
 </template>
 <script>
 import Header from "@/components/Header";
 import TopBar from "@/components/Header/TopBar";
 import Footer from "@/components/Footer";
-import MenuModal from "@/components/Modals/MenuModal";
 export default {
   components: {
     Header,
     Footer,
     TopBar,
-    MenuModal
   },
   async mounted() {
     await this.$nextTick();

@@ -446,3 +446,19 @@
   width: 100%;
   color: $black;
 }
+.icon-link {
+  background: $pale;
+  border-bottom: 1px solid $white;
+  padding: 1.25rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+  svg {
+    margin-right: 0.5rem;
+  }
+}

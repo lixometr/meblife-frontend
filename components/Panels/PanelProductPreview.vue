@@ -3,6 +3,7 @@
     name="panel-product-preview"
     headerTheme="light"
     class="panel-product-preview"
+    :isStatic="true"
     @before-open="beforeOpen"
   >
     <template v-slot:title>
