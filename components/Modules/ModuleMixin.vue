@@ -46,6 +46,12 @@ export default {
     showType() {
       return this.item.show_type;
     },
+    color() {
+      return this.item.color
+    },
+    bgColor() {
+      return this.item.bg_color
+    }
   },
   methods: {
     itemLink(item) {

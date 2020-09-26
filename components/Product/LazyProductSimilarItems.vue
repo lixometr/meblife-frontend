@@ -18,16 +18,24 @@ export default {
     this.loadData();
   },
   computed: {
-currency() {
-  return this.$store.getters.currency
-}
+    currency() {
+      return this.$store.getters.currency;
+    },
   },
   methods: {
     async loadData() {
       try {
-        const data = await this.$api.$get("similarProductItems", {
-          slug: this.$route.params.slug,
-        });
+        const data = await this.$api.$get(
+          "similarProductItems",
+          {
+            slug: this.$route.params.slug,
+          },
+          {
+            params: {
+              per_page: 20,
+            },
+          }
+        );
         this.items = data || [];
       } catch (err) {
         console.log(err);

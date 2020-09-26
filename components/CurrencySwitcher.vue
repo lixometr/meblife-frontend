@@ -30,10 +30,10 @@ export default {
   },
   computed: {
     currencies() {
-      return this.$store.getters.currencies;
+      return this.$store.getters['currency/currencies'];
     },
     activeCurrency() {
-      return this.$store.getters.activeCurrency || {};
+      return this.$store.getters['currency/activeCurrency'] || {};
     },
   },
   methods: {
@@ -41,7 +41,7 @@ export default {
       this.isOpen = !this.isOpen
     },
     switchCurrency(symbol) {
-      this.$store.commit("selectCurrency", symbol);
+      this.$store.commit("currency/selectCurrency", symbol);
       this.isOpen = false
     },
   },

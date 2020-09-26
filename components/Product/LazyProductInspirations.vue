@@ -1,7 +1,7 @@
 <template>
   <div class="similar-products-slider overflow-hidden" v-if="items.length">
     <div class="container">
-      <h3 class="mb-4">{{$t('productSimilarInspirations')}}</h3>
+      <h3 class="mb-4">{{ $t("productSimilarInspirations") }}</h3>
       <InspirationsSlider :items="items" size="lg" />
     </div>
   </div>
@@ -20,12 +20,20 @@ export default {
   methods: {
     async loadData() {
       try {
-        const data = await this.$api.$get("productInspirations", {
-          slug: this.$route.params.slug,
-        });
-        this.items = data || [];
+        const data = await this.$api.$get(
+          "productInspirations",
+          {
+            slug: this.$route.params.slug,
+          },
+          {
+            params: {
+              per_page: 20,
+            },
+          }
+        );
+        this.items = data.items || [];
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
     },
   },

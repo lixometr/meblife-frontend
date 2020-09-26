@@ -71,6 +71,7 @@ export default {
       default: false,
     },
   },
+ 
   components: {
     Panel,
     svgClose,

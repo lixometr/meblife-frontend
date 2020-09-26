@@ -301,7 +301,6 @@ export default {
   watch: {
     $route() {
       this.definePageName();
-      console.log(this.currentPageName);
       this.fetchItems();
     },
   },

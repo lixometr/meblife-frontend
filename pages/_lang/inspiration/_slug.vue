@@ -96,17 +96,6 @@ export default {
     }
   },
   computed: {
-    // similarInspirations() {
-    //   return (
-    //     [
-    //       this.inspiration,
-    //       this.inspiration,
-    //       this.inspiration,
-    //       this.inspiration,
-    //       this.inspiration,
-    //     ] || []
-    //   );
-    // },
     hasTemplate() {
       return !this.inspiration.no_template;
     },
@@ -171,109 +160,24 @@ export default {
     },
     products1() {
       return this.inspiration.products1 || [];
-      return [
-        {
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=375,height=375,quality=85,format=auto/productImage/productImage20190206-20586-1ley9qy",
-          },
-          full_name: "Ко Ланта стул 44x87 см коричневый",
-          price: 872,
-          delivery_days: 22,
-        },
-        {
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=375,height=375,quality=85,format=auto/productImage/productImage20190206-20586-1ley9qy",
-          },
-          full_name: "Ко Ланта стул 44x87 см коричневый",
-          price: 872,
-          delivery_days: 22,
-        },
-        {
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=375,height=375,quality=85,format=auto/productImage/productImage20190206-20586-1ley9qy",
-          },
-          full_name: "Ко Ланта стул 44x87 см коричневый",
-          price: 872,
-          delivery_days: 22,
-        },
-        {
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=375,height=375,quality=85,format=auto/productImage/productImage20190206-20586-1ley9qy",
-          },
-          full_name: "Ко Ланта стул 44x87 см коричневый",
-          price: 872,
-          delivery_days: 22,
-        },
-        {
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=375,height=375,quality=85,format=auto/productImage/productImage20190206-20586-1ley9qy",
-          },
-          full_name: "Ко Ланта стул 44x87 см коричневый",
-          price: 872,
-          delivery_days: 22,
-        },
-      ];
     },
     products2() {
       return this.inspiration.products2;
-      return [
-        {
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=375,height=375,quality=85,format=auto/productImage/productImage20190206-20586-1ley9qy",
-          },
-          full_name: "Ко Ланта стул 44x87 см коричневый",
-          price: 872,
-          delivery_days: 22,
-        },
-        {
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=375,height=375,quality=85,format=auto/productImage/productImage20190206-20586-1ley9qy",
-          },
-          full_name: "Ко Ланта стул 44x87 см коричневый",
-          price: 872,
-          delivery_days: 22,
-        },
-        {
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=375,height=375,quality=85,format=auto/productImage/productImage20190206-20586-1ley9qy",
-          },
-          full_name: "Ко Ланта стул 44x87 см коричневый",
-          price: 872,
-          delivery_days: 22,
-        },
-        {
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=375,height=375,quality=85,format=auto/productImage/productImage20190206-20586-1ley9qy",
-          },
-          full_name: "Ко Ланта стул 44x87 см коричневый",
-          price: 872,
-          delivery_days: 22,
-        },
-        {
-          default_image: {
-            url:
-              "https://cdn.wonder.pl/cdn-cgi/image/width=375,height=375,quality=85,format=auto/productImage/productImage20190206-20586-1ley9qy",
-          },
-          full_name: "Ко Ланта стул 44x87 см коричневый",
-          price: 872,
-          delivery_days: 22,
-        },
-      ];
     },
     products3() {
       return this.inspiration.products3;
     },
     separatorImage() {
       return this.inspiration.separator_image;
+    },
+  },
+  watch: {
+    "$route"() {
+      if (this.inspiration.no_template) {
+        this.fetchProducts("inspirationProducts", {
+          slug: this.inspiration.slug,
+        });
+      }
     },
   },
 };

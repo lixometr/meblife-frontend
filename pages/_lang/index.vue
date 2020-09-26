@@ -9,12 +9,12 @@
           <div
             class="page-header__title flex-1 flex align-center justify-center flex-column"
           >
-            <h1
-              class="mw-100  pl-3 pr-3  uppercase color-white text-center"
-            >
+            <h1 class="mw-100 pl-3 pr-3 uppercase color-white text-center">
               {{ pageName }}
             </h1>
-            <p class="mt-1 color-white text-18 mb-4" v-if="subTitle">{{ subTitle }}</p>
+            <p class="mt-1 color-white text-18 mb-4" v-if="subTitle">
+              {{ subTitle }}
+            </p>
             <nuxt-link
               class="btn btn-red font-bold btn-md mt-1"
               :to="moreBtnUrl"
@@ -106,11 +106,18 @@ export default {
   },
   methods: {
     async fetchModuleGroups() {
-      const moduleGroups = await this.$store.dispatch(
-        "fetchModuleGroups",
-        this.activeTabItem.module_groups
-      );
-      this.moduleGroups = moduleGroups;
+      this.isLoading = true;
+      try {
+        const moduleGroups = await this.$store.dispatch(
+          "fetchModuleGroups",
+          this.activeTabItem.module_groups
+        );
+        this.moduleGroups = moduleGroups;
+      } catch (err) {
+        this.$error(err);
+      }
+
+      this.isLoading = false;
     },
     selectTab(idx) {
       this.activeTab = idx;

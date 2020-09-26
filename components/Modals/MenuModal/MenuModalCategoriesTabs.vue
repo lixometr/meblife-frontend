@@ -116,8 +116,7 @@ export default {
   &__sidebar {
     width: 300px;
     margin-right: 2rem;
-    &-item {
-    }
+   
   }
   &__items {
       margin-left: -1rem;

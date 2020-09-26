@@ -8,8 +8,8 @@ export const filtersFromQuery = (query, stringify = false) => {
       if (!query) return
 
       let filters = _.cloneDeep(query)
-      const notAttr = ['manufacturer', 'labels', 'price', 'delivery', 'sort_by', 'page']
-      const noFilter = ['sort_by', 'page']
+      const notAttr = ['manufacturer', 'labels', 'price', 'delivery', 'sort_by', 'page', 'panel']
+      const noFilter = ['sort_by', 'page', 'panel', 'modal']
       const attributes = Object.keys(filters).filter(prop => notAttr.includes(prop) === false).map(prop => ({ name: prop, value: filters[prop].split(',') }))
       filters.attributes = attributes
       notAttr.forEach(filterName => {

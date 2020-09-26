@@ -86,9 +86,10 @@ export default {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    ['@nuxtjs/axios', { proxy: true }],
+    ['@nuxtjs/axios'],
     "@nuxtjs/style-resources",
     "nuxt-svg-loader",
+    // "@nuxtjs/pwa",
     [
       'nuxt-lazy-load', {
         // These are the default values

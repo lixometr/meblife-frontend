@@ -13,14 +13,18 @@
       >
         <div class="p-3 flex-1">
           <div
-            class="shadow rounded-10 flex"
-            v-for="(address, idx) in addresses"
-            :key="idx"
+            class="shadow rounded-10 flex p-3 justify-between align-center mb-3"
+            v-for="(address,) in addresses"
+            :key="address._id"
           >
             <div class="btn btn-circle" @click="removeAddress(address._id)">
               <svgDelete width="20" />
             </div>
             {{ address.company }}
+            <div class="btn btn-circle" @click="editAddress(address._id)">
+              <svgPencil width="20" />
+            </div>
+            
           </div>
         </div>
         <div class="panel-modal__footer border-top border-grey p-3">
@@ -28,7 +32,10 @@
             <div class="btn btn-white btn-md mr-2" @click="$emit('close')">
               {{ $t("panelAddressesInvoice.btns.back") }}
             </div>
-            <div class="btn btn-green btn-md flex-1 font-bold" @click="addAddress">
+            <div
+              class="btn btn-green btn-md flex-1 font-bold"
+              @click="addAddress"
+            >
               {{ $t("panelAddressesInvoice.btns.add") }}
             </div>
           </div>
@@ -50,13 +57,27 @@ export default {
       return this.$store.getters["user/user"].invoice_addresses;
     },
   },
-  components: {},
+  components: {
+    svgDelete,
+    svgPencil,
+  },
   methods: {
     addAddress() {
-      this.$store.dispatch('modal/open', {name: 'panel-account.changeAddressesInvoice', props: {isNew: true}})
+      this.$store.dispatch("modal/open", {
+        name: "panel-account.changeAddressesInvoice",
+        props: { isNew: true },
+      });
     },
-    removeAddress(id) {
-      // this.$api.$delete('userAddress')
+    editAddress(id) {
+      this.$store.dispatch("modal/open", {
+        name: "panel-account.changeAddressesInvoice",
+        props: { isNew: false, id },
+      });
+    },
+    async removeAddress(id) {
+      const newItems = this.addresses.filter((addr) => addr._id !== id);
+      await this.$api.$put("invoiceAddresses", null, newItems);
+      await this.$store.dispatch('user/init')
     },
   },
 };

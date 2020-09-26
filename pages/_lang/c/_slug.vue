@@ -6,14 +6,20 @@
       <AppImage v-bind="headerImage" class="page-header__image" />
       <div class="image-placeholder"></div>
 
-      <CategoryPageHeader :breadcrumbs="breadcrumbs" :categoryName="categoryFullName" />
+      <CategoryPageHeader
+        :breadcrumbs="breadcrumbs"
+        :categoryName="categoryFullName"
+      />
     </div>
     <div class="category-page__row pt-3">
       <div class="container">
         <div class="flex">
           <div class="category-page__categories-block shrink-0 md-hidden">
             <SearchBtn variant="light" text="Категории поиска" />
-            <CategoriesBar class="md-hidden mt-5" :categories="categoriesPrimary" />
+            <CategoriesBar
+              class="md-hidden mt-5"
+              :categories="categoriesPrimary"
+            />
           </div>
           <div class="category-page__content mw-100 flex-1">
             <nuxt-child
@@ -129,8 +135,8 @@ export default {
     },
     categoryNamePrefix() {
       const prefixes = {
-        inspirations: "ВДОХНОВЕНИЯ И СТАТЬИ В КАТЕГОРИИ",
-        "shop-the-looks": "ФОТОГРАФИИ ТОВАРОВ ИЗ КАТЕГОРИИ",
+        inspirations: this.$t("category.prefixes.inspirations"),
+        "shop-the-looks": this.$t("category.prefixes.shopTheLooks"),
       };
       return prefixes[this.currentPageName] || "";
     },

@@ -2,9 +2,9 @@
   <main>
     <TopBar class="top-bar" />
     <Logo class="top-logo" />
-    <Nuxt :key="nuxtKey"/>
+    <Nuxt :key="nuxtKey" />
     <Footer class="mt-6" />
-    <LoadingModal v-if="$store.getters.isLoading"/>
+    <LoadingModal v-if="$store.getters.isLoading" />
   </main>
 </template>
 <script>
@@ -19,15 +19,17 @@ export default {
   },
   async mounted() {
     await this.$nextTick();
-    const {panel} = this.$route.query;
-    this.$modal.show('panel-'+panel)
-
+    const { panel } = this.$route.query;
+    if (panel) {
+      this.$store.dispatch("modal/open", { name: "panel-" + panel });
+    }
   },
+
   computed: {
     nuxtKey() {
-      return this.$store.getters.nuxtKey
-    }
-  }
+      return this.$store.getters.nuxtKey;
+    },
+  },
 };
 </script>
 <style lang="scss">

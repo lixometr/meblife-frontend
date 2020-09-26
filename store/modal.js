@@ -18,7 +18,11 @@ const panels = {
     'panel-account.changeEmail': () => import("@/components/Panels/Account/PanelChangeEmail"),
     'panel-account.addressesInvoice': () => import("@/components/Panels/Account/PanelAddressesInvoice"),
     'panel-account.changeAddressesInvoice': () => import("@/components/Panels/Account/PanelChangeAddressesInvoice"),
+    'panel-account.changeAddressesDelivery': () => import("@/components/Panels/Account/PanelChangeAddressesDelivery"),
+    'panel-account.addressesDelivery': () => import("@/components/Panels/Account/PanelAddressesDelivery"),
     'panel-account.addresses': () => import("@/components/Panels/Account/PanelAddresses"),
+    'panel-account.orders': () => import("@/components/Panels/Account/PanelOrders"),
+    'panel-account.newsletter': () => import("@/components/Panels/Account/PanelNewsLetter"),
     'panel-favourite': () => import("@/components/Panels/PanelFavourite"),
     'panel-product-preview': () => import("@/components/Panels/PanelProductPreview"),
 };
@@ -35,10 +39,22 @@ export const state = () => ({
         'panel-cart': {},
         'panel-login': {},
         'panel-product-preview': {},
+        'panel-account.newsletter': {
+            login: true
+        },
+        'panel-account.orders': {
+            login: true
+        },
         'panel-account.addressesInvoice': {
             login: true
         },
+        'panel-account.addressesDelivery': {
+            login: true
+        },
         'panel-account.changeAddressesInvoice': {
+            login: true
+        },
+        'panel-account.changeAddressesDelivery': {
             login: true
         },
         'panel-account.addresses': {

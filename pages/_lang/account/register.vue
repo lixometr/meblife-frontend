@@ -42,26 +42,36 @@
               </div>
             </div>
             <div class="register-page__form-wrapper">
-              <div class="register-page__instruction mb-5">
-                <h3>{{ $t("signUpPage.instruction.title") }}</h3>
+              <template v-if="step === 1">
+                <div class="register-page__instruction mb-5">
+                  <h3>{{ $t("signUpPage.instruction.title") }}</h3>
 
-                <ol class="pl-6">
-                  <li
-                    v-for="(item, idx) in $t('signUpPage.instruction.items')"
-                    :key="idx"
-                  >
-                    {{ item }}
-                  </li>
-                </ol>
-              </div>
-              <h5 class="register-page__form-title text-center pt-4 mb-4">
-                {{ $t("signUpPage.formTitle") }}
-              </h5>
-              <div class="register-page__form-sub-title text-center mb-4">
-                {{ $t("signUpPage.formSubTitle") }}
-              </div>
-              <SignUpForm />
-            </div>
+                  <ol class="pl-6">
+                    <li
+                      v-for="(item, idx) in $t('signUpPage.instruction.items')"
+                      :key="idx"
+                    >
+                      {{ item }}
+                    </li>
+                  </ol>
+                </div>
+                <h5 class="register-page__form-title text-center pt-4 mb-4">
+                  {{ $t("signUpPage.formTitle") }}
+                </h5>
+                <div class="register-page__form-sub-title text-center mb-4">
+                  {{ $t("signUpPage.formSubTitle") }}
+                </div>
+                <SignUpForm @success="onSuccess" />
+              </template>
+
+              <template v-else>
+                <div key="step-2" class="text-center align-center h-100 flex">
+                  <p class="text-18 font-bold color-green">
+                    {{ $t("signUpPage.success") }}
+                  </p>
+                </div>
+              </template>
+            </div> 
           </div>
         </div>
       </div>
@@ -81,7 +91,13 @@ export default {
     return {
       agreement1: false,
       agreement2: false,
-    }
+      step: 1,
+    };
+  },
+  methods: {
+    onSuccess() {
+      this.step = 2;
+    },
   },
   computed: {
     pageName() {

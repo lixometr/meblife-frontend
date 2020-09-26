@@ -1,8 +1,8 @@
 <template>
   <div class="product-looks-slider overflow-hidden" v-if="items.length">
     <div class="container">
-      <h3 class="mb-4">{{$t("productLooks")}}: </h3>
-      <LooksSlider :items="items" size="lg"/>
+      <h3 class="mb-4">{{ $t("productLooks") }}:</h3>
+      <LooksSlider :items="items" size="lg" />
     </div>
   </div>
 </template>
@@ -17,18 +17,24 @@ export default {
   beforeMount() {
     this.loadData();
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
     async loadData() {
       try {
-        const data = await this.$api.$get("productLooks", {
-          slug: this.$route.params.slug,
-        });
-        this.items = data || [];
+        const data = await this.$api.$get(
+          "productLooks",
+          {
+            slug: this.$route.params.slug,
+          },
+          {
+            params: {
+              per_page: 20,
+            },
+          }
+        );
+        this.items = data.items || [];
       } catch (err) {
-        this.$error(err)
+        this.$error(err);
       }
     },
   },

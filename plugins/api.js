@@ -10,7 +10,7 @@ export default async ({ app, $axios, store }, inject) => {
         }
         config.params = Object.assign({}, {
             lang: store.getters['i18n/locale'],
-            currency: store.getters.activeCurrency.slug
+            currency: store.getters['currency/activeCurrency'].slug
         }, config.params)
         return config
     })

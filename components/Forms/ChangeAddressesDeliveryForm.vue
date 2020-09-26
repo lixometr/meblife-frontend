@@ -2,43 +2,44 @@
   <form action="#" @submit.prevent="submit">
     <AuthInput
       type="text"
-      :label="$t('changeAddressesInvoice.inputCompany')"
+      :label="$t('changeAddressesDelivery.inputName')"
       class="mb-4"
-      :error="companyError"
-      v-model="company"
+      :error="nameError"
+      v-model="name"
     />
     <AuthInput
-      :label="$t('changeAddressesInvoice.inputNip')"
-      class="mb-4"
-      :error="nipError"
-      v-model="nip"
-    />
-    <AuthInput
-      :label="$t('changeAddressesInvoice.inputPhone')"
-      class="mb-4"
-      :error="phoneError"
-      v-model="phone"
-    />
-    <AuthInput
-      :label="$t('changeAddressesInvoice.inputAddress')"
+      :label="$t('changeAddressesDelivery.inputAddress')"
       class="mb-4"
       :error="addressError"
       v-model="address"
     />
     <AuthInput
-      :label="$t('changeAddressesInvoice.inputPostalCode')"
+      :label="$t('changeAddressesDelivery.inputPostalCode')"
       class="mb-4"
       :error="postalCodeError"
       v-model="postalCode"
     />
     <AuthInput
-      :label="$t('changeAddressesInvoice.inputCity')"
+      :label="$t('changeAddressesDelivery.inputCity')"
       class="mb-4"
       :error="cityError"
       v-model="city"
     />
+    <AuthInput
+      :label="$t('changeAddressesDelivery.inputPhone')"
+      class="mb-4"
+      :error="phoneError"
+      v-model="phone"
+    />
+    <AuthInput
+      :label="$t('changeAddressesDelivery.inputNote')"
+      class="mb-4"
+      :error="noteError"
+      v-model="note"
+    />
+
     <!-- <div class="flex align-center flex-wrap">
-      {{ $t("changeAddressesInvoice.inputDefault") }}:
+      {{ $t("changeAddressesDelivery.inputDefault") }}:
       <AppSwitcher class="ml-2" v-model="isDefault" />
     </div> -->
   </form>
@@ -50,12 +51,8 @@ const { required, minLength, numeric } = require("vuelidate/lib/validators");
 export default {
   mixins: [validationMixin],
   validations: {
-    company: {
+    name: {
       required,
-    },
-    nip: {
-      required,
-      numeric,
     },
     phone: {
       required,
@@ -72,6 +69,7 @@ export default {
     city: {
       required,
     },
+    note: {},
   },
   props: {
     isNew: {
@@ -83,12 +81,12 @@ export default {
   data() {
     return {
       isSubmited: false,
-      company: "",
-      nip: "",
+      name: "",
       phone: "",
       address: "",
       postalCode: "",
       city: "",
+      note: "",
       // isDefault: false,
     };
   },
@@ -96,34 +94,26 @@ export default {
     await this.$store.dispatch("user/init");
     if (!this.isNew) {
       const address = this.items.find((addr) => addr._id === this.id) || {};
-      this.company = address.company;
-      this.nip = address.nip;
+      this.name = address.name;
       this.phone = address.phone;
       this.address = address.address;
       this.postalCode = address.postal_code;
       this.city = address.city;
+      this.note = address.note;
       // this.isDefault = address.is_default;
     }
   },
   computed: {
     items() {
-      return this.$store.getters["user/user"].invoice_addresses;
+      return this.$store.getters["user/user"].delivery_addresses || [];
     },
-    companyError() {
-      if (!this.isSubmited || !this.$v.company.$error) return;
-      if (!this.$v.company.required) {
+    nameError() {
+      if (!this.isSubmited || !this.$v.name.$error) return;
+      if (!this.$v.name.required) {
         return this.$t("formErrors.required");
       }
     },
-    nipError() {
-      if (!this.isSubmited || !this.$v.nip.$error) return;
-      if (!this.$v.nip.required) {
-        return this.$t("formErrors.required");
-      }
-      if (!this.$v.nip.numeric) {
-        return this.$t("formErrors.correct");
-      }
-    },
+
     phoneError() {
       if (!this.isSubmited || !this.$v.phone.$error) return;
       if (!this.$v.phone.required) {
@@ -157,6 +147,12 @@ export default {
         return this.$t("formErrors.required");
       }
     },
+    noteError() {
+      if (!this.isSubmited || !this.$v.note.$error) return;
+      if (!this.$v.note.required) {
+        return this.$t("formErrors.required");
+      }
+    },
     itemIndex() {
       return this.items.findIndex((addr) => addr._id === this.id);
     },
@@ -168,12 +164,12 @@ export default {
       if (this.$v.$invalid) return;
       try {
         const item = {
-          company: this.company,
-          nip: this.nip,
+          name: this.name,
           phone: this.phone,
           address: this.address,
           postal_code: this.postalCode,
           city: this.city,
+          note: this.note
           // is_default: this.isDefault,
         };
         let newItems = [...this.items];
@@ -185,7 +181,11 @@ export default {
           newItems[idx] = item;
         }
 
-        const result = await this.$api.$put("invoiceAddresses", null, newItems);
+        const result = await this.$api.$put(
+          "deliveryAddresses",
+          null,
+          newItems
+        );
         if (result.error) {
           this.$toast.global.appError({
             message: this.$t("errors." + result.errorCode),
@@ -194,7 +194,7 @@ export default {
         }
         if (result.ok) {
           this.$toast.global.appSuccess({
-            message: this.$t("changeAddressesInvoice.success"),
+            message: this.$t("changeAddressesDelivery.success"),
           });
           this.$emit("success");
           await this.$store.dispatch("user/init");
@@ -207,7 +207,11 @@ export default {
       try {
         const newItems = this.items.filter((item) => item._id !== this.id);
 
-        const result = await this.$api.$put("invoiceAddresses", null, newItems);
+        const result = await this.$api.$put(
+          "deliveryAddresses",
+          null,
+          newItems
+        );
         if (result.error) {
           this.$toast.global.appError({
             message: this.$t("errors." + result.errorCode),
@@ -216,7 +220,7 @@ export default {
         }
         if (result.ok) {
           this.$toast.global.appSuccess({
-            message: this.$t("changeAddressesInvoice.success"),
+            message: this.$t("changeAddressesDelivery.success"),
           });
           this.$emit("success");
           await this.$store.dispatch("user/init");

@@ -11,7 +11,7 @@
 
 <script>
 export default {
-        inheritAttrs: false,
+  inheritAttrs: false,
 
   props: {
     products: Array,

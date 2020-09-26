@@ -2,26 +2,17 @@
   <div class="top-bar pt-2">
     <div class="container">
       <div class="top-bar__items text-12">
-        <div class="top-bar__item">
-          <nuxt-link to="#">
-            <svgMedal class="mr-2" width="20" />ГАРАНТИЯ САМОЙ НИЗКОЙ ЦЕНЫ
+        <div class="top-bar__item uppercase" v-for="(item, idx) in items" :key="idx">
+          <nuxt-link :to="item.url || '#'">
+            <AppImage
+              v-bind="item.icon"
+              class="mr-2"
+              :style="{ width: '20px' }"
+            />
+            {{ item.title }}
           </nuxt-link>
         </div>
-        <div class="top-bar__item">
-          <nuxt-link to="#">
-            <svgDelivery class="mr-2" width="20" />БЕСПЛАТНАЯ ДОСТАВКА ОТ 499 ЗЛ.
-          </nuxt-link>
-        </div>
-        <div class="top-bar__item">
-          <nuxt-link to="#">
-            <svgRefresh class="mr-2" width="15" />30 ДНЕЙ ВОЗВРАТА
-          </nuxt-link>
-        </div>
-        <div class="top-bar__item">
-          <nuxt-link to="#">
-            <svgTeam class="mr-2" width="20" />БОЛЕЕ 350 000 КЛИЕНТОВ
-          </nuxt-link>
-        </div>
+
       </div>
     </div>
   </div>
@@ -39,6 +30,23 @@ export default {
     svgRefresh,
     svgTeam,
   },
+  async fetch() {
+    const topBar = await this.$api.$get("widgetByName", { name: "top_bar" });
+    this.item = topBar;
+  },
+  data() {
+    return {
+      item: {},
+    };
+  },
+  computed: {
+    values() {
+      return this.item.values;
+    },
+    items() {
+      return this.values.items;
+    },
+  },
 };
 </script>
 
@@ -53,7 +61,7 @@ export default {
     display: flex;
     justify-content: space-between;
     @include md {
-        justify-content: center;
+      justify-content: center;
     }
   }
   &__item {

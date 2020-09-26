@@ -84,6 +84,11 @@ export default {
   watch: {
     value() {
       this.text = this.value;
+      if (this.text) {
+        this.isActive = true;
+      } else {
+        this.isActive = false;
+      }
     },
   },
 };

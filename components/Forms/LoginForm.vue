@@ -109,9 +109,9 @@ export default {
         }
         if (result.ok) {
           this.$emit("success", result);
-          this.$toast.global.appSuccess({
-            message: this.$t("loginSuccess"),
-          });
+          // this.$toast.global.appSuccess({
+          //   message: this.$t("loginSuccess"),
+          // });
         }
       } catch (err) {
         this.$error(err);

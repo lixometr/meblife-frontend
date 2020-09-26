@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="menu-modal__content flex-1">
-        <div class="flex" v-if="isLoading" key="isLoading">
+        <div class="flex justify-center align-center pt-4 w-100" v-if="isLoading" key="isLoading">
           <Loader />
         </div>
         <div key="noLoading">
@@ -33,14 +33,8 @@
             </div>
           </div>
           <div class="menu-modal__categories-content">
-            <div
-              class="flex justify-center align-center"
-              key="categoryLoading"
-              v-if="categoryLoading"
-            >
-              <Loader />
-            </div>
-            <div key="noCategoryLoading" v-else>
+          
+            <div key="noCategoryLoading" v-if="!categoryLoading">
               <MenuModalCategoriesTabs
                 :items="categoryChildren"
                 :category="activeCategory"
