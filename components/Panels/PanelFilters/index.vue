@@ -62,7 +62,6 @@ export default {
   },
   beforeMount() {
     this.initFilters();
-    console.log("values", this.values);
   },
   computed: {
     filterItems() {

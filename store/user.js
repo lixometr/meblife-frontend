@@ -25,8 +25,8 @@ export const mutations = {
     },
     setToken(state, {token, expires}) {
         let tokenExpires = expires
-        console.log(tokenExpires)
         this.$cookies.set('auth_token', token, {
+            path: '/',
             maxAge: tokenExpires
         })
         state.token = token
@@ -38,7 +38,9 @@ export const mutations = {
     logout(state) {
         state.token = ''
         state.user = {}
-        this.$cookies.remove('auth_token')
+        this.$cookies.remove('auth_token', {
+            path: '/'
+        })
     }
 }
 
@@ -59,6 +61,7 @@ export const actions = {
         const result = await this.$api.$post('login', null, { email, password, remember })
         if (result.token) {
             commit('setToken', {token: result.token, expires: result.tokenExpires})
+            await this.dispatch('favourite/init')
         }
         if (result.user) {
             commit('setUser', result.user)
@@ -79,5 +82,6 @@ export const actions = {
     },
     logout({commit}) {
         commit('logout')
+        this.dispatch('favourite/reset')
     }
 }

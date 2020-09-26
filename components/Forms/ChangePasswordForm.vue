@@ -108,6 +108,8 @@ export default {
             message: this.$t('changePassword.success'),
           });
           this.$emit("success");
+          await this.$store.dispatch('user/init')
+
         }
       } catch (err) {
         this.$error(err);

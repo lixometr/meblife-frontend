@@ -28,7 +28,9 @@ export const mutations = {
     set(state, items) {
         state.items = items
     },
-
+    reset(state) {
+        state.items = []
+    }
 
 }
 
@@ -41,6 +43,9 @@ export const actions = {
         } catch (err) {
             this.$error(err)
         }
+    },
+    reset({commit}) {
+        commit('reset')
     },
     async remove({ commit, state }, { id }) {
 

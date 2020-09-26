@@ -42,7 +42,6 @@ export const mutations = {
         }
         this.$cookies.set('cart', cookieCart)
         state.items = cookieCart
-        console.log('here is cart', cookieCart)
     },
     remove(state, { id }) {
         let cookieCart = this.$cookies.get('cart')
@@ -50,7 +49,6 @@ export const mutations = {
         cookieCart = cookieCart.filter(item => item.id !== id)
         this.$cookies.set('cart', cookieCart)
         state.items = cookieCart
-        console.log('here is cart', cookieCart)
     },
     update(state, { id, cnt }) {
         cnt = parseInt(cnt)
@@ -62,7 +60,6 @@ export const mutations = {
         cookieCart[itemIdx].cnt = cnt
         this.$cookies.set('cart', cookieCart)
         state.items = cookieCart
-        console.log('here is cart', cookieCart)
     },
     init(state) {
         let cookieCart = this.$cookies.get('cart') || []

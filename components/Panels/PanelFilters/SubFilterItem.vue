@@ -29,7 +29,6 @@ export default {
         if (target === this.$refs.switcher.$el) break;
         target = target.parentNode;
       }
-      console.log(target)
       if (target !== this.$refs.switcher.$el) {
         this.$emit("change", !this.value);
       }

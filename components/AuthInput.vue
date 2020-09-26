@@ -36,6 +36,9 @@ export default {
   components: {
     svgError,
   },
+  created() {
+    if (this.text) this.isActive = true;
+  },
   data() {
     return {
       text: this.value,

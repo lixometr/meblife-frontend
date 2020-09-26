@@ -2,63 +2,59 @@
   <form action="#" @submit.prevent="onSubmit">
     <AuthInput
       type="text"
-      :label="$t('changeEmail.inputEmail')"
+      :label="$t('changePersonalData.inputName')"
       class="mb-4"
-      :error="emailError"
-      v-model="email"
+      :error="nameError"
+      v-model="name"
     />
     <AuthInput
-      type="password"
-      :label="$t('changeEmail.inputPassword')"
+      :label="$t('changePersonalData.inputPhone')"
       class="mb-4"
-      :error="passwordError"
-      v-model="password"
+      :error="phoneError"
+      v-model="phone"
     />
 
     <button type="submit" class="btn btn-black btn-md w-100 font-bold">
-      {{ $t("changeEmail.btn") }}
+      {{ $t("changePersonalData.btn") }}
     </button>
   </form>
 </template>
 
 <script>
 import { validationMixin } from "vuelidate";
-const { required, minLength, email } = require("vuelidate/lib/validators");
+const { required, minLength, phone } = require("vuelidate/lib/validators");
 export default {
   mixins: [validationMixin],
-  validations() {
-    return {
-      email: {
-        required,
-        email,
-      },
-      password: {
-        required,
-      },
-    };
+  validations: {
+    name: {
+      required,
+    },
+    phone: {
+      
+    },
   },
   data() {
     return {
       isSubmited: false,
-      password: "",
-      email: this.$store.getters["user/user"].email,
+      phone: this.$store.getters['user/user'].phone,
+      name: this.$store.getters['user/user'].name,
     };
   },
   computed: {
-    passwordError() {
-      if (!this.isSubmited || !this.$v.password.$error) return;
-      if (!this.$v.password.required) {
+    phoneError() {
+      if (!this.isSubmited || !this.$v.phone.$error) return;
+      if (!this.$v.phone.required) {
         return this.$t("formErrors.required");
+      }
+      if (!this.$v.phone.phone) {
+        return this.$t("formErrors.email");
       }
     },
 
-    emailError() {
-      if (!this.isSubmited || !this.$v.email.$error) return;
-      if (!this.$v.email.required) {
+    nameError() {
+      if (!this.isSubmited || !this.$v.name.$error) return;
+      if (!this.$v.name.required) {
         return this.$t("formErrors.required");
-      }
-      if (!this.$v.email.email) {
-        return this.$t("formErrors.email");
       }
     },
   },
@@ -68,11 +64,10 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) return;
       try {
-        const result = await this.$api.$put("changeEmail", null, {
-          password: this.password,
-          email: this.email,
+        const result = await this.$api.$put("userInfo", null, {
+          phone: this.phone,
+          name: this.name,
         });
-        console.log(result);
         if (result.error) {
           this.$toast.global.appError({
             message: this.$t("errors." + result.errorCode),
@@ -81,10 +76,10 @@ export default {
         }
         if (result.ok) {
           this.$toast.global.appSuccess({
-            message: this.$t("changeEmail.success"),
+            message: this.$t("changePersonalData.success"),
           });
           this.$emit("success");
-          await this.$store.dispatch("user/init");
+          await this.$store.dispatch('user/init')
         }
       } catch (err) {
         this.$error(err);

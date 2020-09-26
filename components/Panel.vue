@@ -17,7 +17,7 @@
         class="panel-title p-3 flex justify-between align-center"
         :class="headerClass"
       >
-        <h4 class="mr-2">
+        <h4 class="mr-2 truncate">
           <slot name="title"></slot>
         </h4>
         <div class="panel-buttons flex align-center">
@@ -34,8 +34,10 @@
           </div>
         </div>
       </div>
-
-      <slot name="content"></slot>
+      <div class="flex-1 flex justify-center align-center" key="isLoading" v-if="loading">
+        <Loader />
+      </div>
+      <slot name="content" v-else></slot>
     </component>
   </client-only>
 </template>
@@ -49,6 +51,10 @@ export default {
     // left or right
     position: String,
     name: String,
+    loading: {
+      type: Boolean,
+      default: false,
+    },
     // light or dark
     headerTheme: {
       type: String,
@@ -61,21 +67,21 @@ export default {
     // close or back
     closeType: {
       type: String,
-      default: 'close'
-    }
+      default: "close",
+    },
   },
 
   components: {
     svgClose,
-    svgArrowBack
+    svgArrowBack,
   },
   computed: {
     closeComponent() {
       const types = {
-        close: 'svgClose',
-        back: 'svgArrowBack'
-      }
-      return types[this.closeType]
+        close: "svgClose",
+        back: "svgArrowBack",
+      };
+      return types[this.closeType];
     },
     headerClass() {
       return {
