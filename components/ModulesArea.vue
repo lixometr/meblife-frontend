@@ -10,6 +10,7 @@ export default {
   props: {
     modules: Array,
   },
+ 
   data() {
     return {};
   },

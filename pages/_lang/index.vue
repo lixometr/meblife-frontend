@@ -110,7 +110,7 @@ export default {
       try {
         const moduleGroups = await this.$store.dispatch(
           "fetchModuleGroups",
-          this.activeTabItem.module_groups
+          {moduleGroupIds: this.activeTabItem.module_groups, area: 'main_page'}
         );
         this.moduleGroups = moduleGroups;
       } catch (err) {

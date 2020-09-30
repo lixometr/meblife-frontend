@@ -262,7 +262,7 @@ export default {
       let moduleGroups = [];
       moduleGroups = await this.$store.dispatch(
         "fetchModuleGroups",
-        this.manufacturer.module_groups
+       {moduleGroupIds:  this.manufacturer.module_groups, area: 'manufacturer'}
       );
       this.pageData = {
         moduleGroups,

@@ -66,6 +66,9 @@ export const actions = {
     },
     async add({ commit }, { id }) {
         try {
+            if(!this.getters['user/isAuth']) {
+                this.dispatch('modal/open', {name: 'panel-favourite'})
+            }
             if (this.getters['favourite/isFavourite'](id)) return
             let items = this.getters['favourite/items']
             const itemsIds = items.map(item => item._id)

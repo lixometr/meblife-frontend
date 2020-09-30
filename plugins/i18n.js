@@ -14,7 +14,7 @@ export default async ({ app, store, params, $api }, inject) => {
     app.i18n = instance
 
     app.localePath = (link) => {
-        return `/${app.i18n.locale}${link}`
+        return `/${store.getters['i18n/locale']}${link}`
     }
     app.loadlLocale = async (locale) => {
         if(store.getters['i18n/hasTranslation'](locale)) return
@@ -22,7 +22,10 @@ export default async ({ app, store, params, $api }, inject) => {
         app.i18n.setLocaleMessage(locale, {...language})
         store.commit('i18n/setTranslation', {locale, data: {...language}})
     }
-
+    function translateFunc (path) {
+        return 'he'
+    }
 
     inject('i18n', instance)
+    // inject('t', translateFunc)
 }

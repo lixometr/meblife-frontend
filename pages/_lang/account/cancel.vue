@@ -21,6 +21,10 @@ export default {
     async approve() {
       try {
         const result = await this.$api.$post("userRemove");
+        if(result.ok) {
+          this.$store.dispatch('user/logout')
+          this.$router.push('/')
+        }
       } catch (err) {
         this.$error(err);
       }

@@ -7,7 +7,7 @@
         @click="prev"
       >
         <svgArrowRight class="rotate-180" width="25" />
-        {{$t('prev')}}
+        {{$t('pagination.prev')}}
       </div>
       <AppSelect class="ml-2 mr-2" v-model="activePage" :options="selectOptions">
         <template #trigger>{{activePage}} {{$t('iz')}} {{totalPages}}</template>
@@ -17,7 +17,7 @@
         :class="{'btn-black cursor-pointer': hasNext, 'bg-grey cursor-default': !hasNext}"
         @click="next"
       >
-        {{$t('next')}}
+        {{$t('pagination.next')}}
         <svgArrowRight width="25" />
       </div>
     </div>

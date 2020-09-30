@@ -1,3 +1,4 @@
+import Vue from "vue"
 const panels = {
     'panel-contact': () => import('@/components/Panels/PanelContact'),
     'panel-installments': () => import('@/components/Panels/PanelInstallments'),
@@ -148,7 +149,7 @@ export const actions = {
                 this._vm.$modal.show(component, { success: () => this.dispatch('modal/afterLogin'), ...props }, options, events)
                 commit('setAfterLoginOpen', name)
 
-                return
+                return 
             }
         }
         this._vm.$modal.show(component, props, options, events)

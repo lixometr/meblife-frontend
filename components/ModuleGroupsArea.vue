@@ -10,12 +10,30 @@
 
 <script>
 export default {
-    props: {
-        moduleGroups: {
-            type: Array,
-            default: () => []
-        }
+  props: {
+    moduleGroups: {
+      type: Array,
+      default: () => [],
+    },
+    // moduleGroupIds: Array,
+    // area: String
+  },
+  data() {
+    return {
+      items: []
     }
+  },
+  async fetch() {
+    try {
+      return
+      this.items = await this.$store.dispatch("fetchModuleGroups", {
+        modules: this.moduleGroupIds,
+        area: this.area,
+      });
+    } catch (err) {
+      this.$error(err);
+    }
+  },
 };
 </script>
 

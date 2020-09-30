@@ -1,5 +1,5 @@
 <template>
-  <div class="panel-cart__item bg-grey p-3">
+  <div class="panel-cart__item cart-card p-3">
     <div class="flex">
       <div class="panel-cart__item-img shadow ">
         <nuxt-link class="position-relative d-block w-100 h-100" :to="$url.product(item.slug)">
@@ -10,12 +10,12 @@
         <div class="mb-2 font-bold trunk">{{name}}</div>
         <div>
           <p>
-            {{$t('priceForOne')}}:
+            {{$t('cart.priceForOne')}}:
             <s class="mr-1 text-12" v-if="oldPrice">{{oldPrice}} {{currency}}</s>
             <b :class="{'color-orange': oldPrice}">{{price}} {{currency}}</b>
           </p>
           <p>
-            {{$t('deliveryText')}}:
+            {{$t('cart.deliveryText')}}:
             <template v-if="delivery24">
               <b class="color-green">{{$t('delivery24')}}</b>
             </template>

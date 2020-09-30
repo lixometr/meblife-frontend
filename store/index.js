@@ -56,7 +56,7 @@ export const actions = {
    * 
    * @param {Array<id>} moduleGroupIds 
    */
-  async fetchModuleGroups({ }, moduleGroupIds) {
+  async fetchModuleGroups({ }, { moduleGroupIds, area }) {
     let moduleGroups = []
     if (moduleGroupIds && _.isArray(moduleGroupIds) && !_.isEmpty(moduleGroupIds)) {
       const resolvers = moduleGroupIds.map(async (id) => {
@@ -66,17 +66,21 @@ export const actions = {
         return result
       });
       moduleGroups = await Promise.all(resolvers)
-      // Загружаем глобальные модули
-      // await this.$api.$get('moduleGroupByArea', {
-      //   area: ""
-      // })
-      return moduleGroups
     }
+    // Загружаем глобальные модули
+    let globalModules = []
+    if (area) {
+      try {
+        globalModules = await this.$api.$get('moduleGroupByArea', {
+          area
+        })
+      } catch (err) { }
+    }
+    moduleGroups = [...globalModules, ...moduleGroups]
+    return moduleGroups
   },
   async nuxtServerInit({ commit, dispatch }, { app, i18n, route }) {
     try {
-
- 
       await dispatch('settings/init')
       await dispatch('user/init')
       await dispatch('currency/init')

@@ -85,11 +85,11 @@ export default {
       });
       moduleGroupsTop = await store.dispatch(
         "fetchModuleGroups",
-        category.module_groups_top
+        {moduleGroupIds: category.module_groups_top}
       );
       moduleGroupsBottom = await store.dispatch(
         "fetchModuleGroups",
-        category.module_groups_bottom
+        {moduleGroupIds: category.module_groups_bottom, area: 'category'}
       );
       categoriesPrimary = await $api.$get("categoriesPrimary");
       if (category.show_category_grid) {

@@ -9,9 +9,9 @@
     <template v-slot:content>
       <div class="panel-cart__header pt-4 pl-4 pb-4 pr-4">
         <div class="color-green mb-4 font-bold uppercase flex align-center text-14" v-if="added">
-          <svgCheckMark class="mr-1" width="30" />{{$t('itemAddedToCart')}}
+          <svgCheckMark class="mr-1" width="30" />{{$t('panelCart.itemAddedToCart')}}
         </div>
-        <div class="text-14 font-bold">{{$t('itemsInCart')}}</div>
+        <div class="text-14 font-bold">{{$t('panelCart.itemsInCart')}}</div>
         <div
           class="panel-close panel-cart__close flex align-center justify-center btn btn-circle btn-white"
           @click="$emit('close')"
@@ -22,11 +22,11 @@
           <div
             class="btn btn-md btn-white flex-1 uppercase font-bold mr-2"
             @click="$emit('close')"
-          >{{$t('back')}}</div>
+          >{{$t('panelCart.back')}}</div>
           <div
             class="btn btn-md btn-green flex-1 font-bold uppercase"
-            @click="$router.push('/cart')"
-          >{{$t('toCart')}}</div>
+            @click="toCart"
+          >{{$t('panelCart.toCart')}}</div>
         </div>
       </div>
       <div class="panel-cart__content">
@@ -48,8 +48,8 @@
       <div class="panel-cart__footer p-3 pt-5 border-top border-grey">
         <div class="flex align-center justify-between">
           <div>
-            <p>{{$t('totalSum')}}</p>
-            <p class="text-12">{{$t('taxCart')}}</p>
+            <p>{{$t('panelCart.totalSum')}}</p>
+            <p class="text-12">{{$t('panelCart.taxCart')}}</p>
           </div>
           <div class="color-orange font-bold text-18">{{totalPrice}} {{currency}}</div>
         </div>
@@ -105,6 +105,10 @@ export default {
     await this.fetchItems();
   },
   methods: {
+    toCart() {
+      this.$emit('close')
+      this.$router.push(this.$url.cart(''))
+    },
     async fetchItems() {
       this.isLoading = true;
       try {

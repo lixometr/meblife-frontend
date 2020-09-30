@@ -218,11 +218,11 @@ export default {
       });
       const moduleGroupsBottom = await store.dispatch(
         "fetchModuleGroups",
-        product.module_groups_bottom
+       {moduleGroupIds:  product.module_groups_bottom, area: 'product'}
       );
       const moduleGroupsTop = await store.dispatch(
         "fetchModuleGroups",
-        product.module_groups_top
+        {moduleGroupIds: product.module_groups_top}
       );
       $loader.stop();
 

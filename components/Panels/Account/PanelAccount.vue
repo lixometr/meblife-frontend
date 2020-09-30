@@ -91,7 +91,8 @@ export default {
   },
   methods: {
     removeAccount() {
-
+      this.$router.push(this.$url.account('cancel'))
+      this.$emit('close')
     },
     linkOpen(action) {
       if (action === "personalData") {

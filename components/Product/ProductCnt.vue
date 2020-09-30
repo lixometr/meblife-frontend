@@ -7,7 +7,7 @@
       <div class="product-cnt__list shadow" v-if="isOpen">
         <div
           class="product-cnt__list-item btn btn-white pt-2 pb-2 text-14"
-          v-for="(item, idx) in maxCnt"
+          v-for="(item, idx) in max"
           :key="idx"
           @click="select(item)"
         >{{item}}</div>
@@ -20,7 +20,7 @@ import svgArrowDown from "@/assets/icons/arrow-down-triangle.svg";
 export default {
   props: {
     value: Number,
-    maxCnt: {
+    max: {
       type: Number,
       default: 20,
     },

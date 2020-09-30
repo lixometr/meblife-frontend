@@ -34,7 +34,7 @@ export default {
       const page = await $api.$get("page", { slug: params.slug });
       const moduleGroups = await store.dispatch(
         "fetchModuleGroups",
-        page.module_groups
+       {moduleGroupIds:  page.module_groups, area: 'page'}
       );
       return {
         page,

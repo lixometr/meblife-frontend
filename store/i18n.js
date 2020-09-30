@@ -100,7 +100,7 @@ export const actions = {
     async loadLanguage({ state, commit }, locale) {
         if (state.loadedLanguages.includes(locale)) return
         const language = await this.$api.$get('language', { slug: locale })
-        // this.$i18n.setLocaleMessage(locale, language)
+        this.$i18n.setLocaleMessage(locale, language)
         // commit('setLoadedLanguages', [...state.loadedLanguages, locale])
 
         return language

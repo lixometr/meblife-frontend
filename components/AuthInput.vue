@@ -1,7 +1,7 @@
 <template>
   <div class="auth-input-wrapper">
     <div class="auth-input" :class="classes">
-      <label class="auth-input__label" :for="inputId">{{ label }}</label>
+      <label class="auth-input__label" :for="inputId" @click="inputFocus">{{ label }}</label>
       <input
         class="auth-input__input"
         :type="type"
@@ -10,6 +10,7 @@
         v-bind="attrs"
         @focus="onFocus"
         @blur="onBlur"
+        ref="input"
       />
     </div>
     <p class="color-red mt-1 text-14 flex align-center" v-if="error.length > 0">
@@ -68,6 +69,9 @@ export default {
     },
   },
   methods: {
+    inputFocus() {
+      this.$refs.input.focus()
+    },  
     onInput(e) {
       this.text = e.target.value;
       this.$emit("input", this.text);
