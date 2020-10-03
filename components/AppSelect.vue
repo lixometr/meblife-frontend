@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import svgArrowDown from "@/assets/icons/arrow-down-triangle.svg";
+import svgArrowDown from "@/assets/icons/arrow-down-sm.svg";
 
 export default {
   props: {

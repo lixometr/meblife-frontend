@@ -1,11 +1,11 @@
 <template>
   <div class="search" :style="styles">
     <button
-      class="search__btn btn btn-md h-100"
+      class="search__btn h-100"
       :class="{'btn-blur': variant === 'dark', 'btn-white': variant === 'light'}"
       @click="openSearchModal"
     >
-      <span class="search__text font-bold text-12">{{text}}</span>
+      <span class="search__text text-12">{{text}}</span>
       <svgSearch class="search__icon" />
     </button>
   </div>
@@ -48,15 +48,25 @@ export default {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: 20px;
+    right: 0;
     fill: inherit;
     width: 20px;
   }
-  &__btn.btn {
+  &__btn {
     width: 100%;
     text-align: left;
     justify-content: flex-start;
-    padding-right: 80px;
+    // padding-right: 80px;
+    border-bottom: 1px solid $dark;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border: none;
+    border-bottom: 1px solid $dark;
+    background: none;
+    color: #4F4F4F;
+    font-family: $main_font;
+    outline: none;
+    cursor: pointer;
     // backdrop-filter: blur(10px);
     // background-color: rgba(255,255,255,0.25);
     &:hover {
@@ -64,7 +74,7 @@ export default {
     }
   }
   &__btn.btn-white {
-    border: 1px solid $grey;
+    // border: 1px solid $grey;
   }
 }
 </style>

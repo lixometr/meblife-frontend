@@ -2,7 +2,7 @@
   <div class="product-page">
     <Header class="default-header" variant="light" />
 
-    <div class="container">
+    <div class="container pt-5">
       <ModuleGroupsArea :moduleGroups="moduleGroupsTop" />
       <div class="flex md-column">
         <div class="product__images-wrapper">
@@ -389,7 +389,7 @@ export default {
 </script>
 <style lang="scss" >
 .product-page {
-  padding-top: 7rem;
+  // padding-top: 7rem;
   @include md {
     padding-top: 0;
   }

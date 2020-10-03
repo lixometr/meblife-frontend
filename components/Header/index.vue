@@ -1,19 +1,19 @@
 <template>
   <div class="header">
 
-    <Nav class="header__nav" :variant="variant" />
+    <Nav1 class="header__nav" :variant="'light'" />
+    <HeaderMenu class="header__menu"/>
   </div>
 </template>
 
 <script>
-import Nav from "./Nav";
 import Logo from "./Logo";
 export default {
   props: {
     variant: String,
   },
   components: {
-    Nav,
+    // Nav,
     Logo,
   },
 };

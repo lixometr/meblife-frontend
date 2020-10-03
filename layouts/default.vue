@@ -39,8 +39,8 @@ export default {
 </script>
 <style lang="scss">
 .default-header {
-  position: absolute;
-  padding-top: $top_bar_offset;
+  position: relative;
+  // padding-top: $top_bar_offset;
   width: 100%;
   top: 0;
   z-index: 5;

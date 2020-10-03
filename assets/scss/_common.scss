@@ -18,6 +18,9 @@ body {
 svg {
   fill: currentColor;
 }
+.no-fill {
+  fill: none;
+}
 
 .pointer-events-auto {
   pointer-events: auto !important;

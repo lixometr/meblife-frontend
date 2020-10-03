@@ -12,6 +12,7 @@ class UrlBuilder {
             showroom: '/showroom/',
             account: '/account/',
             cart: '/cart/',
+            search: '/search/'
         }
         this.app = app;
     }
@@ -49,6 +50,9 @@ class UrlBuilder {
     }
     cart(slug) {
         return this.app.localePath(this.path.cart + slug)
+    }
+    search(slug) {
+        return this.app.localePath(this.path.search + slug)
     }
 }
 export default ({ app }, inject) => {

@@ -6,7 +6,7 @@
         @click="openMenuModal"
       >
         <svgBurger width="24" class="mr-2" />
-        <span class="font-bold">Меню</span>
+        <span class="font-bold">{{$t('menuText')}}</span>
       </div>
       <div
         class="modal-search__close flex btn-white align-center justify-center btn btn-circle"
@@ -15,7 +15,7 @@
         <svgClose width="30" />
       </div>
       <div class="modal-search__input-container container">
-        <SearchInput v-model="text" />
+        <SearchInput @search="onSearch" v-model="text" />
       </div>
     </div>
   </client-only>
@@ -38,6 +38,11 @@ export default {
     };
   },
   methods: {
+    onSearch() {
+      
+      this.$router.push(this.$url.search(this.text))
+      this.$emit('close')
+    },
     close() {
       this.$modal.hide("modal-search");
       this.$emit("close");
