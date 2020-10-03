@@ -104,22 +104,18 @@ import svgArrowRight from "@/assets/icons/arrow-right.svg";
 import { wordForm } from "@/helpers/functions";
 
 export default {
-  async fetch() {
-    try {
-      await this.fetchItems();
-    } catch (err) {
-      this.$error(err);
-    }
-  },
+
   components: {
     svgPlus,
     svgMinus,
     svgArrowRight,
   },
+  props: {
+    items: Array
+  },
   data() {
     return {
       isLoading: false,
-      items: [],
       promo: "",
     };
   },
@@ -157,22 +153,7 @@ export default {
     nextStep() {
       this.$emit("nextStep");
     },
-    async fetchItems() {
-      this.isLoading = true;
-      try {
-        const resolvers = this.cartItems.map(async (item) => {
-          const { data: product } = await this.$api.get("productById", {
-            id: item.id,
-          });
-          return product;
-        });
-        const items = await Promise.all(resolvers);
-        this.items = items;
-      } catch (err) {
-        this.$error(err);
-      }
-      this.isLoading = false;
-    },
+
     onItemChangeCnt(newValue, id) {
       this.$store.dispatch("cart/update", { id, cnt: newValue });
     },
@@ -196,13 +177,6 @@ export default {
     justify-content: space-between;
     align-items: center;
   }
-  &__items {
-  }
-  &__total-item {
-    padding: 0.5rem 0;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px dashed $grey;
-  }
+  
 }
 </style>

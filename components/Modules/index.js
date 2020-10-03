@@ -11,6 +11,7 @@ import Module14 from "./14"
 import Module28 from "./28"
 import Module1 from "./1"
 import Module26 from "./26"
+import Module2 from "./2"
 
 export default {
     Module15,
@@ -26,5 +27,5 @@ export default {
     Module28,
     Module1,
     Module26,
-
+    Module2,
 }

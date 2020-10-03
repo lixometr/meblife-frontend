@@ -1,20 +1,20 @@
 <template>
   <div class="cart-card p-3">
     <h6 class="mb-2">{{ $t("cartPage.total.title") }}</h6>
-    <div class="cart-index__total-items w-100">
-      <div class="cart-index__total-item">
+    <div class="cart-summary__total-items w-100">
+      <div class="cart-summary__total-item">
         <span class="text-14">{{ $t("cartPage.total.deliveryCost") }}:</span>
         <span>{{ deliveryCost }} {{ currency }}</span>
       </div>
-      <div class="cart-index__total-item">
+      <div class="cart-summary__total-item">
         <span class="text-14">{{ $t("cartPage.total.total") }}:</span>
         <s class="text-14">{{ oldPrice }} {{ currency }} </s>
       </div>
-      <div class="cart-index__total-item">
+      <div class="cart-summary__total-item">
         <span class="text-14">{{ $t("cartPage.total.sale") }}:</span>
         <span class="text-14">-{{ saleD }} {{ currency }}</span>
       </div>
-      <div class="cart-index__total-item">
+      <div class="cart-summary__total-item">
         <span class="text-14">{{ $t("cartPage.total.sale") }}:</span>
         <div class="color-orange text-right">
           <div class="text-20 font-bold">
@@ -35,7 +35,7 @@ export default {
     items: Array,
   },
   computed: {
-        totalWithSale() {
+    totalWithSale() {
       return this.items.reduce((sum, item) => {
         const cartItem = this.$store.getters["cart/getItem"](item._id);
         if (!cartItem) return sum;
@@ -56,7 +56,7 @@ export default {
       }, 0);
     },
     currency() {
-        return this.$store.getters.currency
+      return this.$store.getters.currency;
     },
     saleD() {
       return this.items
@@ -65,7 +65,7 @@ export default {
           const cartItem = this.$store.getters["cart/getItem"](item._id);
           if (!cartItem) return sum;
           const cnt = cartItem.cnt;
-          let d = item.old_price - item.price
+          let d = item.old_price - item.price;
           sum += d * cnt;
           return sum;
         }, 0);
@@ -73,9 +73,20 @@ export default {
     deliveryCost() {
       return 0;
     },
-  }
+  },
 };
 </script>
 
 <style lang="scss" >
+.cart-summary {
+    &__total-item {
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed $grey;
+    &:last-child {
+        border-bottom: none;
+    }
+  }
+}
 </style>

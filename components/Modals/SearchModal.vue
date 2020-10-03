@@ -1,7 +1,10 @@
 <template>
   <client-only>
     <div class="modal-search">
-      <div class="modal-search__menu-btn btn btn-md btn-red" @click="openMenuModal">
+      <div
+        class="modal-search__menu-btn btn btn-md btn-red"
+        @click="openMenuModal"
+      >
         <svgBurger width="24" class="mr-2" />
         <span class="font-bold">Меню</span>
       </div>
@@ -12,19 +15,7 @@
         <svgClose width="30" />
       </div>
       <div class="modal-search__input-container container">
-        <div class="modal-search__input-wrapper">
-          <svgSearch class="modal-search__input-icon" width="20" />
-          <input
-            @keypress.enter="search"
-            class="modal-search__input"
-            type="text"
-            v-model="text"
-            placeholder="Искать..."
-          />
-          <div class="modal-search__input-btn btn btn-black shrink-0" @click="search">
-            <svgSearch width="20" />
-          </div>
-        </div>
+        <SearchInput v-model="text" />
       </div>
     </div>
   </client-only>
@@ -49,15 +40,20 @@ export default {
   methods: {
     close() {
       this.$modal.hide("modal-search");
-      this.$emit('close')
+      this.$emit("close");
     },
-    search() {
-      console.log(this.text);
+    async search() {
+      try {
+        const result = await this.$api.$get("search", { text: this.text });
+        console.log(result);
+      } catch (err) {
+        this.$error(err);
+      }
     },
     openMenuModal() {
       this.$modal.hideAll();
-      this.$emit('close')
-      this.$store.dispatch('modal/open', {name: 'modal-menu'})
+      this.$emit("close");
+      this.$store.dispatch("modal/open", { name: "modal-menu" });
     },
   },
 };

@@ -58,7 +58,7 @@ export default {
   scrollToTop: true,
   head() {
     return {
-      title: this.categoryName + " - Meblife",
+      title: this.categoryName + this.$store.getters.head.postTitle,
     };
   },
   mixins: [FetchProducts, FetchInspirations, FetchLooks],
@@ -188,7 +188,7 @@ export default {
       } else if (this.currentPageName === "inspirations") {
         await this.fetchInspirations("categoryInspirations");
       } else {
-        await this.fetchProducts("categoryProducts");
+        await this.fetchProducts("categoryProducts", {slug: this.$route.params.slug});
       }
       this.isLoading = false;
     },

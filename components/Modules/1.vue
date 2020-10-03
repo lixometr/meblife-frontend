@@ -29,9 +29,7 @@ export default {
     item: moduleValidator,
   },
   mixins: [ModuleMixin],
-  mounted() {
-    console.log(this.item);
-  },
+ 
   computed: {},
 };
 </script>

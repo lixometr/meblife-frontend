@@ -2,8 +2,15 @@ import _ from "lodash"
 export const state = () => ({
   isLoading: false,
   passwordLength: 4,
+  head: {
+    preTitle: '',
+    postTitle: ''
+  }
 })
 export const getters = {
+  head(state) {
+    return state.head
+  },
   passwordLength(state) {
     return state.passwordLength
   },

@@ -1,7 +1,7 @@
 <template>
-  <div class="cart__item bg-pale border border-grey rounded-sm p-3">
+  <div class="cart__item">
     <div class="flex">
-      <div class="cart__item-img border border-grey shrink-0">
+      <div class="cart-collapse-item__img border border-grey shrink-0">
         <nuxt-link
           class="position-relative d-block w-100 h-100"
           :to="$url.product(item.slug)"
@@ -9,52 +9,52 @@
           <AppImage class="absolute-full size-contain" v-bind="image" />
         </nuxt-link>
       </div>
-      <div class="cart__item-content flex-1 pl-3">
-        <div class="cart__item-row flex w-100 h-100">
-          <div class="cart__item-col flex-1">
-            <div class="mb-2 font-bold trunk">{{ name }}</div>
-            <p>
-              {{ $t("cart.deliveryText") }}:
-              <template v-if="delivery24">
-                <b class="color-green">{{ $t("delivery24") }}</b>
-              </template>
-              <template v-else>
-                <b>{{ delivery }} {{ deliveryText }}</b>
-              </template>
-            </p>
+      <div class="cart__item-content flex flex-column pl-3 text-14 text-right">
+        <div class="mb-2">{{ name }}</div>
+        <div class="mt-auto">
+          <div v-if="oldPrice">
+            {{ $t("cart.priceForOne") }}:
+            <s class="mr-1 text-14"> {{ oldPrice }} {{ currency }} </s>
           </div>
-          <div class="cart__item-col flex flex-column shrink-0">
-            <div class="flex">
-              <ProductCnt
-                class="shrink-0"
-                :elClass="['btn-white']"
-                :max="cntMax"
-                v-model="itemCnt"
-              />
-              <div
-                class="btn btn-circle border border-grey ml-3"
-                @click="removeItem"
+          <p>
+            {{ $t("cart.deliveryText") }}:
+            <template v-if="delivery24">
+              <b class="color-green">{{ $t("delivery24") }}</b>
+            </template>
+            <template v-else>
+              <b>{{ delivery }} {{ deliveryText }}</b>
+            </template>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="flex justify-between mt-4">
+        <div class="flex">
+          <ProductCnt
+            class="shrink-0"
+            :elClass="['btn-white']"
+            :max="cntMax"
+            v-model="itemCnt"
+          />
+          <div
+            class="btn btn-circle border border-grey ml-3"
+            @click="removeItem"
+          >
+            <svgTrash width="20" />
+          </div>
+        </div>
+        <div class="mt-auto pb-1 pr-1">
+          <div class="text-right">
+              <div class="text-14 mb-1">{{$t('cart.sum')}}</div>
+            <div class="text-20">
+              <b :class="{ 'color-orange': oldPrice }"
+                >{{ price }} {{ currency }}</b
               >
-                <svgTrash width="20" />
-              </div>
             </div>
-            <div class="mt-auto pb-1 pr-1">
-              <div class="text-right">
-                <div class="text-20">
-                  <b :class="{ 'color-orange': oldPrice }"
-                    >{{ price }} {{ currency }}</b
-                  >
-                </div>
 
-                <div v-if="oldPrice">
-                  {{ $t("cart.priceForOne") }}:
-                  <s class="mr-1 text-14"> {{ oldPrice }} {{ currency }} </s>
-                </div>
-                <div class="color-orange text-14" v-if="sale">
-                  {{ $t("cart.economy") }}: {{ saleD }} {{ currency }} •
-                  {{ sale }}%
-                </div>
-              </div>
+            <div class="color-orange text-14" v-if="sale">
+              {{ $t("cart.economy") }}: {{ saleD }} {{ currency }} • {{ sale }}%
             </div>
           </div>
         </div>
@@ -126,10 +126,10 @@ export default {
 </script>
 
 <style lang="scss" >
-.cart__item {
-  &-img {
-    width: 33%;
-    height: 178px;
+.cart-collapse-item {
+  &__img {
+    width: 144px;
+    height: 100px;
     background: $white;
     padding: 1rem;
     border-radius: 5px;

@@ -278,7 +278,7 @@ export default {
       this.isLoading = true;
       try {
         if (this.currentPageName === "products") {
-          await this.fetchProducts("manufacturerProducts");
+          await this.fetchProducts("manufacturerProducts", {slug: this.$route.params.slug});
         } else if (this.currentPageName === "categories") {
           await this.fetchCategories();
         } else if (this.currentPageName === "collections") {

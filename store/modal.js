@@ -148,7 +148,6 @@ export const actions = {
                 const { default: component } = await panels['panel-login']()
                 this._vm.$modal.show(component, { success: () => this.dispatch('modal/afterLogin'), ...props }, options, events)
                 commit('setAfterLoginOpen', name)
-
                 return 
             }
         }

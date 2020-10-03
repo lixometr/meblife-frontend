@@ -11,22 +11,17 @@ export default {
     };
   },
   methods: {
-    async fetchProducts(route) {
+    async fetchProducts(route, params) {
+      params = params || { slug: this.$route.params.slug };
       try {
-        const result = await this.$api.$get(
-          route,
-          {
-            slug: this.$route.params.slug,
+        const result = await this.$api.$get(route, params, {
+          params: {
+            filters: filtersFromQuery(this.$route.query, true),
+            sort_by: this.$route.query.sort_by,
+            page: this.$route.query.page || 1,
+            need_filters: true,
           },
-          {
-            params: {
-              filters: filtersFromQuery(this.$route.query, true),
-              sort_by: this.$route.query.sort_by,
-              page: this.$route.query.page || 1,
-              need_filters: true,
-            },
-          }
-        );
+        });
 
         this.products = result.items;
         this.productsInfo = result.info;

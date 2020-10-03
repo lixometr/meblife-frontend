@@ -27,6 +27,7 @@ export default {
   head() {
     return {
       title: this.pageName,
+      
     };
   },
   async asyncData({ error, $api, params, store }) {

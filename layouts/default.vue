@@ -1,9 +1,14 @@
 <template>
   <main>
     <TopBar class="top-bar" />
-    <Logo class="top-logo" />
+    <!-- <Logo class="top-logo" /> -->
     <Nuxt :key="nuxtKey" />
     <Footer class="mt-6" />
+    <!-- Чтобы работали другие модалки -->
+    <client-only>
+      <modal name="main-modal"></modal>
+    </client-only>
+
     <LoadingModal v-if="$store.getters.isLoading" />
   </main>
 </template>

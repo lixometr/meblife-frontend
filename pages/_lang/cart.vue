@@ -24,12 +24,17 @@
               <svgCheckmark width="20" v-if="isPassed(idx)" class="ml-2" />
             </component>
           </div>
-          <div class="cart-page__inner-wrapper">
+          <div class="cart-page__inner-wrapper" v-if="items.length > 0" key="hasItems">
             <nuxt-child
               @nextStep="openNextStep"
               @prevStep="prevStep"
               :activeStep="activeStep"
+              :items="items"
             />
+          </div>
+          <div key="noItems" class="flex flex-wrap align-center" v-else>
+            <h6 class="mr-3">{{$t('cartPage.noItems.title')}}</h6>
+            <nuxt-link class="btn btn-md btn-green" to="/">{{$t('cartPage.noItems.btn')}}</nuxt-link>
           </div>
         </div>
       </div>
@@ -41,18 +46,16 @@
 import svgCheckmark from "@/assets/icons/checkmark.svg";
 export default {
   async fetch() {
-    // await this.fetchModuleGroups();
-  },
-  async asyncData({ error, $api, params, store, $loader }) {
-    $loader.start();
+    this.$loader.start();
     try {
-      $loader.stop();
+      await this.fetchItems();
+      this.$loader.stop();
     } catch (err) {
-      $loader.stop();
-
-      error();
+      this.$loader.stop();
+      this.$error(err)
     }
   },
+
   components: {
     svgCheckmark,
   },
@@ -60,6 +63,7 @@ export default {
     return {
       activeStep: 0,
       pasedSteps: [],
+      items: [],
     };
   },
   created() {
@@ -98,8 +102,27 @@ export default {
     isPassed() {
       return (step) => this.pasedSteps.includes(step);
     },
+    cartItems() {
+        return this.$store.getters['cart/items']
+    }
   },
   methods: {
+    async fetchItems() {
+      this.isLoading = true;
+      try {
+        const resolvers = this.cartItems.map(async (item) => {
+          const { data: product } = await this.$api.get("productById", {
+            id: item.id,
+          });
+          return product;
+        });
+        const items = await Promise.all(resolvers);
+        this.items = items;
+      } catch (err) {
+        this.$error(err);
+      }
+      this.isLoading = false;
+    },
     defineStep() {
       const path = this.$route.fullPath;
       const rest = path.replace(/^.+?cart\//, "");

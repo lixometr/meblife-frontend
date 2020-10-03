@@ -1,14 +1,15 @@
 <template>
   <div class="logo">
     <nuxt-link to="/" class="logo__link">
-      <svgLogo class="logo__img" />Meblife
+      <svgLogo class="logo__img" />
+      Meblife
     </nuxt-link>
     <img class="logo__bg" src="/img/logo-bg.svg" alt="bg" />
   </div>
 </template>
 
 <script>
-import svgLogo from "@/assets/icons/logo.svg";
+import svgLogo from "@/assets/icons/logo1.svg";
 export default {
   components: {
     svgLogo,
