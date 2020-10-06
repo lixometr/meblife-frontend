@@ -38,6 +38,7 @@ export default {
       this.$store.dispatch("modal/open", { name: "panel-forgotPassword" });
     },
     createAccount() {
+      this.$emit('close')
       this.$router.push(this.$url.account("register"));
     },
   },

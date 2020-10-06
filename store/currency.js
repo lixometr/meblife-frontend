@@ -35,7 +35,7 @@ export const mutations = {
                 return
             }
         }
-        let idx = this.getters.currencies.findIndex(cur => cur._id == state.defaultCurrencyId)
+        let idx = this.getters['currency/currencies'].findIndex(cur => cur._id == state.defaultCurrencyId)
         if (idx < 0) {
             idx = 0
         }
