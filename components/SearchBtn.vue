@@ -1,13 +1,16 @@
 <template>
   <div class="search" :style="styles">
-    <button
+    <div
       class="search__btn h-100"
-      :class="{'btn-blur': variant === 'dark', 'btn-white': variant === 'light'}"
-      @click="openSearchModal"
+      :class="{
+        'btn-blur': variant === 'dark',
+        'btn-white': variant === 'light',
+      }"
     >
-      <span class="search__text text-12">{{text}}</span>
-      <svgSearch class="search__icon" />
-    </button>
+      <input type="text" class="search__input" @keypress.enter="search" :placeholder="text" v-model="searchPhrase" />
+      <!-- <span class="search__text text-12">{{ text }}</span> -->
+      <svgSearch class="search__icon" @click="search"/>
+    </div>
   </div>
 </template>
 
@@ -25,6 +28,11 @@ export default {
   components: {
     svgSearch,
   },
+  data() {
+    return {
+      searchPhrase: "",
+    };
+  },
   computed: {
     styles() {
       return {
@@ -33,6 +41,10 @@ export default {
     },
   },
   methods: {
+    search() {
+      console.log(this.$url.search(this.searchPhrase))
+      this.$router.push(this.$url.search(this.searchPhrase))
+    },
     openSearchModal() {
       this.$store.dispatch("modal/open", { name: "modal-search" });
     },
@@ -43,12 +55,28 @@ export default {
 <style lang="scss">
 .search {
   position: relative;
+  height: 30px;
+  &__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+  }
 
   &__icon {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 0;
+    z-index: 5;
     fill: inherit;
     width: 20px;
   }
@@ -63,7 +91,7 @@ export default {
     border: none;
     border-bottom: 1px solid $dark;
     background: none;
-    color: #4F4F4F;
+    color: #4f4f4f;
     font-family: $main_font;
     outline: none;
     cursor: pointer;

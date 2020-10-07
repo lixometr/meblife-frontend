@@ -1,13 +1,13 @@
 <template>
   <div class="products-area">
-    <ProductsFilters class="mb-3" :items="filters" />
+    <ProductsFilters :layout.sync="layout" class="mb-3" :items="filters" />
     <Loader v-if="isLoading" />
     <template v-else>
       <div
         class="mb-3 text-14"
         v-if="info"
       >{{totalProducts}} {{itemSclon}} | {{nowPage}} из {{totalPages}}</div>
-      <ProductsGrid :items="items" />
+      <ProductsGrid :layout="layout" :items="items" />
       <Pagination class="mt-3" :totalPages="info.totalPages" :value="nowPage" @input="changePage" />
     </template>
   </div>
@@ -25,6 +25,7 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    
     filters: Object,
     isLoading: {
       type: Boolean,
@@ -34,6 +35,12 @@ export default {
   components: {
     ProductsFilters,
     ProductsGrid,
+
+  },
+  data(){
+    return {
+      layout: 2
+    }
   },
   created() {
     this.$store.commit("filters/setItems", this.filters);

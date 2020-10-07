@@ -12,7 +12,7 @@
               :filters="productsFilters"
             />
           </div>
-          <div class="search-page__categories mt-4" v-if="categories.items.length > 0">
+          <div class="search-page__categories mt-4" v-if="categories.items && categories.items.length > 0">
             <SearchCategoriesSlider :items="categories.items" />
           </div>
         </div>
@@ -32,6 +32,7 @@ export default {
   },
   mixins: [FetchProducts],
   async fetch() {
+    
     await this.fetchData();
   },
   data() {
@@ -42,6 +43,7 @@ export default {
       },
     };
   },
+ 
   computed: {
     categories() {
       return this.items.categories || {};

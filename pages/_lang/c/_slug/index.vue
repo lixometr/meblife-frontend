@@ -5,6 +5,7 @@
       :key="moduleGroup._id"
       v-bind="moduleGroup"
     />
+    <ChildrenCategories class="mt-1 mb-1" :categoryId="category._id"/>
     <ProductsArea :items="products" :info="productsInfo" :filters="productsFilters" :isLoading="isLoading" v-if="showProductsGrid"/>
     <CategoryGrid :items="categoryChildren" v-if="showCategoryGrid"/>
     <ModulesArea
@@ -34,7 +35,8 @@ export default {
     moduleGroupsBottom: Array,
     showProductsGrid: Boolean,
     showCategoryGrid: Boolean,
-    categoryChildren: Array
+    categoryChildren: Array,
+    category: Object
   },
 
   data() {

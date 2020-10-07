@@ -13,14 +13,14 @@
     </div>
     <div class="category-page__row pt-3">
       <div class="container">
-        <div class="flex">
-          <div class="category-page__categories-block shrink-0 md-hidden">
+        <div class="">
+          <!-- <div class="category-page__categories-block shrink-0 md-hidden">
             <SearchBtn variant="light" text="Категории поиска" />
             <CategoriesBar
               class="md-hidden mt-5"
               :categories="categoriesPrimary"
             />
-          </div>
+          </div> -->
           <div class="category-page__content mw-100 flex-1">
             <nuxt-child
               :isLoading="isLoading"
@@ -36,6 +36,7 @@
               :showProductsGrid="showProductsGrid"
               :showCategoryGrid="showCategoryGrid"
               :categoryChildren="categoryChildren"
+              :category="category"
             />
           </div>
         </div>
@@ -83,14 +84,13 @@ export default {
       categoryBreadcrumbs = await $api.$get("categoryParents", {
         slug: params.slug,
       });
-      moduleGroupsTop = await store.dispatch(
-        "fetchModuleGroups",
-        {moduleGroupIds: category.module_groups_top}
-      );
-      moduleGroupsBottom = await store.dispatch(
-        "fetchModuleGroups",
-        {moduleGroupIds: category.module_groups_bottom, area: 'category'}
-      );
+      moduleGroupsTop = await store.dispatch("fetchModuleGroups", {
+        moduleGroupIds: category.module_groups_top,
+      });
+      moduleGroupsBottom = await store.dispatch("fetchModuleGroups", {
+        moduleGroupIds: category.module_groups_bottom,
+        area: "category",
+      });
       categoriesPrimary = await $api.$get("categoriesPrimary");
       if (category.show_category_grid) {
         categoryChildren = await $api.$get("categoryChildren", {
@@ -188,7 +188,9 @@ export default {
       } else if (this.currentPageName === "inspirations") {
         await this.fetchInspirations("categoryInspirations");
       } else {
-        await this.fetchProducts("categoryProducts", {slug: this.$route.params.slug});
+        await this.fetchProducts("categoryProducts", {
+          slug: this.$route.params.slug,
+        });
       }
       this.isLoading = false;
     },

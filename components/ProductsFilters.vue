@@ -1,48 +1,72 @@
 <template>
   <div class="products-filters">
     <div class="flex flex-wrap">
+      <div
+        class="btn md-hidden btn-white btn-md align-center mr-3"
+        @click="openPanelCategories"
+      >
+        <span class="ml-auto">{{ $t("categories") }}</span>
+        <svgTriangle width="18" class="ml-auto" />
+      </div>
       <div class="products-filters-delivery flex text-14 mr-3">
-        <div class="products-filters-delivery__item products-filters-delivery__item--icon">
+        <div
+          class="products-filters-delivery__item products-filters-delivery__item--icon"
+        >
           <svgTruck width="20" />
         </div>
         <div
           class="products-filters-delivery__item"
-          :class="{'active': delivery === undefined}"
+          :class="{ active: delivery === undefined }"
           @click="selectDelivery(undefined)"
-        >{{$t('delivery[0]')}}</div>
+        >
+          {{ $t("delivery[0]") }}
+        </div>
         <div
           class="products-filters-delivery__item"
-          :class="{'active': delivery === '24h'}"
+          :class="{ active: delivery === '24h' }"
           @click="selectDelivery('24h')"
-        >{{$t('delivery[1]')}}</div>
+        >
+          {{ $t("delivery[1]") }}
+        </div>
         <div
           class="products-filters-delivery__item"
-          :class="{'active': delivery === '14'}"
+          :class="{ active: delivery === '14' }"
           @click="selectDelivery('14')"
-        >{{$t('delivery[2]')}}</div>
+        >
+          {{ $t("delivery[2]") }}
+        </div>
         <div
           class="products-filters-delivery__item"
-          :class="{'active': delivery === '30'}"
+          :class="{ active: delivery === '30' }"
           @click="selectDelivery('30')"
-        >{{$t('delivery[3]')}}</div>
+        >
+          {{ $t("delivery[3]") }}
+        </div>
       </div>
-      <div class="md-hidden">
-        <div class="btn btn-pale btn-md align-center mr-3" @click="openPanelFilter">
+      <div class="md-hidden flex flex-1">
+        <div
+          class="btn btn-white btn-md align-center mr-3"
+          @click="openPanelFilter"
+        >
           <svgFilter width="25" class="mr-2" />
-          {{$t('filtersName')}}
+          {{ $t("filtersName") }}
         </div>
-        <div class="btn btn-pale btn-md" @click="openPanelSort">
+        <div class="btn btn-white btn-md" @click="openPanelSort">
           <svgSort width="25" class="mr-2" />
-          {{$t('sort')}}
+          {{ $t("sort") }}
         </div>
+        <LayoutSwitcher class="products-filters__layout-switcher" @click="switchLayout" />
       </div>
       <div class="products-filters-buttons">
-        <div class="btn btn-pale btn-md align-center mr-3" @click="openPanelCategories">
-          <span class="ml-auto">{{$t('categories')}}</span>
+        <div
+          class="btn btn-white btn-md align-center mr-3"
+          @click="openPanelCategories"
+        >
+          <span class="ml-auto">{{ $t("categories") }}</span>
           <svgTriangle width="18" class="ml-auto" />
         </div>
-        <div class="btn btn-pale btn-md" @click="openPanelFilter">
-          <span class="ml-auto">{{$t('filtersName')}}</span>
+        <div class="btn btn-white btn-md" @click="openPanelFilter">
+          <span class="ml-auto">{{ $t("filtersName") }}</span>
 
           <svgTriangle width="18" class="ml-auto" />
         </div>
@@ -54,16 +78,26 @@
         v-for="(value, filterSlug, index) in filterValues"
         :key="index"
       >
-        <span class="mr-1">{{$store.getters['filters/getFilterName'](filterSlug)}}:</span>
+        <span class="mr-1"
+          >{{ $store.getters["filters/getFilterName"](filterSlug) }}:</span
+        >
         <span v-for="(filterValue, idx) in value" :key="idx">
           <template
-            v-if="$store.getters['filters/getFilterType'](filterSlug) === 'decimal'"
-          >{{filterValue}}{{ value.length - 1 > idx ? ', ' : ""}}</template>
-          <template v-else>{{filterValue.name}}{{ value.length - 1 > idx ? ', ' : ""}}</template>
+            v-if="
+              $store.getters['filters/getFilterType'](filterSlug) === 'decimal'
+            "
+            >{{ filterValue }}{{ value.length - 1 > idx ? ", " : "" }}</template
+          >
+          <template v-else
+            >{{ filterValue.name
+            }}{{ value.length - 1 > idx ? ", " : "" }}</template
+          >
         </span>
         <svgClose class="ml-1" width="20" @click="removeFilter(filterSlug)" />
       </span>
-      <span class="btn btn-white btn-sm" @click="resetFilters">{{$t('resetFilters')}}</span>
+      <span class="btn btn-white btn-sm" @click="resetFilters">{{
+        $t("resetFilters")
+      }}</span>
     </div>
   </div>
 </template>
@@ -79,6 +113,7 @@ import _ from "lodash";
 export default {
   props: {
     items: Object,
+    layout: Number,
   },
   data() {
     return {
@@ -106,6 +141,15 @@ export default {
   },
 
   methods: {
+    switchLayout() {
+      console.log(1)
+      const layouts = [2, 3, 4];
+      let newLayout = this.layout + 1;
+      if (!layouts.includes(newLayout)) {
+        newLayout = layouts[0];
+      }
+      this.$emit("update:layout", newLayout);
+    },
     openPanelFilter() {
       this.$store.dispatch("modal/open", {
         name: "panel-filters",
@@ -132,8 +176,8 @@ export default {
       this.setQueryUrl();
     },
     removeFilter(filterSlug) {
-      this.$store.commit('filters/removeFilter', filterSlug)
-      this.setQueryUrl()
+      this.$store.commit("filters/removeFilter", filterSlug);
+      this.setQueryUrl();
     },
     onFilterChange({ values }) {
       this.setQueryUrl();
@@ -169,11 +213,12 @@ export default {
       padding-top: 12px;
       padding-bottom: 12px;
       width: 100px;
-      background: $pale;
+      background: $white;
       transition: $transition;
       cursor: pointer;
       text-align: center;
-      border-left: 1px solid #fff;
+      border: 1px solid $grey;
+      border-left: none;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -194,21 +239,22 @@ export default {
         }
       }
       &:first-child {
-        border-top-left-radius: 100px;
-        border-bottom-left-radius: 100px;
+        border-left: 1px solid $grey;
+        // border-top-left-radius: 100px;
+        // border-bottom-left-radius: 100px;
       }
       &:nth-child(2) {
         @include xl {
-          border-top-left-radius: 100px;
-          border-bottom-left-radius: 100px;
+          // border-top-left-radius: 100px;
+          // border-bottom-left-radius: 100px;
         }
         @include md {
           border-radius: 0;
         }
       }
       &:last-child {
-        border-top-right-radius: 100px;
-        border-bottom-right-radius: 100px;
+        // border-top-right-radius: 100px;
+        // border-bottom-right-radius: 100px;
         @include md {
           border-radius: 0;
         }
@@ -218,6 +264,12 @@ export default {
         background: $grey;
       }
     }
+  }
+  &__layout-switcher {
+    padding: 0;
+    height: 100%;
+    width: 50px;
+    margin-left: 15px;
   }
   &-buttons {
     display: none;
