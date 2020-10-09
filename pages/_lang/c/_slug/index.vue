@@ -5,7 +5,7 @@
       :key="moduleGroup._id"
       v-bind="moduleGroup"
     />
-    <ChildrenCategories class="mt-1 mb-1" :categoryId="category._id"/>
+    <ChildrenCategories class="mt-1 mb-4" :categoryId="category._id"/>
     <ProductsArea :items="products" :info="productsInfo" :filters="productsFilters" :isLoading="isLoading" v-if="showProductsGrid"/>
     <CategoryGrid :items="categoryChildren" v-if="showCategoryGrid"/>
     <ModulesArea
