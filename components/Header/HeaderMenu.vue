@@ -14,6 +14,9 @@
 
 <script>
 export default {
+  async fetch() {
+    await this.fetchData()
+  },
   data() {
     return {
       items: [
@@ -60,6 +63,16 @@ export default {
       ],
     };
   },
+  methods: {
+    async fetchData() {
+      try {
+        const data = await this.$api.$get('widgetByName', {name: 'header_menu'})
+        this.item = data.values
+      } catch(err) {
+        this.$error(err)
+      }
+    }
+  }
 };
 </script>
 
