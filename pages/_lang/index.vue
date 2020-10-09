@@ -2,39 +2,21 @@
   <div class="main-page">
     <Header class="default-header" variant="dark" />
     <div class="page-header">
-      <AppImage v-bind="headerImage" class="page-header__image" />
-      <div class="image-placeholder"></div>
-      <div class="page-header__content">
-        <div class="flex flex-column h-100">
+      <MainPageSlider :items="sliderItems" />
+      <!-- <AppImage v-bind="headerImage" class="page-header__image" /> -->
+      <!-- <div class="image-placeholder"></div> -->
+      <div class="page-header__tabs-wrapper">
+        <div class="btn-tabs overflow-auto justify-between mt-auto">
           <div
-            class="page-header__title flex-1 flex align-center justify-center flex-column"
+            class="btn-tab mr-2 shrink-0"
+            exact-active-class="active"
+            :class="{ active: activeTab === idx }"
+            v-for="(tab, idx) in tabs"
+            :key="idx"
+            @click="selectTab(idx)"
           >
-            <h1 class="mw-100 pl-3 pr-3 uppercase color-white text-center">
-              {{ pageName }}
-            </h1>
-            <p class="mt-1 color-white text-18 mb-4" v-if="subTitle">
-              {{ subTitle }}
-            </p>
-            <nuxt-link
-              class="btn btn-red font-bold btn-md mt-1"
-              :to="moreBtnUrl"
-              v-if="moreBtn"
-            >
-              {{ moreBtn }}
-            </nuxt-link>
-          </div>
-          <div class="btn-tabs overflow-auto justify-between">
-            <div
-              class="btn-tab mr-2 shrink-0"
-              exact-active-class="active"
-              :class="{ active: activeTab === idx }"
-              v-for="(tab, idx) in tabs"
-              :key="idx"
-              @click="selectTab(idx)"
-            >
-              <div class="btn pl-3 pr-3 btn-blur font-bold">
-                <span class="truncate">{{ tab.tab_name }}</span>
-              </div>
+            <div class="btn pl-3 pr-3 btn-blur font-bold">
+              <span class="truncate">{{ tab.tab_name }}</span>
             </div>
           </div>
         </div>
@@ -103,15 +85,18 @@ export default {
     activeTabItem() {
       return this.values.tabs[this.activeTab];
     },
+    sliderItems() {
+      return this.values.slider;
+    },
   },
   methods: {
     async fetchModuleGroups() {
       this.isLoading = true;
       try {
-        const moduleGroups = await this.$store.dispatch(
-          "fetchModuleGroups",
-          {moduleGroupIds: this.activeTabItem.module_groups, area: 'main_page'}
-        );
+        const moduleGroups = await this.$store.dispatch("fetchModuleGroups", {
+          moduleGroupIds: this.activeTabItem.module_groups,
+          area: "main_page",
+        });
         this.moduleGroups = moduleGroups;
       } catch (err) {
         this.$error(err);
@@ -136,6 +121,14 @@ export default {
   h1 {
     font-size: 3rem;
     line-height: 1.4;
+  }
+  .page-header__tabs-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: block;
+    width: 100%;
   }
 }
 </style>
