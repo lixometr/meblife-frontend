@@ -19,8 +19,7 @@ export default {
   },
   data() {
     return {
-      items: [
-      ],
+      items: [],
     };
   },
   methods: {
@@ -34,7 +33,6 @@ export default {
           return category;
         });
         const items = await Promise.all(resolvers)
-        console.log(items)
         this.items = items
       } catch (err) {
         this.$error(err);

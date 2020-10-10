@@ -1,8 +1,9 @@
 <template>
   <div class="header">
-
     <Nav1 class="header__nav" :variant="'light'" />
-    <HeaderMenu class="header__menu"/>
+    <keep-alive>
+      <HeaderMenu class="header__menu" />
+    </keep-alive>
   </div>
 </template>
 

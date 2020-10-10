@@ -122,7 +122,7 @@
     position: relative;
     color: $white;
     background-color: rgba($white, 0.25);
-    // backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     border-color: rgba($white, 0.25);
 
     // &::before {
