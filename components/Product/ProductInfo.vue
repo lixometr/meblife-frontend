@@ -159,7 +159,7 @@ export default {
       return {
         common: [
           {
-            name: "Производитель",
+            name: "Коллекция",
             value: this.product.manufacturer.name,
             slug: this.product.manufacturer.slug,
             full_slug: this.$url.manufacturer(this.product.manufacturer.slug),
