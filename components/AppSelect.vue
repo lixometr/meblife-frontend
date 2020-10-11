@@ -1,6 +1,6 @@
 <template>
   <div class="app-select">
-    <div class="app-select__trigger btn btn-md btn-white justify-between" @click="toggle">
+    <div class="app-select__trigger h-100 btn btn-md btn-white justify-between" @click="toggle">
       <slot name="trigger">{{value}}</slot>
       <svgArrowDown width="15" />
     </div>

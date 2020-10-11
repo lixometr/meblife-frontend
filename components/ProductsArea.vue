@@ -39,7 +39,7 @@ export default {
   },
   data(){
     return {
-      layout: 2
+      layout: 3
     }
   },
   created() {

@@ -13,6 +13,7 @@ import Module1 from "./1"
 import Module26 from "./26"
 import Module2 from "./2"
 import Module33 from "./33"
+import Module9 from "./9"
 
 export default {
     Module15,
@@ -29,5 +30,6 @@ export default {
     Module1,
     Module26,
     Module2,
-    Module33
+    Module33,
+    Module9
 }

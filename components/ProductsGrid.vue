@@ -19,14 +19,12 @@
 
 <script>
 import ProductsGridItem from "@/components/ProductsGridItem";
-// import PanelFilters from "@/components/Panels/PanelFilters";
 import PanelProductPreview from "@/components/Panels/PanelProductPreview";
 
 export default {
   components: {
     ProductsGridItem,
     PanelProductPreview,
-    // PanelFilters,
   },
   props: {
     items: Array,
