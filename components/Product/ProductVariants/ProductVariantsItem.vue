@@ -81,10 +81,13 @@ export default {
     display: flex;
   }
   .product-variant__item {
-    width: 56px;
+    width: 65px;
     margin-right: 0.5rem;
     cursor: pointer;
     flex-shrink: 0;
+    img {
+      width: 100%;
+    }
   }
 }
 </style>
