@@ -60,6 +60,11 @@ export default {
     width: 100%;
     margin-left: -0.5rem;
     margin-right: -0.5rem;
+    @include md {
+      .products-grid__item {
+        width: 50%!important;
+      }
+    }
   }
   &__wrapper.col-2 {
    .products-grid__item {

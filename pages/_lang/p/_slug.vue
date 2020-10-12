@@ -73,7 +73,7 @@
           </div>
 
           <AppDescription class="mt-2 text-14" v-if="saleExpires" :text="promotionText"></AppDescription>
-
+          <ProductVariants :items="variants"/>
           <div class="flex mt-5">
             <ProductCnt class="product__cnt" v-model="productCnt" />
             <button
@@ -244,6 +244,98 @@ export default {
     };
   },
   computed: {
+     variants() {
+       return [
+         {
+           name: 'Метериал',
+           items: [
+             {
+               name: "Бархат",
+               image: {
+                 url: '/img/material.jpg'
+               }
+             },
+             {
+               name: "Бархат",
+               image: {
+                 url: '/img/material.jpg'
+               }
+             },
+             {
+               name: "Бархат",
+               image: {
+                 url: '/img/material.jpg'
+               }
+             },
+             {
+               name: "Бархат",
+               image: {
+                 url: '/img/material.jpg'
+               }
+             },
+             {
+               name: "Бархат",
+               image: {
+                 url: '/img/material.jpg'
+               }
+             },
+             {
+               name: "Бархат",
+               image: {
+                 url: '/img/material.jpg'
+               }
+             },
+             {
+               name: "Бархат",
+               image: {
+                 url: '/img/material.jpg'
+               }
+             },
+             {
+               name: "Бархат",
+               image: {
+                 url: '/img/material.jpg'
+               }
+             },
+             {
+               name: "Бархат",
+               image: {
+                 url: '/img/material.jpg'
+               }
+             },
+           ]
+         },
+         {
+           name: 'Цвет',
+           items: [
+             {
+               name: "Бежевый",
+               image: {
+                 url: '/img/color.jpg'
+               }
+             },
+             {
+               name: "Темно-серый",
+               image: {
+                 url: '/img/color.jpg'
+               }
+             },
+             {
+               name: "Белый",
+               image: {
+                 url: '/img/color.jpg'
+               }
+             },
+             {
+               name: "Светло-серый",
+               image: {
+                 url: '/img/color.jpg'
+               }
+             },
+           ]
+         },
+       ]
+     },
     isFavourite() {
       return this.$store.getters["favourite/isFavourite"](this.product._id);
     },
@@ -408,7 +500,7 @@ export default {
   }
   .product-info {
     flex-shrink: 0;
-    width: 24rem;
+    width: 30rem;
     padding-left: 2rem;
     @include md {
       width: 100%;

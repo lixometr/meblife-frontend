@@ -55,7 +55,7 @@
           <svgSort width="25" class="mr-2" />
           {{ $t("sort") }}
         </div>
-        <LayoutSwitcher class="products-filters__layout-switcher" @click="switchLayout" />
+        <LayoutSwitcher class="products-filters__layout-switcher shrink-0" @click="switchLayout" />
       </div>
       <div class="products-filters-buttons">
         <div
