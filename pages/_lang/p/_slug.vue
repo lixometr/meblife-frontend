@@ -495,7 +495,7 @@ export default {
     // min-height: 600px;
     position: relative;
     @include md {
-      padding-top: 5rem;
+      padding-top: 2rem;
     }
   }
   .product-info {
@@ -525,6 +525,9 @@ export default {
     top: 80px;
     right: 0;
     z-index: 30;
+    @include md {
+      top: 100px;
+    }
   }
 
   .product-delivery__icon {
