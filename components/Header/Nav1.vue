@@ -149,6 +149,9 @@ export default {
   }
   &-left {
     margin-right: 3rem;
+    @include md {
+      margin-right: 0;
+    }
   }
   &__cart {
     svg {
