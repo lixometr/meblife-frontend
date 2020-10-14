@@ -5,47 +5,61 @@
     <div class="container pt-5">
       <ModuleGroupsArea :moduleGroups="moduleGroupsTop" />
       <div class="flex md-column">
-        <div class="product__images-wrapper">
-          <div class="product__images">
-            <div class="product__btns flex justify-between pr-3 pl-3">
-              <div class="product__back product__btn-circle btn-circle" @click="goBack">
-                <svgArrowBack width="24" />
-              </div>
-              <div
-                class="product__favourite product__btn-circle btn btn-circle"
-                :class="{' is-favourite': isFavourite}"
-                @click="toggleFavourite"
-              >
-                <svgHeartStroke width="24" />
-              </div>
-            </div>
-            <div class="product-labels">
-              <template v-if="labels.length > 0">
+        <div class="product__images-wrapper" sticky-container>
+          <div v-sticky sticky-offset="{top: 40}">
+            <div class="product__images">
+              <div class="product__btns flex justify-between pr-3 pl-3">
                 <div
-                  class="bg-white border uppercase pl-4 pt-1 pb-1 pr-4 mb-2 border-grey text-12"
-                  v-for="label in labels"
-                  :key="label._id"
-                >{{label.name}}</div>
-              </template>
-            </div>
-            <div class="product-slider-wrapper pr-7 pl-7">
-              <AppSlider
-                class="product-slider overflow-hidden"
-                :items="productImages"
-                :slideClass="['bg-pale']"
-              >
-                <template v-slot:slide="{item, idx}">
-                  <AppImage v-bind="item" class="size-contain no-bg" @click="openSliderModal(idx)" />
+                  class="product__back product__btn-circle btn-circle"
+                  @click="goBack"
+                >
+                  <svgArrowBack width="24" />
+                </div>
+                <div
+                  class="product__favourite product__btn-circle btn btn-circle"
+                  :class="{ ' is-favourite': isFavourite }"
+                  @click="toggleFavourite"
+                >
+                  <svgHeartStroke width="24" />
+                </div>
+              </div>
+              <div class="product-labels">
+                <template v-if="labels.length > 0">
+                  <div
+                    class="bg-white border uppercase pl-4 pt-1 pb-1 pr-4 mb-2 border-grey text-12"
+                    v-for="label in labels"
+                    :key="label._id"
+                  >
+                    {{ label.name }}
+                  </div>
                 </template>
-              </AppSlider>
+              </div>
+              <div class="product-slider-wrapper pr-7 pl-7">
+                <AppSlider
+                  class="product-slider overflow-hidden"
+                  :items="productImages"
+                  :slideClass="['bg-pale']"
+                >
+                  <template v-slot:slide="{ item, idx }">
+                    <AppImage
+                      v-bind="item"
+                      class="size-contain no-bg"
+                      @click="openSliderModal(idx)"
+                    />
+                  </template>
+                </AppSlider>
+              </div>
             </div>
-          </div>
-          <div class="product-text-category text-14 pb-2">
-            <nuxt-link :to="$url.category(categories[0].slug)">{{categories[0].name}}</nuxt-link>
-            <nuxt-link
-              v-if="categories.length > 1"
-              :to="$url.category(categories[categories.length - 1].slug)"
-            >{{categories[categories.length - 1].name}}</nuxt-link>
+            <div class="product-text-category text-14 pb-2">
+              <nuxt-link :to="$url.category(categories[0].slug)">{{
+                categories[0].name
+              }}</nuxt-link>
+              <nuxt-link
+                v-if="categories.length > 1"
+                :to="$url.category(categories[categories.length - 1].slug)"
+                >{{ categories[categories.length - 1].name }}</nuxt-link
+              >
+            </div>
           </div>
         </div>
         <div class="product-info">
@@ -65,21 +79,29 @@
               </div>
             </div>
           </div>
-          <h1 class="product__name text-18 mt-4">{{name}}</h1>
+          <h1 class="product__name text-18 mt-4">{{ name }}</h1>
           <div class="product__price mt-5 text-18">
-            <span class="bg-orange color-white p-1 text-14 mr-2" v-if="sale">-{{sale}}%</span>
-            <span class="font-bold mr-1 text-18">{{priceWithCurrency}}</span>
-            <s class="text-14" v-if="oldPrice">{{oldPriceWithCurrency}}</s>
+            <span class="bg-orange color-white p-1 text-14 mr-2" v-if="sale"
+              >-{{ sale }}%</span
+            >
+            <span class="font-bold mr-1 text-18">{{ priceWithCurrency }}</span>
+            <s class="text-14" v-if="oldPrice">{{ oldPriceWithCurrency }}</s>
           </div>
 
-          <AppDescription class="mt-2 text-14" v-if="saleExpires" :text="promotionText"></AppDescription>
-          <ProductVariants :items="variants"/>
+          <AppDescription
+            class="mt-2 text-14"
+            v-if="saleExpires"
+            :text="promotionText"
+          ></AppDescription>
+          <ProductVariants :items="variants" />
           <div class="flex mt-5">
             <ProductCnt class="product__cnt" v-model="productCnt" />
             <button
               class="product__add_to_cart btn btn-green btn-md ml-3 font-bold flex-1"
               @click.prevent="addToCart"
-            >Добавить в корзину</button>
+            >
+              Добавить в корзину
+            </button>
           </div>
           <div class="product-delivery-info text-14 mt-5">
             <div class="product-delivery__item flex align-start">
@@ -92,10 +114,12 @@
                 <div
                   class="mb-3"
                   v-if="availableStock || availableStockManufacturer"
-                >Товар в наличии!</div>
+                >
+                  Товар в наличии!
+                </div>
                 <p>
                   на нашем складе:
-                  <b>{{availableStock}} шт.</b>
+                  <b>{{ availableStock }} шт.</b>
                 </p>
                 <p v-if="delivery24">
                   Отгрузка в течении
@@ -104,12 +128,17 @@
                 <div class="mt-3 mb-1">
                   <p>
                     На складе поставщика:
-                    <b>{{availableStockManufacturer}} шт.</b>
+                    <b>{{ availableStockManufacturer }} шт.</b>
                   </p>
                   <p v-if="availableStockManufacturer">
                     Закажите товар до
-                    <b>{{ $moment(new Date(orderUntil)).format('DD.MM.YYYY')}}</b>, отправим
-                    <b>{{ $moment(new Date(deliveryAt)).format('DD.MM.YYYY')}}</b>
+                    <b>{{
+                      $moment(new Date(orderUntil)).format("DD.MM.YYYY")
+                    }}</b
+                    >, отправим
+                    <b>{{
+                      $moment(new Date(deliveryAt)).format("DD.MM.YYYY")
+                    }}</b>
                   </p>
                 </div>
               </div>
@@ -123,8 +152,10 @@
               <div>
                 <p>
                   Доставка
-                  <b v-if="!freeDelivery">с оплатой 14,90 {{currency}}</b>
-                  <b class="font-bold uppercase" v-else>{{$t('freeDelivery')}}</b>
+                  <b v-if="!freeDelivery">с оплатой 14,90 {{ currency }}</b>
+                  <b class="font-bold uppercase" v-else>{{
+                    $t("freeDelivery")
+                  }}</b>
                 </p>
               </div>
             </div>
@@ -216,14 +247,13 @@ export default {
       const productCategories = await $api.$get("categoryParents", {
         slug: product.primary_category.slug,
       });
-      const moduleGroupsBottom = await store.dispatch(
-        "fetchModuleGroups",
-       {moduleGroupIds:  product.module_groups_bottom, area: 'product'}
-      );
-      const moduleGroupsTop = await store.dispatch(
-        "fetchModuleGroups",
-        {moduleGroupIds: product.module_groups_top}
-      );
+      const moduleGroupsBottom = await store.dispatch("fetchModuleGroups", {
+        moduleGroupIds: product.module_groups_bottom,
+        area: "product",
+      });
+      const moduleGroupsTop = await store.dispatch("fetchModuleGroups", {
+        moduleGroupIds: product.module_groups_top,
+      });
       $loader.stop();
 
       return {
@@ -244,130 +274,130 @@ export default {
     };
   },
   computed: {
-     variants() {
-       return [
-         {
-           name: 'Метериал',
-           items: [
-             {
-               name: "Бархат",
-               image: {
-                 url: '/img/material.jpg'
-               }
-             },
-             {
-               name: "Бархат",
-               image: {
-                 url: '/img/material.jpg'
-               }
-             },
-             {
-               name: "Бархат",
-               image: {
-                 url: '/img/material.jpg'
-               }
-             },
-             {
-               name: "Бархат",
-               image: {
-                 url: '/img/material.jpg'
-               }
-             },
-             {
-               name: "Бархат",
-               image: {
-                 url: '/img/material.jpg'
-               }
-             },
-             {
-               name: "Бархат",
-               image: {
-                 url: '/img/material.jpg'
-               }
-             },
-             {
-               name: "Бархат",
-               image: {
-                 url: '/img/material.jpg'
-               }
-             },
-             {
-               name: "Бархат",
-               image: {
-                 url: '/img/material.jpg'
-               }
-             },
-             {
-               name: "Бархат",
-               image: {
-                 url: '/img/material.jpg'
-               }
-             },
-           ]
-         },
-         {
-           name: 'Цвет',
-           items: [
-             {
-               name: "Бежевый",
-               image: {
-                 url: '/img/color.jpg'
-               }
-             },
-             {
-               name: "Темно-серый",
-               image: {
-                 url: '/img/color.jpg'
-               }
-             },
-             {
-               name: "Белый",
-               image: {
-                 url: '/img/color.jpg'
-               }
-             },
-             {
-               name: "Светло-серый",
-               image: {
-                 url: '/img/color.jpg'
-               }
-             },
-           ]
-         },
-         {
-           name: "Размеры",
-           items: [
-             {
-               name: "1920х1080",
-             },
-             {
-               name: "1920х1080",
-             },
-             {
-               name: "1920х1080",
-             },
-             {
-               name: "1920х1080",
-             },
-             {
-               name: "1920х1080",
-             },
-             {
-               name: "1920х1080",
-             },
-             {
-               name: "1920х1080",
-             },
-             {
-               name: "1920х1080",
-             },
-             {
-               name: "1920х1080",
-             },
-           ]
-         }
-       ]
-     },
+    variants() {
+      return [
+        {
+          name: "Метериал",
+          items: [
+            {
+              name: "Бархат",
+              image: {
+                url: "/img/material.jpg",
+              },
+            },
+            {
+              name: "Бархат",
+              image: {
+                url: "/img/material.jpg",
+              },
+            },
+            {
+              name: "Бархат",
+              image: {
+                url: "/img/material.jpg",
+              },
+            },
+            {
+              name: "Бархат",
+              image: {
+                url: "/img/material.jpg",
+              },
+            },
+            {
+              name: "Бархат",
+              image: {
+                url: "/img/material.jpg",
+              },
+            },
+            {
+              name: "Бархат",
+              image: {
+                url: "/img/material.jpg",
+              },
+            },
+            {
+              name: "Бархат",
+              image: {
+                url: "/img/material.jpg",
+              },
+            },
+            {
+              name: "Бархат",
+              image: {
+                url: "/img/material.jpg",
+              },
+            },
+            {
+              name: "Бархат",
+              image: {
+                url: "/img/material.jpg",
+              },
+            },
+          ],
+        },
+        {
+          name: "Цвет",
+          items: [
+            {
+              name: "Бежевый",
+              image: {
+                url: "/img/color.jpg",
+              },
+            },
+            {
+              name: "Темно-серый",
+              image: {
+                url: "/img/color.jpg",
+              },
+            },
+            {
+              name: "Белый",
+              image: {
+                url: "/img/color.jpg",
+              },
+            },
+            {
+              name: "Светло-серый",
+              image: {
+                url: "/img/color.jpg",
+              },
+            },
+          ],
+        },
+        {
+          name: "Размеры",
+          items: [
+            {
+              name: "1920х1080",
+            },
+            {
+              name: "1920х1080",
+            },
+            {
+              name: "1920х1080",
+            },
+            {
+              name: "1920х1080",
+            },
+            {
+              name: "1920х1080",
+            },
+            {
+              name: "1920х1080",
+            },
+            {
+              name: "1920х1080",
+            },
+            {
+              name: "1920х1080",
+            },
+            {
+              name: "1920х1080",
+            },
+          ],
+        },
+      ];
+    },
     isFavourite() {
       return this.$store.getters["favourite/isFavourite"](this.product._id);
     },

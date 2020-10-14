@@ -50,6 +50,7 @@ export default {
     { src: '@/plugins/vue-js-modal', mode: 'client' },
     { src: '@/plugins/vue-masonry', mode: 'client' },
     // { src: '@/plugins/vue-click-outside', mode: 'client' },
+    { src: "@/plugins/vue-directive-sticky", mode: 'client' },
     { src: "@/plugins/url" },
     { src: "@/plugins/vue-ripple-directive", mode: "client" },
     { src: "@/plugins/loader" },
@@ -114,7 +115,7 @@ export default {
     'vue-scrollto/nuxt',
     'cookie-universal-nuxt',
     '@nuxtjs/toast',
-    
+
     // [
     //   'nuxt-i18n',
     //   {

@@ -31,6 +31,7 @@
     "vue-scrollto": "^2.18.2",
     "vue-slide-up-down": "^2.0.1",
     "vue-slider-component": "^3.2.5",
+    "vue-sticky-directive": "0.0.10",
     "vue-youtube": "^1.4.0",
     "vuelidate": "^0.7.5"
   },
